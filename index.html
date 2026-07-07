@@ -113,6 +113,48 @@ body {
     font-style: normal;
 }
 
+/* ── DISCLAIMER BAND ────────────────────────── */
+.disclaimer {
+    position: relative;
+    padding: 22px 28px 24px 40px;
+    margin-bottom: 44px;
+    background: rgba(255, 180, 0, 0.06);
+    border: 1px solid rgba(255, 180, 0, 0.25);
+    border-radius: 10px;
+}
+.disclaimer::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 12px; bottom: 12px;
+    width: 3px;
+    background: var(--amber);
+    border-radius: 0 3px 3px 0;
+}
+.disclaimer-label {
+    display: inline-block;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber-hi);
+    margin-bottom: 10px;
+}
+.disclaimer-title {
+    font-size: 17px;
+    font-weight: 550;
+    color: var(--ink);
+    margin: 0 0 8px;
+    letter-spacing: -0.008em;
+}
+.disclaimer-body {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+    max-width: 68ch;
+}
+.disclaimer-body strong { color: var(--ink); font-weight: 480; }
+
 /* ── CARDS ──────────────────────────────────── */
 .cards {
     display: grid;
@@ -307,6 +349,14 @@ footer a:hover { color: var(--cyan-hi); text-decoration: underline; }
             Reproducible builds any SE on the team can pick up. <em>Reference architectures on free tier, real integrations, live URLs.</em>
         </p>
     </section>
+
+    <div class="disclaimer">
+        <span class="disclaimer-label">⚠ Disclaimer · Read this first</span>
+        <p class="disclaimer-title">Personal project — not Cisco-official.</p>
+        <p class="disclaimer-body">
+            These are <strong>home lab artifacts</strong> built by a Cisco employee on their own time. Product references are to <strong>publicly available</strong> Cisco offerings. <strong>Not affiliated with, endorsed by, sponsored by, or representing Cisco Systems, Inc.</strong> Nothing here should be construed as an official Cisco reference, product statement, or roadmap.
+        </p>
+    </div>
 
     <div class="cards">
 
