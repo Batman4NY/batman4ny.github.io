@@ -7,25 +7,26 @@
 <title>Batman4NY — Cisco DC SE · Lab Artifacts</title>
 <meta name="description" content="Reproducible builds, integration roadmaps, and demos from a Cisco GES Premier DC Systems Engineer.">
 <style>
-  /* ── Batman4NY — one voice: sans, cool paper, one accent, one grid ─────── */
+  /* ── Batman4NY — editorial scale, real breathing room, the diagram is the moment ── */
   :root{
-    --bg:        #f1f3f5;
+    --bg:        #eef1f4;
+    --bg-2:      #e4e8ec;
     --surface:   #ffffff;
-    --panel:     #f7f8fa;
+    --panel:     #f6f8fa;
 
-    --ink:       #0e141c;
-    --ink-2:     #2f3a48;
-    --ink-3:     #5c6572;
+    --ink:       #0a1017;
+    --ink-2:     #2b3542;
+    --ink-3:     #58616e;
     --dim:       #8b939d;
-    --faint:     #bec4cc;
+    --faint:     #c2c9d1;
 
-    --line:      #d9dde3;
-    --line-str:  #b6bcc4;
+    --line:      #d5dae0;
+    --line-str:  #a9b0b9;
 
     --accent:    #1c6485;
     --accent-hi: #2a8cb5;
     --accent-lo: #0e3d54;
-    --accent-tint:#1c648510;
+    --accent-tint:#1c64850e;
 
     --notice:    #7d4e1b;
     --notice-tint:#c9963f13;
@@ -44,30 +45,37 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1, "liga" 1, "tnum" 1, "ss01" 1;
+    background:
+      radial-gradient(1600px 900px at 5% -10%, #cddce65e 0, transparent 55%),
+      radial-gradient(1200px 700px at 95% 8%, #d6dae04f 0, transparent 55%),
+      radial-gradient(900px 500px at 50% 100%, #e0e5eb4c 0, transparent 55%),
+      var(--bg);
+    background-attachment: fixed;
   }
   ::selection{background:#2a8cb540;color:var(--ink)}
-
   a{color:var(--accent);text-decoration:none;transition:color .16s ease}
   a:hover{color:var(--accent-lo)}
-
   .mono{font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace}
 
   /* ── top bar ───────────────────────────────────────────────────────────── */
   .topbar{
     position:sticky;top:0;z-index:5;
-    background: #f1f3f5db;
-    backdrop-filter: blur(14px) saturate(1.2);
+    background: #eef1f4c9;
+    backdrop-filter: blur(20px) saturate(1.2);
     border-bottom: 1px solid var(--line);
   }
   .topbar-inner{
-    max-width: 980px;margin:0 auto;
-    padding: 15px 32px;
+    max-width: 1240px;margin:0 auto;
+    padding: 18px 40px;
     display:flex;align-items:center;gap:22px;flex-wrap:wrap;
   }
-  .brand{display:inline-flex;align-items:center;gap:12px;color:var(--ink)}
-  .brand .bat{color:var(--ink);flex-shrink:0}
-  .brand .bat svg{display:block;width:38px;height:16px}
-  .brand .wm{font-size:14px;font-weight:800;letter-spacing:.16em;color:var(--ink);text-transform:uppercase}
+  .brand{display:inline-flex;align-items:center;gap:14px;color:var(--ink)}
+  .brand .bat{color:var(--ink);flex-shrink:0;display:block}
+  .brand .bat svg{display:block;width:44px;height:18px}
+  .brand .wm{
+    font-size:15px;font-weight:800;letter-spacing:.14em;color:var(--ink);text-transform:uppercase;
+    line-height:1;
+  }
   .brand .sep{color:var(--faint);font-weight:400;margin:0 4px}
   .brand .role{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -76,194 +84,279 @@
   .top-meta{
     margin-left:auto;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:500;
-    display:inline-flex;gap:6px;align-items:center;
+    font-size: 11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
+    display:inline-flex;gap:14px;align-items:center;
   }
   .top-meta .dot{
-    width:6px;height:6px;border-radius:50%;background:var(--ok);
-    box-shadow:0 0 0 3px #3d6b5228;display:inline-block;margin-right:6px;
+    width:7px;height:7px;border-radius:50%;background:var(--ok);
+    box-shadow:0 0 0 3px #3d6b5228;display:inline-block;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 3px #3d6b5228}
+    50%    {box-shadow:0 0 0 6px #3d6b5230}
   }
   .top-meta b{color:var(--ink);font-weight:700}
+  .top-meta .sep{color:var(--faint)}
 
   /* ── page ──────────────────────────────────────────────────────────────── */
-  .page{max-width:980px;margin:0 auto;padding:88px 32px 128px}
+  .page{max-width:1240px;margin:0 auto;padding:110px 40px 140px}
 
-  /* ── section label (used everywhere) — the ONE meta voice ─────────────── */
+  /* ── one label component ───────────────────────────────────────────────── */
   .label{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:700;
-    display:inline-flex;align-items:center;gap:12px;
+    display:inline-flex;align-items:center;gap:14px;
   }
-  .label::before{content:"";width:26px;height:2px;background:var(--accent);border-radius:1px}
-  .label.mute{color:var(--ink-3)}
-  .label.mute::before{background:var(--ink-3);opacity:.5}
+  .label::before{content:"";width:28px;height:2px;background:currentColor;border-radius:1px}
+  .label.mute{color:var(--ink-3);opacity:.85}
   .label.warn{color:var(--notice)}
-  .label.warn::before{background:var(--notice);opacity:.6}
 
   /* ── hero ──────────────────────────────────────────────────────────────── */
+  .hero{max-width:900px;margin:0 0 128px}
   h1{
-    font-size: clamp(40px, 6vw, 60px);
-    font-weight: 750;
-    line-height: 1.02;
-    letter-spacing: -0.032em;
-    margin: 20px 0 24px;
+    font-size: clamp(48px, 7.4vw, 84px);
+    font-weight: 780;
+    line-height: 0.98;
+    letter-spacing: -0.038em;
+    margin: 26px 0 32px;
     color: var(--ink);
     text-wrap: balance;
-    max-width: 17ch;
   }
-  h1 .accent{color:var(--accent);font-weight:750}
+  h1 .accent{color:var(--accent);font-weight:780}
   .lede{
-    font-size: 18px;line-height: 1.55;color: var(--ink-2);
-    max-width: 62ch;margin: 0 0 32px;font-weight:420;
+    font-size: 21px;line-height: 1.5;color: var(--ink-2);
+    max-width: 60ch;margin: 0 0 36px;font-weight:400;
+    letter-spacing:-.005em;
   }
   .lede b{color:var(--ink);font-weight:600}
-
-  .credit{
+  .hero .credit{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:12px;color:var(--ink-3);letter-spacing:.02em;
-    padding-top:20px;border-top:1px solid var(--line);
-    display:flex;gap:14px;flex-wrap:wrap;
+    font-size:12px;color:var(--ink-3);letter-spacing:.03em;
+    display:flex;gap:14px;flex-wrap:wrap;align-items:baseline;
   }
-  .credit b{color:var(--ink);font-weight:600}
-  .credit .sep{color:var(--faint)}
+  .hero .credit b{color:var(--ink);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:11.5px}
+  .hero .credit .sep{color:var(--faint)}
 
-  /* ── divider: single-purpose section break ────────────────────────────── */
-  .brk{margin:80px 0;height:1px;background:var(--line)}
-  .brk-thin{margin:56px 0;height:1px;background:var(--line)}
-
-  /* ── featured block ────────────────────────────────────────────────────── */
-  .featured{
-    display:grid;
-    grid-template-columns: 1fr 260px;
-    gap: 40px;
-    align-items: start;
+  /* ── featured — SAF diagram is the visual centerpiece ─────────────────── */
+  .featured{margin:0 0 128px}
+  .featured .head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:32px;flex-wrap:wrap;
+    margin-bottom: 40px;
   }
-  .featured .l{min-width:0}
   .featured h2{
-    font-size: clamp(28px, 3.8vw, 40px);
-    font-weight: 750;
-    line-height: 1.05;
-    letter-spacing: -0.026em;
-    margin: 18px 0 20px;
+    font-size: clamp(34px, 5.2vw, 56px);
+    font-weight: 780;
+    letter-spacing: -0.032em;
+    line-height: 1.02;
+    margin: 20px 0 0;
     color: var(--ink);
-    max-width: 20ch;
+    max-width: 22ch;
     text-wrap: balance;
   }
-  .featured h2 .accent{color:var(--accent)}
-  .featured .body{
-    font-size: 15.5px;line-height: 1.6;color: var(--ink-2);
-    max-width: 62ch;margin: 0 0 24px;
+  .featured h2 .accent{color:var(--accent);font-weight:780}
+  .featured h2 .with{
+    color:var(--ink-3);font-weight:400;
+    font-style: italic;
+    letter-spacing:-.02em;
   }
-  .featured .body b{color:var(--ink);font-weight:600}
-  .featured .stats{
-    display:flex;gap:32px;flex-wrap:wrap;
-    padding:18px 0;margin:0 0 24px;
+
+  /* diagram + right column layout — the diagram is genuinely big */
+  .featured .body{
+    display:grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  @media(max-width:920px){.featured .body{grid-template-columns:1fr;gap:44px}}
+
+  .stack-diagram{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 22px;
+    box-shadow: 0 1px 2px #0a101708, 0 12px 40px #0a101710;
+    position: relative;
+    overflow: hidden;
+  }
+  .stack-diagram .diag-head{
+    display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;
+    font-family: ui-monospace,monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+  }
+  .stack-diagram .diag-head .r{color:var(--accent);font-weight:700}
+  .stack-diagram .wrap{
+    padding: 12px 18px;background: var(--accent-tint);
+    border: 1px dashed var(--accent);border-radius: 8px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family: ui-monospace,monospace;
+    font-size: 12px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:700;
+  }
+  .stack-diagram .wrap .fine{color:var(--accent-lo);opacity:.7;font-weight:600;letter-spacing:.12em}
+  .stack-diagram .layers{margin: 10px 0}
+  .stack-diagram .layer{
+    display:flex;align-items:center;gap:14px;
+    padding: 14px 18px;background:var(--panel);
+    border:1px solid var(--line);border-radius:8px;
+    margin: 8px 0;transition: .16s ease;
+  }
+  .stack-diagram .layer:hover{border-color:var(--line-str);background:var(--surface)}
+  .stack-diagram .layer .no{
+    font-family: ui-monospace,monospace;
+    font-size:11px;letter-spacing:.06em;color:var(--dim);font-weight:700;
+    padding:3px 7px;background:var(--surface);border:1px solid var(--line);border-radius:4px;
+    line-height:1;
+  }
+  .stack-diagram .layer .n{
+    font-family: ui-monospace,monospace;
+    font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700;flex:1;
+  }
+  .stack-diagram .layer .p{
+    font-family: ui-monospace,monospace;
+    font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;
+  }
+  .stack-diagram .layer.hi{
+    background: linear-gradient(180deg, var(--accent-tint) 0%, transparent 100%);
+    border-color: var(--accent);
+  }
+  .stack-diagram .layer.hi .no{color:var(--accent);background:var(--surface);border-color:var(--accent)}
+  .stack-diagram .layer.hi .n{color:var(--accent-lo)}
+  .stack-diagram .layer.hi .p{color:var(--accent)}
+  .stack-diagram .layer.hi::after{
+    content:"◆";color:var(--accent);margin-left:6px;font-size:11px;
+  }
+
+  .featured .desc{
+    font-size: 16.5px;line-height: 1.6;color: var(--ink-2);
+    max-width: 52ch;margin: 4px 0 28px;
+  }
+  .featured .desc b{color:var(--ink);font-weight:600}
+
+  .stats-inline{
+    display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;
+    margin: 0 0 32px;padding: 22px 0;
     border-top:1px solid var(--line);border-bottom:1px solid var(--line);
   }
-  .featured .stats .stat{display:flex;flex-direction:column;gap:2px}
-  .featured .stats .n{
-    font-size:26px;font-weight:750;color:var(--ink);letter-spacing:-.028em;line-height:1;
+  .stats-inline .stat .n{
+    font-size:34px;font-weight:780;color:var(--ink);letter-spacing:-.03em;line-height:1;
     font-variant-numeric:tabular-nums;
+    display:flex;align-items:baseline;gap:4px;
   }
-  .featured .stats .n .u{font-size:14px;color:var(--ink-3);font-weight:600;margin-left:2px}
-  .featured .stats .k{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    margin-top:4px;
+  .stats-inline .stat .n .u{font-size:16px;color:var(--ink-3);font-weight:600}
+  .stats-inline .stat .k{
+    font-family: ui-monospace,monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    margin-top:8px;
   }
-  .featured .go{
-    display:inline-flex;align-items:center;gap:10px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.005em;
-    padding:10px 16px;background:var(--surface);border:1px solid var(--line-str);border-radius:6px;
-    transition:.16s ease;
-  }
-  .featured .go:hover{background:var(--accent);color:var(--surface);border-color:var(--accent)}
-  .featured .go .arr{transition:.16s ease}
-  .featured .go:hover .arr{transform:translateX(3px)}
 
-  .featured .r{position:relative}
-  .featured .r svg{display:block;width:100%;height:auto;filter:drop-shadow(0 1px 2px #0e141c10)}
-  @media(max-width:820px){.featured{grid-template-columns:1fr}.featured .r{max-width:260px}}
+  .cta{
+    display:inline-flex;align-items:center;gap:12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:13px;color:var(--surface);font-weight:700;letter-spacing:.02em;
+    padding:14px 22px;background:var(--accent);border-radius:8px;
+    transition:.18s ease;
+    box-shadow:0 2px 4px #1c648530, 0 8px 22px #1c648528;
+  }
+  .cta:hover{background:var(--accent-lo);color:var(--surface);transform:translateY(-1px);
+    box-shadow:0 2px 4px #0e3d5430, 0 12px 30px #1c648540;}
+  .cta .arr{transition:.18s ease}
+  .cta:hover .arr{transform:translateX(4px)}
 
   /* ── supporting artifacts ──────────────────────────────────────────────── */
-  .supporting{display:grid;grid-template-columns:1fr;gap:36px}
-  @media(min-width:720px){.supporting{grid-template-columns:1fr 1fr}}
+  .supporting{margin: 0 0 128px}
+  .supporting .head{margin-bottom: 36px}
+  .grid{display:grid;grid-template-columns:1fr;gap:40px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr;gap:56px}}
+
   .art{color:inherit;text-decoration:none;display:block}
+  .art .k{
+    font-family: ui-monospace,monospace;
+    font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;
+    display:inline-flex;align-items:center;gap:10px;color:var(--ink-3);
+  }
+  .art .k.live{color:var(--ok)}
+  .art .k .dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
   .art h3{
-    font-size: 24px;font-weight: 700;line-height: 1.15;letter-spacing: -.02em;
-    color: var(--ink);margin: 16px 0 6px;
-    transition:color .16s ease;
+    font-size: 30px;font-weight: 780;line-height: 1.08;letter-spacing: -.028em;
+    color: var(--ink);margin: 16px 0 8px;transition:color .16s ease;
+    max-width:14ch;
   }
   .art:hover h3{color:var(--accent)}
-  .art .sub{color:var(--ink-3);font-weight:440;font-size:15px;letter-spacing:-.004em;line-height:1.35;margin-bottom:12px}
-  .art .body{font-size:14.5px;line-height:1.6;color:var(--ink-2);margin:0 0 20px;max-width:52ch}
+  .art .sub{color:var(--ink-3);font-weight:440;font-size:16px;letter-spacing:-.006em;line-height:1.35;margin-bottom:16px}
+  .art .body{font-size:15.5px;line-height:1.6;color:var(--ink-2);margin:0 0 22px;max-width:48ch}
   .art .body b{color:var(--ink);font-weight:600}
   .art .go{
     display:inline-flex;align-items:center;gap:10px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.005em;
-    padding-bottom:2px;border-bottom:1px solid var(--accent-tint);
+    font-family: ui-monospace,monospace;
+    font-size:12.5px;color:var(--accent);font-weight:600;letter-spacing:.005em;
+    padding-bottom:3px;border-bottom:1px solid var(--accent-tint);
     transition:.16s ease;
   }
   .art:hover .go{border-bottom-color:var(--accent)}
   .art .go .arr{transition:.16s ease}
-  .art:hover .go .arr{transform:translateX(3px)}
+  .art:hover .go .arr{transform:translateX(4px)}
 
   /* ── notice ────────────────────────────────────────────────────────────── */
   .notice{
-    padding: 20px 0 0;
+    padding: 32px 0 0;
     border-top: 1px solid var(--line);
+    margin-bottom: 80px;
   }
   .notice .n-title{
-    font-size: 17px;font-weight: 700;color: var(--ink);margin: 14px 0 6px;letter-spacing: -.014em;
+    font-size: 20px;font-weight: 700;color: var(--ink);margin: 16px 0 8px;letter-spacing: -.018em;
   }
   .notice .n-body{
-    font-size: 14px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 76ch;
+    font-size: 15px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 76ch;
   }
   .notice .n-body b{color:var(--ink);font-weight:600}
 
   /* ── footer ────────────────────────────────────────────────────────────── */
   footer{
-    padding-top: 26px;border-top:1px solid var(--line);
+    padding-top: 32px;border-top:1px solid var(--line);
     display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size:12px;letter-spacing:.02em;color:var(--ink-3);
   }
   footer .l{display:flex;gap:20px;flex-wrap:wrap;align-items:baseline}
-  footer .l .name{color:var(--ink);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px}
-  footer .l a{color:var(--ink-2)}
-  footer .l a:hover{color:var(--accent)}
-  footer .r{color:var(--ink-3)}
-  footer .r a{color:var(--ink-2)}
-  footer .r a:hover{color:var(--accent)}
+  footer .l .name{color:var(--ink);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+  footer a{color:var(--ink-2)}
+  footer a:hover{color:var(--accent)}
   footer .sep{color:var(--faint)}
 
   @media(max-width:640px){
-    .topbar-inner{padding:12px 20px;gap:14px}
-    .brand .role,.top-meta{display:none}
-    .page{padding:52px 20px 88px}
-    .brk{margin:56px 0}
-    .brk-thin{margin:44px 0}
-    .featured .stats{gap:20px}
-    .featured .stats .n{font-size:22px}
+    .topbar-inner{padding:14px 22px;gap:14px}
+    .brand .role,.top-meta > span:not(:first-child){display:none}
+    .page{padding:64px 22px 96px}
+    .hero{margin-bottom:80px}
+    .featured{margin-bottom:80px}
+    .supporting{margin-bottom:80px}
+    .featured .head{gap:14px}
+    .stats-inline .stat .n{font-size:28px}
+    .cta{width:100%;justify-content:center}
     footer{flex-direction:column;gap:14px;align-items:flex-start}
   }
 </style>
 </head>
 <body>
 
-<!-- ── bat mark (one source, reused) ─────────────────────────────────────── -->
+<!-- ── bat mark: cleaner silhouette (Nolan-inspired: elongated wings, minimal points) ── -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <symbol id="bat" viewBox="0 0 100 32">
+    <symbol id="bat" viewBox="0 0 120 40">
       <path fill="currentColor" d="
-        M50 4
-        L46 10 L40 8 L34 12 L26 8 L18 14 L6 12
-        L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28
-        L50 24
-        L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20
-        L94 12 L82 14 L74 8 L66 12 L60 8 L54 10
+        M60 6
+        C 58 10, 54 12, 50 10
+        C 42 6, 32 8, 20 14
+        C 12 18, 6 22, 2 28
+        C 14 24, 26 24, 34 32
+        C 40 36, 46 32, 52 36
+        L 60 32
+        L 68 36
+        C 74 32, 80 36, 86 32
+        C 94 24, 106 24, 118 28
+        C 114 22, 108 18, 100 14
+        C 88 8, 78 6, 70 10
+        C 66 12, 62 10, 60 6
         Z
       "/>
     </symbol>
@@ -290,14 +383,14 @@
 <div class="page">
 
   <!-- Hero -->
-  <section>
+  <section class="hero">
     <span class="label">Lab Artifacts · Vol. I</span>
     <h1>Cisco security portfolio, <span class="accent">running end-to-end in a home lab.</span></h1>
     <p class="lede">
       Reproducible builds any SE can pick up. Reference architectures on free tier, real integrations, live URLs — <b>nothing here is a slide deck.</b>
     </p>
     <div class="credit">
-      <span><b>Billy Garcia</b></span>
+      <b>Billy Garcia</b>
       <span class="sep">·</span>
       <span>Cisco GES Premier DC Systems Engineer</span>
       <span class="sep">·</span>
@@ -305,80 +398,102 @@
     </div>
   </section>
 
-  <div class="brk"></div>
-
-  <!-- Featured: SE Lab -->
+  <!-- Featured — SE Lab · SAF diagram is the visual moment -->
   <section class="featured">
-    <div class="l">
-      <span class="label">Featured — SE Lab</span>
-      <h2>Cisco Secure AI Factory <span class="accent">with NVIDIA</span></h2>
-      <p class="body">
-        Fifteen-plus Cisco products stitched into the Secure AI Factory reference architecture — <b>Access, AI Runtime, Data, Compute, Network</b> — with observability and security wrapping. Same tenant a real customer deployment would use, on OCI free tier plus NVIDIA NIM free tier.
-      </p>
-      <div class="stats">
-        <div class="stat">
-          <div class="n">15<span class="u">+</span></div>
-          <div class="k">Cisco products</div>
+    <div class="head">
+      <div>
+        <span class="label">Featured — SE Lab</span>
+        <h2>Cisco Secure AI Factory <span class="with">with</span> <span class="accent">NVIDIA</span></h2>
+      </div>
+    </div>
+
+    <div class="body">
+      <!-- LEFT: the SAF stack diagram, at real scale and readable -->
+      <div class="stack-diagram">
+        <div class="diag-head">
+          <span>Reference architecture</span>
+          <span class="r">Live in the lab</span>
         </div>
-        <div class="stat">
-          <div class="n">5</div>
-          <div class="k">SAF layers</div>
+
+        <div class="wrap">
+          <span>Observability wrap</span>
+          <span class="fine">ThousandEyes · Talos</span>
         </div>
-        <div class="stat">
-          <div class="n">2</div>
-          <div class="k">Live tenants</div>
+
+        <div class="layers">
+          <div class="layer">
+            <span class="no">L1</span>
+            <span class="n">Access &amp; Apps</span>
+            <span class="p">Duo · Umbrella · AI Def.</span>
+          </div>
+          <div class="layer">
+            <span class="no">L2</span>
+            <span class="n">AI Runtime</span>
+            <span class="p">NVIDIA NIM · Nemotron</span>
+          </div>
+          <div class="layer hi">
+            <span class="no">L3</span>
+            <span class="n">Data</span>
+            <span class="p">NetBox · Vector store</span>
+          </div>
+          <div class="layer">
+            <span class="no">L4</span>
+            <span class="n">Compute</span>
+            <span class="p">OCI free tier · ARM/AMD</span>
+          </div>
+          <div class="layer">
+            <span class="no">L5</span>
+            <span class="n">Network Fabric</span>
+            <span class="p">Caddy · TLS · DNS</span>
+          </div>
         </div>
-        <div class="stat">
-          <div class="n">$0</div>
-          <div class="k">Monthly cost</div>
+
+        <div class="wrap">
+          <span>Security wrap</span>
+          <span class="fine">AI Defense · XDR (future)</span>
         </div>
       </div>
-      <a class="go" href="https://ciscopulse.uppernyack.com/">
-        <span>Open ciscopulse.uppernyack.com</span>
-        <span class="arr">→</span>
-      </a>
-    </div>
-    <div class="r" aria-hidden="true">
-      <!-- 5-layer SAF stack with observability/security wraps -->
-      <svg viewBox="0 0 260 200">
-        <!-- Observability wrap -->
-        <rect x="0" y="0" width="260" height="20" rx="4" fill="#1c648508" stroke="#1c6485" stroke-width="1.2" stroke-dasharray="4 4"/>
-        <text x="14" y="14" font-family="ui-monospace,monospace" font-size="9" letter-spacing="2" fill="#1c6485" font-weight="700">OBSERVABILITY</text>
 
-        <!-- 5 layers -->
-        <g font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.4" font-weight="700">
-          <rect x="0" y="28" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
-          <text x="14" y="45" fill="#0e141c">L1 · ACCESS &amp; APPS</text>
-
-          <rect x="0" y="60" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
-          <text x="14" y="77" fill="#0e141c">L2 · AI RUNTIME</text>
-
-          <rect x="0" y="92" width="260" height="26" rx="4" fill="#1c648508" stroke="#1c6485" stroke-width="1.5"/>
-          <text x="14" y="109" fill="#0e3d54">L3 · DATA</text>
-          <text x="242" y="109" text-anchor="end" fill="#1c6485" font-size="8" letter-spacing=".8">✱</text>
-
-          <rect x="0" y="124" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
-          <text x="14" y="141" fill="#0e141c">L4 · COMPUTE</text>
-
-          <rect x="0" y="156" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
-          <text x="14" y="173" fill="#0e141c">L5 · NETWORK FABRIC</text>
-        </g>
-
-        <!-- Security wrap -->
-        <rect x="0" y="188" width="260" height="12" rx="4" fill="#1c648508" stroke="#1c6485" stroke-width="1.2" stroke-dasharray="4 4"/>
-      </svg>
+      <!-- RIGHT: description + stats + CTA -->
+      <div>
+        <p class="desc">
+          Fifteen-plus Cisco products stitched into the Secure AI Factory reference architecture — <b>Access, AI Runtime, Data, Compute, Network</b> — with observability and security wrapping. Same tenant a real customer deployment would use, on OCI free tier plus NVIDIA NIM free tier.
+        </p>
+        <div class="stats-inline">
+          <div class="stat">
+            <div class="n">15<span class="u">+</span></div>
+            <div class="k">Cisco products</div>
+          </div>
+          <div class="stat">
+            <div class="n">5</div>
+            <div class="k">SAF layers</div>
+          </div>
+          <div class="stat">
+            <div class="n">2</div>
+            <div class="k">Live tenants</div>
+          </div>
+          <div class="stat">
+            <div class="n">$0</div>
+            <div class="k">Monthly cost</div>
+          </div>
+        </div>
+        <a class="cta" href="https://ciscopulse.uppernyack.com/">
+          <span>Open SE Lab · ciscopulse.uppernyack.com</span>
+          <span class="arr">→</span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <div class="brk"></div>
-
   <!-- Supporting artifacts -->
-  <section>
-    <span class="label mute">Also published</span>
-    <div class="supporting" style="margin-top:22px">
+  <section class="supporting">
+    <div class="head">
+      <span class="label mute">Also published</span>
+    </div>
 
+    <div class="grid">
       <a class="art" href="https://github.com/Batman4NY/netbox-aidefense-demo">
-        <span class="label" style="color:var(--ok);"><span style="background:var(--ok);width:22px;height:2px;border-radius:1px;display:inline-block;margin-right:12px;"></span>Live · Open Source</span>
+        <span class="k live"><span class="dot"></span>Live · Open Source</span>
         <h3>AI Defense</h3>
         <div class="sub">NetBox + Nemotron, three-point guard</div>
         <p class="body">
@@ -391,7 +506,7 @@
       </a>
 
       <a class="art" href="https://batman4ny.github.io/consolepi-build-guide/">
-        <span class="label mute">Build Guide · Docs</span>
+        <span class="k">Build Guide · Docs</span>
         <h3>ConsolePi</h3>
         <div class="sub">Pi serial console for modern Cisco gear</div>
         <p class="body">
@@ -402,11 +517,8 @@
           <span class="arr">→</span>
         </span>
       </a>
-
     </div>
   </section>
-
-  <div class="brk"></div>
 
   <!-- Notice -->
   <section class="notice">
@@ -416,8 +528,6 @@
       These are <b>home lab artifacts</b> built by a Cisco employee on their own time. Product references are to <b>publicly available</b> Cisco offerings. <b>Not affiliated with, endorsed by, sponsored by, or representing Cisco Systems, Inc.</b> Nothing here should be construed as an official Cisco reference, product statement, or roadmap.
     </p>
   </section>
-
-  <div class="brk-thin"></div>
 
   <!-- Footer -->
   <footer>
