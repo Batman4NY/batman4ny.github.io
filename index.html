@@ -92,12 +92,109 @@
   }
 
   .saif-layer{
-    display:grid;grid-template-columns: 48px 1fr auto;gap: 14px;align-items:center;
+    display:grid;grid-template-columns: 48px 1fr auto auto;gap: 14px;align-items:center;
     padding: 14px 18px;
     background: var(--paper-lo);
     border: 1px solid var(--rule);border-radius: 6px;
     transition: .16s ease;
   }
+  .saif-wrap{grid-template-columns: 130px 1fr auto auto}
+
+  /* ── tier chips: per-layer 'where does this run' indicator ────────── */
+  .tier-chips{
+    display:inline-flex;gap:3px;align-items:center;flex-shrink:0;
+  }
+  .tier-chip{
+    display:inline-flex;align-items:center;justify-content:center;
+    min-width:22px;height:18px;padding:0 5px;
+    border-radius:3px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:8.5px;letter-spacing:.05em;font-weight:700;line-height:1;
+    color:var(--faint);background:var(--paper-lo);border:1px solid var(--rule);
+    transition:.16s ease;
+  }
+  .tier-chip.on.c{color:var(--cyan);border-color:var(--cyan-lo);background:var(--cyan-tint)}
+  .tier-chip.on.le{color:var(--green);border-color:var(--green-lo);background:var(--green-tint)}
+  .tier-chip.on.ee{color:var(--amber);border-color:var(--amber-line);background:var(--amber-tint)}
+  .tier-chip.on.sp{color:var(--ink-2);border-color:var(--rule-str);background:var(--paper-hi)}
+  @media(max-width:640px){.tier-chips{display:none}}
+
+  /* ── agent security section — cross-cuts L2 + Security wrap ──────── */
+  .agent-panel{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .agent-head{
+    padding: 18px 24px 16px;
+    background: linear-gradient(90deg, var(--paper-hi) 0%, var(--paper) 100%);
+    border-bottom: 1px solid var(--rule);
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+  }
+  .agent-head .t{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:700;
+  }
+  .agent-head .t .accent{color:var(--cyan)}
+  .agent-head .x{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:10.5px;color:var(--ink-3);letter-spacing:.08em;
+  }
+  .agent-head .x b{color:var(--ink-2);font-weight:700}
+
+  .agent-body{padding: 18px 24px 22px}
+  .agent-desc{
+    font-size:13.5px;line-height:1.62;color:var(--ink-2);margin: 0 0 18px;max-width:80ch;
+  }
+  .agent-desc b{color:var(--ink);font-weight:600}
+  .agent-desc .cy{color:var(--cyan)}
+  .agent-desc .gn{color:var(--green)}
+
+  .agent-grid{
+    display:grid;grid-template-columns: repeat(4, 1fr);gap: 10px;margin-bottom:16px;
+  }
+  @media(max-width:900px){.agent-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.agent-grid{grid-template-columns:1fr}}
+
+  .agent-comp{
+    background: var(--paper-lo);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--cyan);
+    border-radius: 6px;
+    padding: 14px 16px;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .agent-comp.g{border-left-color: var(--green)}
+  .agent-comp .name{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:12px;letter-spacing:.02em;color:var(--ink);font-weight:700;
+  }
+  .agent-comp .name .v{color:var(--cyan-hi)}
+  .agent-comp.g .name .v{color:var(--green-hi)}
+  .agent-comp .role{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+  }
+  .agent-comp .desc{
+    font-size:11.5px;line-height:1.5;color:var(--ink-2);margin:0;
+  }
+  .agent-comp .layer{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:9.5px;color:var(--muted);letter-spacing:.14em;font-weight:600;
+    padding-top:8px;border-top:1px solid var(--rule);
+  }
+  .agent-comp .layer .l{color:var(--ink-3);font-weight:700}
+
+  .agent-foot{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+    padding: 14px 24px;background: var(--paper-lo);border-top: 1px solid var(--rule);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:11px;color:var(--ink-3);letter-spacing:.02em;
+  }
+  .agent-foot .l b{color:var(--ink-2);font-weight:700}
+  .agent-foot .l .gn{color:var(--green)}
+  .agent-foot .r a{color:var(--cyan)}
   .saif-layer:hover{border-color: var(--rule-str);background: var(--paper-hi)}
   .saif-layer-no{
     font-family: "JetBrains Mono", ui-monospace, monospace;
@@ -420,7 +517,7 @@
         <div class="saif">
           <div class="saif-head">
             <span class="t"><span class="cy">Cisco Secure AI Factory</span> with <span class="gn">NVIDIA</span></span>
-            <span class="x">home-lab coverage: <b class="gn">3 of 7</b> layers implemented · <b class="cy">1</b> adjacent</span>
+            <span class="x">home-lab: <b class="gn">3 of 7</b> impl · <b class="cy">1</b> adj &nbsp;·&nbsp; tier chips per row: <b class="cy">C</b> Central DC · <b class="gn">LE</b> Local Edge · <b style="color:var(--amber)">EE</b> Enterprise Edge · <b>SP</b> Service Provider Edge</span>
           </div>
 
           <div class="saif-body">
@@ -428,6 +525,9 @@
             <div class="saif-wrap">
               <span class="saif-wrap-label">Observability</span>
               <span class="saif-wrap-content"><span class="prod">ThousandEyes</span> · <span class="prod">Talos</span> · Splunk <em>(future)</em> · XDR <em>(future)</em></span>
+              <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge · SP Edge">
+                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
+              </span>
               <span class="saif-wrap-status">planned</span>
             </div>
 
@@ -437,6 +537,9 @@
                 <div class="saif-layer-name">Access &amp; Apps</div>
                 <div class="saif-layer-content"><span class="prod">Duo</span> · <span class="prod">Umbrella</span> · TLS ingress · AI Defense on API edge</div>
               </div>
+              <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge · SP Edge">
+                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
+              </span>
               <span class="saif-status planned">Planned</span>
             </div>
 
@@ -447,6 +550,9 @@
                 <div class="saif-layer-content"><span class="prod">NVIDIA AI Enterprise</span> · <span class="prod">NIM</span> · <span class="prod">Nemotron</span> · <span class="prod">OpenShell</span> · <span class="prod">Agent Toolkit</span></div>
                 <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — hosted NIM + Nemotron behind the three-point guard</div>
               </div>
+              <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge (not SP Edge)">
+                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span>
+              </span>
               <span class="saif-status impl">Implemented</span>
             </div>
 
@@ -457,6 +563,9 @@
                 <div class="saif-layer-content"><span class="prod">NetBox</span> · vector store · knowledge base sources</div>
                 <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — NetBox as source of truth</div>
               </div>
+              <span class="tier-chips" title="Deployed at: Central DC · Local Edge (data locality)">
+                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip">EE</span><span class="tier-chip">SP</span>
+              </span>
               <span class="saif-status impl">Implemented</span>
             </div>
 
@@ -467,6 +576,9 @@
                 <div class="saif-layer-content"><span class="prod">Cisco UCS</span> + <span class="prod">NVIDIA RTX PRO 4500 Blackwell</span> · <span class="prod">Cisco Unified Edge</span> (edge tier)</div>
                 <div class="saif-layer-map">→ <a href="https://batman4ny.github.io/oci-free-tier-lab/">OCI Free Tier Lab</a> — home-lab compute substrate (2× AMD Micro + 1× Ampere A1)</div>
               </div>
+              <span class="tier-chips" title="Deployed at all tiers (different scales)">
+                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
+              </span>
               <span class="saif-status adj">Adjacent</span>
             </div>
 
@@ -476,6 +588,9 @@
                 <div class="saif-layer-name">Network Fabric</div>
                 <div class="saif-layer-content"><span class="prod">Cisco N9100</span> (102.4T · Spectrum-6) · <span class="prod">Silicon One G300 / P200</span> · <span class="prod">NVIDIA Spectrum-X</span> · <span class="prod">Cisco Nexus One</span> (mgmt + Hyperfabric) · NX-OS / SONiC</div>
               </div>
+              <span class="tier-chips" title="Primarily Central DC (fabric switches at scale); some Enterprise Edge for on-prem fabric">
+                <span class="tier-chip on c">C</span><span class="tier-chip">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span>
+              </span>
               <span class="saif-status planned">Planned</span>
             </div>
 
@@ -484,6 +599,9 @@
               <span class="saif-wrap-content">
                 <span class="prod">Cisco AI Defense</span> (LLM I/O guard) · <span class="prod">Cisco Hybrid Mesh Firewall</span> on <span class="prod">NVIDIA BlueField DPUs</span> (Isovalent Hypershield · east-west) · <span class="prod">NVIDIA NeMo Guardrails</span> (agent guardrails) · Tetragon eBPF · <span class="prod">Cisco XDR</span> <em>(future)</em>
                 <span class="impl">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard <b>+ Tetragon eBPF runtime observability</b> (both in the compose stack)</span>
+              </span>
+              <span class="tier-chips" title="Security wrap deployed at all tiers">
+                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
               </span>
               <span class="saif-wrap-status" style="color:var(--green);background:var(--green-tint);border-color:var(--green-lo)">implemented</span>
             </div>
@@ -547,6 +665,64 @@
               <span class="prod">Cisco Mobility Services Platform</span> · multi-tenant edge · SP-managed AI · policy fan-out
             </div>
             <span class="status out">Not covered</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- AGENT SECURITY — cross-cuts L2 (runtime) and Security wrap (policy) -->
+      <section id="agent-security">
+        <div class="sec-head">
+          <span class="eyebrow">§ Agent security</span>
+          <span class="t">Emerging cross-cutting pattern</span>
+          <span class="r"></span>
+          <span class="x">cuts across <b>L2</b> + Security wrap · GTC 2026</span>
+        </div>
+
+        <div class="agent-panel">
+          <div class="agent-head">
+            <span class="t"><span class="accent">Agent runtime + policy</span> — where an autonomous agent runs and how it's governed</span>
+            <span class="x">status: <b>implemented</b> (LLM I/O guard) · <b>planned</b> (guardrails · agent runtime)</span>
+          </div>
+
+          <div class="agent-body">
+            <p class="agent-desc">
+              As LLM systems become <b>agentic</b> — invoking tools, calling other agents, taking actions with real consequences — a distinct security surface emerges that doesn't cleanly belong to any single SAIF layer. It runs at <b class="cy">L2 (AI Runtime)</b> for the runtime components and at the <b class="gn">Security wrap</b> for guardrails and policy. The GTC 2026 Cisco+NVIDIA co-announcement calls this out as a first-class integration pattern.
+            </p>
+
+            <div class="agent-grid">
+              <div class="agent-comp">
+                <div class="name"><span class="v">NVIDIA OpenShell</span></div>
+                <div class="role">Agent development platform</div>
+                <p class="desc">Runtime + tooling for building autonomous agents. The substrate the agent lives on.</p>
+                <div class="layer"><span class="l">Sits at</span> · L2 AI Runtime</div>
+              </div>
+
+              <div class="agent-comp">
+                <div class="name"><span class="v">NVIDIA Agent Toolkit</span></div>
+                <div class="role">Agent runtime tools</div>
+                <p class="desc">Libraries + connectors for building agents that invoke tools and other agents. The plumbing.</p>
+                <div class="layer"><span class="l">Sits at</span> · L2 AI Runtime</div>
+              </div>
+
+              <div class="agent-comp g">
+                <div class="name"><span class="v">NVIDIA NeMo Guardrails</span></div>
+                <div class="role">Runtime guardrails</div>
+                <p class="desc">Rails on what the LLM/agent can say + do. Programmable policy at inference time. Complements AI Defense.</p>
+                <div class="layer"><span class="l">Sits at</span> · Security wrap</div>
+              </div>
+
+              <div class="agent-comp g">
+                <div class="name"><span class="v">Cisco AI Defense</span></div>
+                <div class="role">LLM I/O guard</div>
+                <p class="desc">Three-point inspection of input · tool args · output. Catches prompt injection, destructive tool calls, PII/credential exfil.</p>
+                <div class="layer"><span class="l">Sits at</span> · Security wrap</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="agent-foot">
+            <span class="l"><b>Home-lab coverage:</b> <span class="gn">Cisco AI Defense (three-point guard)</span> live in the demo. NeMo Guardrails · OpenShell · Agent Toolkit remain planned.</span>
+            <span class="r">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">netbox-aidefense-demo ↗</a></span>
           </div>
         </div>
       </section>
