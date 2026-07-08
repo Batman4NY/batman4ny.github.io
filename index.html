@@ -7,41 +7,30 @@
 <title>Batman4NY — Cisco DC SE · Lab Artifacts</title>
 <meta name="description" content="Reproducible builds, integration roadmaps, and demos from a Cisco GES Premier DC Systems Engineer.">
 <style>
-  /* ── Batman4NY — v3: typographic weight as brand, engineering diagram as design ── */
+  /* ── Batman4NY — one voice: sans, cool paper, one accent, one grid ─────── */
   :root{
-    --bg:        #eff2f5;
-    --bg-2:      #e4e8ec;
+    --bg:        #f1f3f5;
     --surface:   #ffffff;
-    --surface-2: #f7f8fa;
-    --tint-cyan: #eaf4f8;
-    --tint-cyan-2: #dceff5;
+    --panel:     #f7f8fa;
 
     --ink:       #0e141c;
-    --ink-2:     #303a47;
-    --ink-3:     #616a77;
-    --dim:       #9099a4;
-    --faint:     #c2c9d1;
+    --ink-2:     #2f3a48;
+    --ink-3:     #5c6572;
+    --dim:       #8b939d;
+    --faint:     #bec4cc;
 
-    --line:      #dae0e6;
-    --line-mid:  #c6ccd4;
-    --line-str:  #a9b0ba;
+    --line:      #d9dde3;
+    --line-str:  #b6bcc4;
 
     --accent:    #1c6485;
     --accent-hi: #2a8cb5;
     --accent-lo: #0e3d54;
-    --accent-bright:#049fd9;   /* full Cisco cyan — reserved for a single moment */
-    --accent-tint:#1c648512;
-    --accent-glow:#1c648528;
+    --accent-tint:#1c648510;
 
-    --notice:    #7a4a1a;
-    --notice-tint:#c9963f16;
-    --notice-line:#c9963f70;
+    --notice:    #7d4e1b;
+    --notice-tint:#c9963f13;
 
     --ok:        #3d6b52;
-    --ok-glow:   #3d6b5230;
-
-    --radius:    8px;
-    --radius-lg: 14px;
   }
 
   *{box-sizing:border-box}
@@ -55,354 +44,219 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1, "liga" 1, "tnum" 1, "ss01" 1;
-    background:
-      radial-gradient(1400px 700px at 8% -12%, #cee0e94a 0, transparent 65%),
-      radial-gradient(1100px 600px at 92% 4%, #d2d7dc38 0, transparent 60%),
-      var(--bg);
-    background-attachment: fixed;
   }
   ::selection{background:#2a8cb540;color:var(--ink)}
 
   a{color:var(--accent);text-decoration:none;transition:color .16s ease}
   a:hover{color:var(--accent-lo)}
+
   .mono{font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace}
 
   /* ── top bar ───────────────────────────────────────────────────────────── */
   .topbar{
     position:sticky;top:0;z-index:5;
-    background: #eff2f5d9;
+    background: #f1f3f5db;
     backdrop-filter: blur(14px) saturate(1.2);
     border-bottom: 1px solid var(--line);
   }
   .topbar-inner{
-    max-width: 1080px;margin:0 auto;
-    padding: 14px 32px;
+    max-width: 980px;margin:0 auto;
+    padding: 15px 32px;
     display:flex;align-items:center;gap:22px;flex-wrap:wrap;
   }
-  .brand{
-    display:inline-flex;align-items:center;gap:11px;color:var(--ink);
-  }
+  .brand{display:inline-flex;align-items:center;gap:12px;color:var(--ink)}
   .brand .bat{color:var(--ink);flex-shrink:0}
-  .brand .bat svg{display:block;width:34px;height:14px}
-  .brand .wm{
-    font-family: -apple-system, BlinkMacSystemFont, "Inter", "IBM Plex Sans", "Segoe UI", Roboto, sans-serif;
-    font-size:15px;font-weight:800;letter-spacing:.14em;color:var(--ink);text-transform:uppercase;
-  }
-  .brand .sep{font-family:ui-monospace,monospace;color:var(--faint);font-weight:400;margin:0 4px;font-size:13px}
+  .brand .bat svg{display:block;width:38px;height:16px}
+  .brand .wm{font-size:14px;font-weight:800;letter-spacing:.16em;color:var(--ink);text-transform:uppercase}
+  .brand .sep{color:var(--faint);font-weight:400;margin:0 4px}
   .brand .role{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:12px;color:var(--ink-3);font-weight:500;letter-spacing:.03em;
+    font-size:12px;color:var(--ink-3);font-weight:500;letter-spacing:.02em;
   }
   .top-meta{
     margin-left:auto;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
-    display:inline-flex;gap:12px;align-items:baseline;
+    font-size: 11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:500;
+    display:inline-flex;gap:6px;align-items:center;
   }
-  .top-meta .live{
-    width:7px;height:7px;border-radius:50%;background:var(--ok);
-    box-shadow: 0 0 0 3px var(--ok-glow);
-    display:inline-block;vertical-align:1px;margin-right:6px;
-    animation:pulse 3s ease-in-out infinite;
+  .top-meta .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--ok);
+    box-shadow:0 0 0 3px #3d6b5228;display:inline-block;margin-right:6px;
   }
-  @keyframes pulse{
-    0%,100%{box-shadow:0 0 0 3px var(--ok-glow)}
-    50%    {box-shadow:0 0 0 6px var(--ok-glow)}
-  }
-  .top-meta .sep{color:var(--faint)}
   .top-meta b{color:var(--ink);font-weight:700}
 
   /* ── page ──────────────────────────────────────────────────────────────── */
-  .page{max-width:1080px;margin:0 auto;padding:76px 32px 120px}
+  .page{max-width:980px;margin:0 auto;padding:88px 32px 128px}
+
+  /* ── section label (used everywhere) — the ONE meta voice ─────────────── */
+  .label{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:700;
+    display:inline-flex;align-items:center;gap:12px;
+  }
+  .label::before{content:"";width:26px;height:2px;background:var(--accent);border-radius:1px}
+  .label.mute{color:var(--ink-3)}
+  .label.mute::before{background:var(--ink-3);opacity:.5}
+  .label.warn{color:var(--notice)}
+  .label.warn::before{background:var(--notice);opacity:.6}
 
   /* ── hero ──────────────────────────────────────────────────────────────── */
-  .hero{margin-bottom:52px}
-  .hero .issue{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    display:flex;align-items:center;gap:14px;margin-bottom:36px;
-    padding-bottom:16px;border-bottom:1px solid var(--line);
-  }
-  .hero .issue .r{flex:1;height:1px;background:var(--line)}
-  .hero .issue b{color:var(--ink);font-weight:700}
-
   h1{
-    font-size: clamp(42px, 6.6vw, 68px);
-    font-weight: 800;
-    line-height: 0.98;
-    letter-spacing: -0.038em;
-    margin: 0 0 24px;
+    font-size: clamp(40px, 6vw, 60px);
+    font-weight: 750;
+    line-height: 1.02;
+    letter-spacing: -0.032em;
+    margin: 20px 0 24px;
     color: var(--ink);
     text-wrap: balance;
-    max-width: 15ch;
+    max-width: 17ch;
   }
-  h1 .b{color:var(--ink);font-weight:800}
-  h1 em{
-    font-style:italic;font-weight:400;color:var(--accent);
-    display:block;letter-spacing:-0.028em;
-    font-family: "Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,"Charter",Georgia,serif;
-  }
-
-  /* Deck: the display treatment of the SE Lab · Secure AI Factory line */
-  .deck{
-    display:grid;grid-template-columns:1fr auto;gap:36px;align-items:end;
-    margin: 24px 0 44px;padding:22px 0 26px;
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-  }
-  .deck .l{min-width:0}
-  .deck .kicker{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:700;
-    display:inline-flex;align-items:center;gap:10px;margin-bottom:12px;
-  }
-  .deck .kicker::before{content:"";width:22px;height:2px;background:var(--accent);border-radius:1px}
-  .deck .display{
-    font-size: clamp(26px, 3.6vw, 38px);
-    font-weight: 300;
-    letter-spacing: -0.026em;
-    line-height: 1.05;
-    color: var(--ink);
-    margin: 0;
-    max-width: 26ch;
-    text-wrap:balance;
-  }
-  .deck .display .strong{font-weight:700;color:var(--ink)}
-  .deck .display .with{
-    font-style:italic;font-weight:300;color:var(--ink-2);
-    font-family: "Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,"Charter",Georgia,serif;
-  }
-  .deck .display .nvidia{color:var(--accent);font-weight:700;letter-spacing:-.008em}
-
-  .deck .diagram{width:220px;flex-shrink:0}
-  .deck .diagram svg{display:block;width:100%;height:auto}
-  @media(max-width:820px){.deck{grid-template-columns:1fr}.deck .diagram{width:180px;margin-top:8px}}
-
+  h1 .accent{color:var(--accent);font-weight:750}
   .lede{
-    font-size: 18px;line-height: 1.55;color: var(--ink-2);margin: 0 0 4px;
-    max-width: 62ch;font-weight:420;
+    font-size: 18px;line-height: 1.55;color: var(--ink-2);
+    max-width: 62ch;margin: 0 0 32px;font-weight:420;
   }
   .lede b{color:var(--ink);font-weight:600}
 
-  /* ── big spec sheet ────────────────────────────────────────────────────── */
-  .specs{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
-    margin: 56px 0 72px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    overflow:hidden;
-    box-shadow: 0 1px 2px #0e141c08, 0 10px 30px #0e141c0c;
-  }
-  .spec{
-    padding: 24px 22px 22px;
-    border-right: 1px solid var(--line);
-    position:relative;
-  }
-  .spec:last-child{border-right:0}
-  .spec .k{
+  .credit{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    margin-bottom:8px;
+    font-size:12px;color:var(--ink-3);letter-spacing:.02em;
+    padding-top:20px;border-top:1px solid var(--line);
+    display:flex;gap:14px;flex-wrap:wrap;
   }
-  .spec .v{
-    font-size: 36px;font-weight:800;line-height:1;letter-spacing:-.028em;color:var(--ink);
-    font-variant-numeric:tabular-nums;
-    display:flex;align-items:baseline;gap:5px;
-  }
-  .spec .v .u{font-size:14px;font-weight:600;color:var(--ink-3);letter-spacing:-.005em}
-  .spec .n{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:10.5px;color:var(--ink-3);margin-top:8px;letter-spacing:.02em;
-  }
-  @media(max-width:780px){.specs{grid-template-columns:1fr 1fr}.spec:nth-child(2){border-right:0}.spec:nth-child(1),.spec:nth-child(2){border-bottom:1px solid var(--line)}}
+  .credit b{color:var(--ink);font-weight:600}
+  .credit .sep{color:var(--faint)}
 
-  /* ── section head ──────────────────────────────────────────────────────── */
-  .sechead{
-    display:flex;align-items:center;gap:16px;margin:0 0 24px;
+  /* ── divider: single-purpose section break ────────────────────────────── */
+  .brk{margin:80px 0;height:1px;background:var(--line)}
+  .brk-thin{margin:56px 0;height:1px;background:var(--line)}
+
+  /* ── featured block ────────────────────────────────────────────────────── */
+  .featured{
+    display:grid;
+    grid-template-columns: 1fr 260px;
+    gap: 40px;
+    align-items: start;
   }
-  .sechead .no{
+  .featured .l{min-width:0}
+  .featured h2{
+    font-size: clamp(28px, 3.8vw, 40px);
+    font-weight: 750;
+    line-height: 1.05;
+    letter-spacing: -0.026em;
+    margin: 18px 0 20px;
+    color: var(--ink);
+    max-width: 20ch;
+    text-wrap: balance;
+  }
+  .featured h2 .accent{color:var(--accent)}
+  .featured .body{
+    font-size: 15.5px;line-height: 1.6;color: var(--ink-2);
+    max-width: 62ch;margin: 0 0 24px;
+  }
+  .featured .body b{color:var(--ink);font-weight:600}
+  .featured .stats{
+    display:flex;gap:32px;flex-wrap:wrap;
+    padding:18px 0;margin:0 0 24px;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .featured .stats .stat{display:flex;flex-direction:column;gap:2px}
+  .featured .stats .n{
+    font-size:26px;font-weight:750;color:var(--ink);letter-spacing:-.028em;line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .featured .stats .n .u{font-size:14px;color:var(--ink-3);font-weight:600;margin-left:2px}
+  .featured .stats .k{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;color:var(--ink);font-weight:700;letter-spacing:.06em;
-    padding:4px 10px 3px;border:1px solid var(--ink);border-radius:20px;background:var(--surface);
-    line-height:1;
+    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    margin-top:4px;
   }
-  .sechead .t{
-    font-family: -apple-system, "Inter", sans-serif;
-    font-size:19px;letter-spacing:-.015em;color:var(--ink);font-weight:700;
-  }
-  .sechead .t .sub{color:var(--ink-3);font-weight:500}
-  .sechead .r{
-    flex:1;height:1px;background:linear-gradient(90deg,var(--line) 0,transparent 100%);
-  }
-  .sechead .x{
+  .featured .go{
+    display:inline-flex;align-items:center;gap:10px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;color:var(--ink-3);letter-spacing:.06em;
+    font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.005em;
+    padding:10px 16px;background:var(--surface);border:1px solid var(--line-str);border-radius:6px;
+    transition:.16s ease;
   }
-  .sechead .x b{color:var(--ink);font-weight:700}
+  .featured .go:hover{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+  .featured .go .arr{transition:.16s ease}
+  .featured .go:hover .arr{transform:translateX(3px)}
+
+  .featured .r{position:relative}
+  .featured .r svg{display:block;width:100%;height:auto;filter:drop-shadow(0 1px 2px #0e141c10)}
+  @media(max-width:820px){.featured{grid-template-columns:1fr}.featured .r{max-width:260px}}
+
+  /* ── supporting artifacts ──────────────────────────────────────────────── */
+  .supporting{display:grid;grid-template-columns:1fr;gap:36px}
+  @media(min-width:720px){.supporting{grid-template-columns:1fr 1fr}}
+  .art{color:inherit;text-decoration:none;display:block}
+  .art h3{
+    font-size: 24px;font-weight: 700;line-height: 1.15;letter-spacing: -.02em;
+    color: var(--ink);margin: 16px 0 6px;
+    transition:color .16s ease;
+  }
+  .art:hover h3{color:var(--accent)}
+  .art .sub{color:var(--ink-3);font-weight:440;font-size:15px;letter-spacing:-.004em;line-height:1.35;margin-bottom:12px}
+  .art .body{font-size:14.5px;line-height:1.6;color:var(--ink-2);margin:0 0 20px;max-width:52ch}
+  .art .body b{color:var(--ink);font-weight:600}
+  .art .go{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:12px;color:var(--accent);font-weight:600;letter-spacing:.005em;
+    padding-bottom:2px;border-bottom:1px solid var(--accent-tint);
+    transition:.16s ease;
+  }
+  .art:hover .go{border-bottom-color:var(--accent)}
+  .art .go .arr{transition:.16s ease}
+  .art:hover .go .arr{transform:translateX(3px)}
 
   /* ── notice ────────────────────────────────────────────────────────────── */
   .notice{
-    position:relative;
-    background: var(--notice-tint);
-    border: 1px solid var(--notice-line);
-    border-left-width: 3px;
-    border-left-color: var(--notice);
-    border-radius: var(--radius);
-    padding: 22px 26px;
-    margin: 0 0 72px;
-  }
-  .notice .n-label{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 10.5px;letter-spacing: .24em;text-transform: uppercase;color: var(--notice);font-weight: 700;
-    display: inline-flex;align-items:center;gap:8px;margin-bottom: 10px;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
   }
   .notice .n-title{
-    font-size: 17px;font-weight: 700;color: var(--ink);margin: 0 0 6px;letter-spacing: -.01em;
+    font-size: 17px;font-weight: 700;color: var(--ink);margin: 14px 0 6px;letter-spacing: -.014em;
   }
-  .notice .n-body{font-size:14px;line-height:1.6;color:var(--ink-2);margin:0;max-width:82ch}
+  .notice .n-body{
+    font-size: 14px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 76ch;
+  }
   .notice .n-body b{color:var(--ink);font-weight:600}
-
-  /* ── artifact grid ─────────────────────────────────────────────────────── */
-  .grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:72px}
-  @media(min-width:860px){.grid{grid-template-columns:1fr 1fr 1fr}}
-
-  .art{
-    display:flex;flex-direction:column;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 24px 24px 22px;
-    color: inherit;text-decoration:none;
-    transition: border-color .2s ease, box-shadow .22s ease, transform .2s ease;
-    position:relative;overflow:hidden;
-  }
-  .art::after{
-    content:"";position:absolute;left:0;right:0;top:0;height:3px;
-    background: linear-gradient(90deg, var(--accent) 0, var(--accent-hi) 65%, var(--accent-bright) 100%);
-    transform: scaleX(0);transform-origin: left;
-    transition: transform .38s cubic-bezier(.22,.61,.36,1);
-  }
-  .art:hover{
-    border-color: var(--line-str);
-    box-shadow: 0 2px 3px #0e141c08, 0 16px 40px #0e141c14, 0 0 0 3px var(--accent-tint);
-    transform: translateY(-3px);
-  }
-  .art:hover::after{transform: scaleX(1)}
-
-  .art .cardno{
-    position:absolute;top:22px;right:24px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.06em;
-  }
-  .art:hover .cardno{color:var(--accent)}
-
-  .art .kicker{
-    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    margin-bottom:16px;
-  }
-  .art .kicker .pill{padding:2.5px 8px;border-radius:20px;font-size:9px;letter-spacing:.16em;font-weight:700}
-  .art .kicker .pill.live{
-    color:#264c39;background:#3d6b5222;
-    display:inline-flex;align-items:center;gap:5px;
-  }
-  .art .kicker .pill.live::before{
-    content:"";width:5px;height:5px;border-radius:50%;background:var(--ok);
-    box-shadow: 0 0 0 2px var(--ok-glow);
-    display:inline-block;
-    animation: dot 2.4s ease-in-out infinite;
-  }
-  @keyframes dot{0%,100%{opacity:1}50%{opacity:.5}}
-  .art .kicker .pill.oss{color:var(--accent);background:var(--accent-tint)}
-
-  .art h2{
-    font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1.15;margin:0 0 4px;
-    padding-right: 44px;
-  }
-  .art h2 .sub{color:var(--ink-3);font-weight:440;font-size:15px;display:block;margin-top:4px;letter-spacing:-.006em;line-height:1.35}
-  .art .desc{font-size:13.5px;line-height:1.58;color:var(--ink-2);margin:14px 0 12px}
-  .art .desc b{color:var(--ink);font-weight:600}
-  .art .stack{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 16px}
-  .art .stack .chip{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:10.5px;letter-spacing:.02em;color:var(--ink-3);
-    padding:2.5px 8px;border-radius:4px;background:var(--bg-2);border:1px solid var(--line);
-    line-height:1.3;
-  }
-  .art .refs{
-    display:flex;flex-direction:column;gap:5px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11.5px;color:var(--ink-2);letter-spacing:.005em;
-    padding-top:14px;border-top:1px solid var(--line);margin-top:auto;
-  }
-  .art .refs .r{display:flex;gap:8px;align-items:baseline}
-  .art .refs .rk{color:var(--dim);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;min-width:42px}
-  .art .refs .rv{color:var(--ink-2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .art:hover .refs .rv{color:var(--ink)}
-
-  /* ── pull ──────────────────────────────────────────────────────────────── */
-  .pull{
-    padding: 44px 40px 46px;
-    background:
-      radial-gradient(circle at 100% 0%, var(--tint-cyan-2) 0, transparent 55%),
-      linear-gradient(135deg, var(--surface) 0%, var(--tint-cyan) 100%);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
-    border-radius: var(--radius-lg);
-    margin: 0 0 48px;position:relative;overflow:hidden;
-  }
-  .pull .lead{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:700;
-    display:inline-flex;align-items:center;gap:12px;margin-bottom:16px;
-  }
-  .pull .lead::before{content:"";width:24px;height:2px;background:var(--accent);border-radius:1px}
-  .pull p{
-    font-size:24px;line-height:1.34;color:var(--ink);margin:0;max-width:50ch;
-    font-weight:500;letter-spacing:-.02em;text-wrap:balance;
-  }
-  .pull p em{color:var(--ink-3);font-style:normal;font-weight:400}
 
   /* ── footer ────────────────────────────────────────────────────────────── */
   footer{
-    padding-top: 30px;border-top:1px solid var(--line);
-    display:grid;grid-template-columns:auto 1fr auto;gap:36px;align-items:center;
+    padding-top: 26px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:baseline;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
+    font-size:12px;letter-spacing:.02em;color:var(--ink-3);
   }
-  footer .bat{color:var(--ink);opacity:.7}
-  footer .bat svg{display:block;width:44px;height:18px}
-  footer .col > div{margin-bottom:5px}
-  footer .name{color:var(--ink);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
-  footer .col.r{text-align:right}
-  footer a{color:var(--ink-2)}
-  footer a:hover{color:var(--accent)}
-  footer .k{color:var(--dim);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-right:7px}
+  footer .l{display:flex;gap:20px;flex-wrap:wrap;align-items:baseline}
+  footer .l .name{color:var(--ink);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:12px}
+  footer .l a{color:var(--ink-2)}
+  footer .l a:hover{color:var(--accent)}
+  footer .r{color:var(--ink-3)}
+  footer .r a{color:var(--ink-2)}
+  footer .r a:hover{color:var(--accent)}
+  footer .sep{color:var(--faint)}
 
   @media(max-width:640px){
     .topbar-inner{padding:12px 20px;gap:14px}
-    .brand .role{display:none}
-    .top-meta{font-size:10px}
-    .top-meta .sep,.top-meta > span:nth-child(3),.top-meta > span:nth-child(4){display:none}
-    .page{padding:44px 20px 80px}
-    .specs{grid-template-columns:1fr 1fr}
-    .spec .v{font-size:30px}
-    .pull{padding:30px 22px 32px}
-    .pull p{font-size:20px}
-    footer{grid-template-columns:1fr;gap:18px;text-align:left}
-    footer .col.r{text-align:left}
-    footer .bat{display:none}
+    .brand .role,.top-meta{display:none}
+    .page{padding:52px 20px 88px}
+    .brk{margin:56px 0}
+    .brk-thin{margin:44px 0}
+    .featured .stats{gap:20px}
+    .featured .stats .n{font-size:22px}
+    footer{flex-direction:column;gap:14px;align-items:flex-start}
   }
 </style>
 </head>
 <body>
 
-<!-- ── bat mark (reused via <use>) ─────────────────────────────────────── -->
+<!-- ── bat mark (one source, reused) ─────────────────────────────────────── -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="bat" viewBox="0 0 100 32">
-      <!-- Symmetric geometric bat: 3 peaks per wing at top, 3 valleys per wing at bottom, small central body -->
       <path fill="currentColor" d="
         M50 4
         L46 10 L40 8 L34 12 L26 8 L18 14 L6 12
@@ -412,12 +266,6 @@
         L94 12 L82 14 L74 8 L66 12 L60 8 L54 10
         Z
       "/>
-    </symbol>
-    <!-- Compass/target mark used decoratively -->
-    <symbol id="hub" viewBox="0 0 60 60">
-      <circle cx="30" cy="30" r="4" fill="currentColor"/>
-      <circle cx="30" cy="30" r="12" fill="none" stroke="currentColor" stroke-width="1" opacity=".4"/>
-      <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="1" opacity=".2"/>
     </symbol>
   </defs>
 </svg>
@@ -431,13 +279,10 @@
       <span class="role">Cisco DC SE · Lab Artifacts</span>
     </span>
     <span class="top-meta">
-      <span><span class="live"></span>SYSTEM ONLINE</span>
-      <span class="sep">·</span>
-      <span><b>3</b> artifacts</span>
-      <span class="sep">·</span>
+      <span class="dot"></span>
       <span><b>2</b> live</span>
       <span class="sep">·</span>
-      <span>2026·07</span>
+      <span>07·2026</span>
     </span>
   </div>
 </div>
@@ -445,184 +290,144 @@
 <div class="page">
 
   <!-- Hero -->
-  <section class="hero">
-
-    <div class="issue">
-      <span>Batman4NY · <b>Lab Artifacts</b> · Vol. I</span>
-      <span class="r"></span>
-      <span>Upper Nyack, NY · MMXXVI</span>
-    </div>
-
-    <h1>
-      <span class="b">Cisco security portfolio,</span>
-      <em>running end-to-end in a home lab.</em>
-    </h1>
-
-    <div class="deck">
-      <div class="l">
-        <span class="kicker">Featured — SE Lab</span>
-        <p class="display">
-          <span class="strong">Cisco Secure AI Factory</span> <span class="with">with</span> <span class="nvidia">NVIDIA</span>
-        </p>
-      </div>
-      <div class="diagram" aria-hidden="true">
-        <!-- 5-layer SAF stack, angular, muted -->
-        <svg viewBox="0 0 220 130" fill="none">
-          <!-- Observability wrap top -->
-          <rect x="4" y="4" width="212" height="14" rx="3" fill="var(--tint-cyan)" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 3" opacity=".85"/>
-          <text x="12" y="14" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1.4" fill="var(--accent)" font-weight="700">OBSERVABILITY</text>
-          <!-- 5 stack layers -->
-          <g font-family="ui-monospace,monospace" font-size="8" letter-spacing=".8" font-weight="700">
-            <rect x="4" y="22" width="212" height="16" rx="2" fill="var(--surface)" stroke="var(--line-mid)" stroke-width="1"/>
-            <text x="12" y="33" fill="var(--ink)">L1 · ACCESS &amp; APPS</text>
-            <rect x="4" y="40" width="212" height="16" rx="2" fill="var(--surface)" stroke="var(--line-mid)" stroke-width="1"/>
-            <text x="12" y="51" fill="var(--ink)">L2 · AI RUNTIME</text>
-            <rect x="4" y="58" width="212" height="16" rx="2" fill="var(--tint-cyan)" stroke="var(--accent)" stroke-width="1.4"/>
-            <text x="12" y="69" fill="var(--accent-lo)">L3 · DATA</text>
-            <rect x="4" y="76" width="212" height="16" rx="2" fill="var(--surface)" stroke="var(--line-mid)" stroke-width="1"/>
-            <text x="12" y="87" fill="var(--ink)">L4 · COMPUTE</text>
-            <rect x="4" y="94" width="212" height="16" rx="2" fill="var(--surface)" stroke="var(--line-mid)" stroke-width="1"/>
-            <text x="12" y="105" fill="var(--ink)">L5 · NETWORK FABRIC</text>
-          </g>
-          <!-- Security wrap bottom -->
-          <rect x="4" y="112" width="212" height="14" rx="3" fill="var(--tint-cyan)" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 3" opacity=".85"/>
-          <text x="12" y="122" font-family="ui-monospace,monospace" font-size="8" letter-spacing="1.4" fill="var(--accent)" font-weight="700">SECURITY</text>
-        </svg>
-      </div>
-    </div>
-
+  <section>
+    <span class="label">Lab Artifacts · Vol. I</span>
+    <h1>Cisco security portfolio, <span class="accent">running end-to-end in a home lab.</span></h1>
     <p class="lede">
       Reproducible builds any SE can pick up. Reference architectures on free tier, real integrations, live URLs — <b>nothing here is a slide deck.</b>
     </p>
-
+    <div class="credit">
+      <span><b>Billy Garcia</b></span>
+      <span class="sep">·</span>
+      <span>Cisco GES Premier DC Systems Engineer</span>
+      <span class="sep">·</span>
+      <span>Upper Nyack, NY</span>
+    </div>
   </section>
 
-  <!-- Spec sheet -->
-  <div class="specs">
-    <div class="spec">
-      <div class="k">Cisco products</div>
-      <div class="v">15<span class="u">+</span></div>
-      <div class="n">across 5 SAF layers</div>
+  <div class="brk"></div>
+
+  <!-- Featured: SE Lab -->
+  <section class="featured">
+    <div class="l">
+      <span class="label">Featured — SE Lab</span>
+      <h2>Cisco Secure AI Factory <span class="accent">with NVIDIA</span></h2>
+      <p class="body">
+        Fifteen-plus Cisco products stitched into the Secure AI Factory reference architecture — <b>Access, AI Runtime, Data, Compute, Network</b> — with observability and security wrapping. Same tenant a real customer deployment would use, on OCI free tier plus NVIDIA NIM free tier.
+      </p>
+      <div class="stats">
+        <div class="stat">
+          <div class="n">15<span class="u">+</span></div>
+          <div class="k">Cisco products</div>
+        </div>
+        <div class="stat">
+          <div class="n">5</div>
+          <div class="k">SAF layers</div>
+        </div>
+        <div class="stat">
+          <div class="n">2</div>
+          <div class="k">Live tenants</div>
+        </div>
+        <div class="stat">
+          <div class="n">$0</div>
+          <div class="k">Monthly cost</div>
+        </div>
+      </div>
+      <a class="go" href="https://ciscopulse.uppernyack.com/">
+        <span>Open ciscopulse.uppernyack.com</span>
+        <span class="arr">→</span>
+      </a>
     </div>
-    <div class="spec">
-      <div class="k">Live deployments</div>
-      <div class="v">2</div>
-      <div class="n">SE Lab · AI Defense</div>
+    <div class="r" aria-hidden="true">
+      <!-- 5-layer SAF stack with observability/security wraps -->
+      <svg viewBox="0 0 260 200">
+        <!-- Observability wrap -->
+        <rect x="0" y="0" width="260" height="20" rx="4" fill="#1c648508" stroke="#1c6485" stroke-width="1.2" stroke-dasharray="4 4"/>
+        <text x="14" y="14" font-family="ui-monospace,monospace" font-size="9" letter-spacing="2" fill="#1c6485" font-weight="700">OBSERVABILITY</text>
+
+        <!-- 5 layers -->
+        <g font-family="ui-monospace,monospace" font-size="9" letter-spacing="1.4" font-weight="700">
+          <rect x="0" y="28" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
+          <text x="14" y="45" fill="#0e141c">L1 · ACCESS &amp; APPS</text>
+
+          <rect x="0" y="60" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
+          <text x="14" y="77" fill="#0e141c">L2 · AI RUNTIME</text>
+
+          <rect x="0" y="92" width="260" height="26" rx="4" fill="#1c648508" stroke="#1c6485" stroke-width="1.5"/>
+          <text x="14" y="109" fill="#0e3d54">L3 · DATA</text>
+          <text x="242" y="109" text-anchor="end" fill="#1c6485" font-size="8" letter-spacing=".8">✱</text>
+
+          <rect x="0" y="124" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
+          <text x="14" y="141" fill="#0e141c">L4 · COMPUTE</text>
+
+          <rect x="0" y="156" width="260" height="26" rx="4" fill="#ffffff" stroke="#d9dde3" stroke-width="1"/>
+          <text x="14" y="173" fill="#0e141c">L5 · NETWORK FABRIC</text>
+        </g>
+
+        <!-- Security wrap -->
+        <rect x="0" y="188" width="260" height="12" rx="4" fill="#1c648508" stroke="#1c6485" stroke-width="1.2" stroke-dasharray="4 4"/>
+      </svg>
     </div>
-    <div class="spec">
-      <div class="k">Guard points</div>
-      <div class="v">3</div>
-      <div class="n">input · args · output</div>
+  </section>
+
+  <div class="brk"></div>
+
+  <!-- Supporting artifacts -->
+  <section>
+    <span class="label mute">Also published</span>
+    <div class="supporting" style="margin-top:22px">
+
+      <a class="art" href="https://github.com/Batman4NY/netbox-aidefense-demo">
+        <span class="label" style="color:var(--ok);"><span style="background:var(--ok);width:22px;height:2px;border-radius:1px;display:inline-block;margin-right:12px;"></span>Live · Open Source</span>
+        <h3>AI Defense</h3>
+        <div class="sub">NetBox + Nemotron, three-point guard</div>
+        <p class="body">
+          Chatbot demo showing <b>Cisco AI Defense</b> guarding a <b>Nemotron</b>-driven NetBox operation at three inspection points — input, tool args, output. Six scenarios cover injection, destructive action, PII, credential exfil.
+        </p>
+        <span class="go">
+          <span>github.com/Batman4NY/netbox-aidefense-demo</span>
+          <span class="arr">→</span>
+        </span>
+      </a>
+
+      <a class="art" href="https://batman4ny.github.io/consolepi-build-guide/">
+        <span class="label mute">Build Guide · Docs</span>
+        <h3>ConsolePi</h3>
+        <div class="sub">Pi serial console for modern Cisco gear</div>
+        <p class="body">
+          Tested recipe for turning a Raspberry Pi into a network-accessible serial console — <b>both traditional RJ45 and modern USB-C</b> consoles (1200/3100/4200 Secure Firewalls, Catalyst 9000). Quiet 30-minute build, around $85 in parts.
+        </p>
+        <span class="go">
+          <span>batman4ny.github.io/consolepi-build-guide</span>
+          <span class="arr">→</span>
+        </span>
+      </a>
+
     </div>
-    <div class="spec">
-      <div class="k">Monthly cost</div>
-      <div class="v">$0</div>
-      <div class="n">free tier · perpetual</div>
-    </div>
-  </div>
+  </section>
+
+  <div class="brk"></div>
 
   <!-- Notice -->
-  <div class="sechead">
-    <span class="no">§ 01</span>
-    <span class="t">Notice <span class="sub">— disclaimer</span></span>
-    <span class="r"></span>
-    <span class="x">read this first</span>
-  </div>
-
-  <div class="notice">
-    <span class="n-label">⚠ Disclaimer</span>
+  <section class="notice">
+    <span class="label warn">⚠ Disclaimer</span>
     <p class="n-title">Personal project — not Cisco-official.</p>
     <p class="n-body">
       These are <b>home lab artifacts</b> built by a Cisco employee on their own time. Product references are to <b>publicly available</b> Cisco offerings. <b>Not affiliated with, endorsed by, sponsored by, or representing Cisco Systems, Inc.</b> Nothing here should be construed as an official Cisco reference, product statement, or roadmap.
     </p>
-  </div>
+  </section>
 
-  <!-- Artifacts -->
-  <div class="sechead">
-    <span class="no">§ 02</span>
-    <span class="t">Artifacts <span class="sub">— three published</span></span>
-    <span class="r"></span>
-    <span class="x"><b>2</b> live · <b>2</b> open source</span>
-  </div>
-
-  <div class="grid">
-
-    <a class="art" href="https://ciscopulse.uppernyack.com/" rel="noopener">
-      <span class="cardno">01</span>
-      <div class="kicker"><span class="pill live">Live</span><span>Integration Roadmap</span></div>
-      <h2>SE Lab<span class="sub">Cisco Secure AI Factory with NVIDIA</span></h2>
-      <p class="desc">
-        Fifteen-plus Cisco products stitched into the Secure AI Factory reference architecture — <b>Access, AI Runtime, Data, Compute, Network</b> — with observability and security wrapping. Same tenant a real customer deployment would use, on OCI free tier.
-      </p>
-      <div class="stack">
-        <span class="chip">AI Defense</span><span class="chip">Duo</span><span class="chip">Umbrella</span>
-        <span class="chip">NIM</span><span class="chip">OCI</span><span class="chip">Caddy</span>
-      </div>
-      <div class="refs">
-        <span class="r"><span class="rk">Site</span><span class="rv">ciscopulse.uppernyack.com</span></span>
-      </div>
-    </a>
-
-    <a class="art" href="https://github.com/Batman4NY/netbox-aidefense-demo" rel="noopener">
-      <span class="cardno">02</span>
-      <div class="kicker"><span class="pill live">Live</span><span class="pill oss">OSS</span><span>Customer Demo</span></div>
-      <h2>AI Defense<span class="sub">NetBox + Nemotron, three-point guard</span></h2>
-      <p class="desc">
-        Chatbot demo showing <b>Cisco AI Defense</b> guarding a <b>Nemotron</b>-driven NetBox operation at three inspection points — input, tool args, output. Six scenarios cover injection, destructive action, PII, credential exfil.
-      </p>
-      <div class="stack">
-        <span class="chip">AI Defense</span><span class="chip">Nemotron</span><span class="chip">NetBox</span>
-        <span class="chip">FastAPI</span><span class="chip">Docker</span><span class="chip">Tetragon</span>
-      </div>
-      <div class="refs">
-        <span class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/netbox-aidefense-demo</span></span>
-        <span class="r"><span class="rk">Live</span><span class="rv">aidefense-demo.uppernyack.com</span></span>
-      </div>
-    </a>
-
-    <a class="art" href="https://batman4ny.github.io/consolepi-build-guide/" rel="noopener">
-      <span class="cardno">03</span>
-      <div class="kicker"><span class="pill oss">Docs</span><span>Build Guide</span></div>
-      <h2>ConsolePi<span class="sub">Pi serial console for modern Cisco gear</span></h2>
-      <p class="desc">
-        Tested recipe for turning a Raspberry Pi into a network-accessible serial console — <b>traditional RJ45 and modern USB-C</b> consoles (1200/3100/4200 Secure Firewalls, Catalyst 9000). Quiet 30-minute build, around $85 in parts.
-      </p>
-      <div class="stack">
-        <span class="chip">Raspberry Pi</span><span class="chip">ser2net</span>
-        <span class="chip">USB-C CDC-ACM</span><span class="chip">MkDocs</span>
-      </div>
-      <div class="refs">
-        <span class="r"><span class="rk">Guide</span><span class="rv">batman4ny.github.io/consolepi-build-guide</span></span>
-        <span class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/consolepi-build-guide</span></span>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- Pull -->
-  <div class="sechead">
-    <span class="no">§ 03</span>
-    <span class="t">Statement</span>
-    <span class="r"></span>
-  </div>
-
-  <div class="pull">
-    <span class="lead">One tenant · One lab · Every story starts here</span>
-    <p>
-      When a peer asks what a Cisco reference architecture looks like at enterprise scale, the answer opens in a browser tab — <em>not a PDF.</em>
-    </p>
-  </div>
+  <div class="brk-thin"></div>
 
   <!-- Footer -->
   <footer>
-    <div class="bat"><svg><use href="#bat"/></svg></div>
-    <div class="col l">
-      <div class="name">Billy Garcia</div>
-      <div><span class="k">Contact</span><a href="mailto:bgarcia@cisco.com">bgarcia@cisco.com</a></div>
+    <div class="l">
+      <span class="name">Billy Garcia</span>
+      <span class="sep">·</span>
+      <a href="mailto:bgarcia@cisco.com">bgarcia@cisco.com</a>
     </div>
-    <div class="col r">
-      <div><a href="https://github.com/Batman4NY">github.com/Batman4NY</a></div>
-      <div><span class="k">Loc</span>Upper Nyack, NY</div>
+    <div class="r">
+      <a href="https://github.com/Batman4NY">github.com/Batman4NY</a>
     </div>
   </footer>
 
