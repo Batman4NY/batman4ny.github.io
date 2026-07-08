@@ -8,13 +8,12 @@
 <meta name="description" content="Working index of Cisco Secure AI Factory implementation + practitioner tooling. By Billy Garcia, Cisco GES Premier DC Systems Engineer.">
 <link rel="stylesheet" href="/assets/console.css">
 <style>
-  /* Landing hero + nav-card grid */
   .hero-block{
     background: var(--paper);
     border: 1px solid var(--rule);
     border-radius: 10px;
     padding: 32px 34px 30px;
-    margin-bottom: 28px;
+    margin-bottom: 44px;
   }
   .hero-block h1{
     font-size: clamp(30px, 4vw, 42px);font-weight: 780;letter-spacing: -.028em;line-height: 1.1;
@@ -22,27 +21,53 @@
   }
   .hero-block h1 .cy{color:var(--cyan)}
   .hero-block h1 .gn{color:var(--green)}
-  .hero-block p{
-    font-size:16px;line-height:1.6;color:var(--ink-2);margin:0;max-width:70ch;
+  .hero-block .lede{
+    font-size: 16.5px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 68ch;
   }
-  .hero-block p b{color:var(--ink);font-weight:600}
-  .hero-block p .cy{color:var(--cyan)}
-  .hero-block p .gn{color:var(--green)}
+  .hero-block .lede b{color:var(--ink);font-weight:600}
+  .hero-block .lede .cy{color:var(--cyan)}
+  .hero-block .lede .gn{color:var(--green)}
 
-  .hero-hint{
+  /* prose sections for who/what/why */
+  .prose-block{margin: 0 0 40px;max-width: 78ch}
+  .prose-block:last-child{margin-bottom: 0}
+  .prose-block h2{
+    font-size: 21px;font-weight:700;color:var(--ink);letter-spacing:-.014em;line-height:1.2;
+    margin: 0 0 14px;text-wrap: balance;
+  }
+  .prose-block h2 .cy{color:var(--cyan)}
+  .prose-block h2 .gn{color:var(--green)}
+  .prose-block p{
+    font-size: 15px;line-height: 1.66;color: var(--ink-2);margin: 0 0 14px;
+  }
+  .prose-block p:last-child{margin-bottom:0}
+  .prose-block p b{color:var(--ink);font-weight:600}
+  .prose-block p .cy{color:var(--cyan)}
+  .prose-block p .gn{color:var(--green)}
+  .prose-block p a{color:var(--cyan);border-bottom:1px solid var(--cyan-tint)}
+  .prose-block p a:hover{color:var(--cyan-hi);border-bottom-color:var(--cyan)}
+  .prose-block .pull-quote{
+    font-style: italic;color: var(--ink);font-weight: 500;
+    padding: 4px 0 4px 16px;border-left: 2px solid var(--cyan);
+    margin: 4px 0 14px;
+  }
+
+  /* Small colophon strip at the bottom */
+  .colophon{
+    margin-top: 32px;padding: 20px 24px;
+    background: var(--paper-lo);
+    border: 1px solid var(--rule);border-radius: 8px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 11px;letter-spacing: .18em;text-transform: uppercase;color: var(--ink-3);font-weight: 600;
-    margin-top: 20px;
-    display: inline-flex;align-items: center;gap: 10px;
+    font-size: 11.5px;letter-spacing: .04em;color: var(--ink-3);
+    display: flex;justify-content: space-between;gap: 20px;flex-wrap: wrap;align-items: baseline;
   }
-  .hero-hint::before{
-    content: "";width: 22px;height: 1px;background: var(--ink-3);
-  }
+  .colophon b{color:var(--ink);font-weight:700}
+  .colophon a{color:var(--cyan)}
+  .colophon .sep{color:var(--faint);margin: 0 6px}
 </style>
 </head>
 <body>
 
-<!-- ── icon defs ────────────────────────────────────────────────────── -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="bat" viewBox="0 0 100 32"><path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/></symbol>
   <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
@@ -58,14 +83,8 @@
 
 <div class="app">
   <aside class="side">
-    <div class="brand">
-      <a href="/">
-        <span class="mark"><svg><use href="#bat"/></svg></span>
-        <span class="wm">Batman4NY</span>
-      </a>
-    </div>
+    <div class="brand"><a href="/"><span class="mark"><svg><use href="#bat"/></svg></span><span class="wm">Batman4NY</span></a></div>
     <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
-
     <nav class="nav">
       <div class="sec">Lab</div>
       <a class="navlink active" href="/"><svg><use href="#i-grid"/></svg> Overview</a>
@@ -73,15 +92,12 @@
       <a class="navlink" href="/reference/"><svg><use href="#i-book"/></svg> Reference architecture</a>
       <a class="navlink" href="/roadmap/"><svg><use href="#i-map"/></svg> Roadmap</a>
       <a class="navlink" href="/adjacent/"><svg><use href="#i-tools"/></svg> Adjacent tooling</a>
-
       <a class="navlink" href="/code/"><svg><use href="#i-code"/></svg> Code<span class="cnt">3</span></a>
       <a class="navlink" href="/docs/"><svg><use href="#i-docs"/></svg> Docs<span class="cnt">2</span></a>
-
       <div class="sec">Identity</div>
       <a class="navlink" href="/about/"><svg><use href="#i-user"/></svg> About</a>
       <a class="navlink" href="/disclaimer/"><svg><use href="#i-warn"/></svg> Disclaimer</a>
     </nav>
-
     <div class="foot">
       <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
       <div class="row"><span>Artifacts</span><b>4</b></div>
@@ -101,10 +117,88 @@
       <section>
         <div class="hero-block">
           <h1><span class="cy">Cisco Secure AI Factory</span>, implemented in a home lab.</h1>
-          <p>
+          <p class="lede">
             A working rendering of the <b>Cisco Secure AI Factory with NVIDIA</b> reference architecture on <b class="cy">OCI Free Tier</b> + <b class="gn">NVIDIA NIM Free Tier</b> — <b>$0/mo, perpetual, reproducible</b>. Real code, live URLs, published guides.
           </p>
-          <div class="hero-hint">Sidebar ← for each section</div>
+        </div>
+
+        <div class="prose-block">
+          <div class="sec-head" style="margin-bottom:16px">
+            <span class="eyebrow">§ Why this exists</span>
+            <span class="t">The question a running lab actually answers</span>
+            <span class="r"></span>
+          </div>
+          <p class="pull-quote">
+            "What would Cisco Secure AI Factory look like at our scale?"
+          </p>
+          <p>
+            Every Cisco DC SE gets some version of that question every week — from a customer, from a peer, from someone at a conference. <b>A slide deck doesn't answer it.</b> A slide deck describes what a customer <em>could</em> build. A running lab shows what <em>is running now</em>, in the same product line-up Cisco and NVIDIA co-market to enterprise DC customers.
+          </p>
+          <p>
+            <b>This site is that running lab.</b> Every artifact here has a live URL, a public repository, or a published guide. The <a href="/live/">AI Defense demo</a> is reachable now. The <a href="/reference/">SAIF stack</a> shows implementation status honestly, layer by layer — <span class="cy">partial</span>, <span class="cy">adjacent</span>, or <b>planned</b> — no overclaiming. The <a href="/roadmap/">roadmap</a> lays out T1–T4 rollout tiers side-by-side with the enterprise version.
+          </p>
+        </div>
+
+        <div class="prose-block">
+          <div class="sec-head" style="margin-bottom:16px">
+            <span class="eyebrow">§ Why the free tier matters</span>
+            <span class="t">The pattern reproduces at $0/mo — the enterprise version doesn't have to</span>
+            <span class="r"></span>
+          </div>
+          <p>
+            The full enterprise SAIF is serious infrastructure — <b>Cisco UCS + NVIDIA RTX PRO 4500 Blackwell</b> GPUs, <b>Nexus 9000</b> fabric with <b>Silicon One G300/P200</b>, <b>Cisco Hybrid Mesh Firewall on NVIDIA BlueField DPUs</b>. Not something an SE spins up over a weekend.
+          </p>
+          <p>
+            But the <em>pattern</em> is reproducible on <b class="gn">$0/mo</b> substrates: <b class="cy">OCI Free Tier</b> compute (2× AMD Micro + 1× ARM Ampere with 4 OCPU / 24 GB), <b class="gn">NVIDIA NIM Free Tier</b> hosted inference (5K credits/mo, replenishing), Cloudflare DNS, <b>Caddy</b> for auto-TLS via Let's Encrypt, GitHub Pages for static sites. Every layer that <em>can</em> be implemented on free-tier substrates <b>is</b> implemented. Where the reference requires enterprise hardware or paid services, the layer is honestly labeled — the <a href="/reference/">reference architecture page</a> spells it out.
+          </p>
+        </div>
+
+        <div class="prose-block">
+          <div class="sec-head" style="margin-bottom:16px">
+            <span class="eyebrow">§ Why reproducibility is the point</span>
+            <span class="t">Any SE on the team can rebuild this — that's the whole thesis</span>
+            <span class="r"></span>
+          </div>
+          <p>
+            Every artifact on this site is <b>open source under Apache-2.0</b>. The infrastructure setup is a <a href="/docs/">chapter-by-chapter guide</a> — thirteen chapters, ~10K words, from Oracle account signup through the last Caddy hostname. The <a href="/code/">AI Defense demo</a> runs from <code style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--cyan-hi);background:var(--paper);padding:1px 6px;border-radius:3px;border:1px solid var(--rule)">docker-compose up</code>. The <a href="/adjacent/">ConsolePi build</a> is a shopping list and 30 minutes of work.
+          </p>
+          <p>
+            No secret sauce. No "call me for the config." Any SE on the team who wants to reproduce this can — start-to-finish, over a weekend, at <b class="gn">zero incremental cost</b>. That's the whole point. When a peer asks how to build one, the answer is a URL, not a screen-share.
+          </p>
+        </div>
+
+        <div class="prose-block">
+          <div class="sec-head" style="margin-bottom:16px">
+            <span class="eyebrow">§ Why this and not Cloud Control</span>
+            <span class="t">The lab is the bench. Cloud Control will be the cockpit.</span>
+            <span class="r"></span>
+          </div>
+          <p>
+            <b>Cisco Cloud Control</b> is Cisco's announced (pre-GA) AI-native platform for cross-domain security operations. When it ships, it's where customers will run every product on this site at production scale. This lab isn't a substitute for Cloud Control — it's the <b>hands-on foundation</b> SEs need to be fluent in the portfolio Cloud Control will orchestrate.
+          </p>
+          <p>
+            <em>Build the stack here now. Be ready to operate it there when the cockpit ships.</em> Full positioning on the <a href="/roadmap/">roadmap page</a>.
+          </p>
+        </div>
+
+        <div class="prose-block">
+          <div class="sec-head" style="margin-bottom:16px">
+            <span class="eyebrow m">§ Who's building this</span>
+            <span class="t">Billy Garcia · DC SE · on the side</span>
+            <span class="r"></span>
+          </div>
+          <p>
+            <a href="/about/"><b>Billy Garcia</b></a>, <b>Cisco GES Premier DC Systems Engineer</b>, based in Upper Nyack, NY. This site is built on my own time, on my own OCI tenancy. It's a <b>personal project</b> — not a Cisco-official artifact, not affiliated with, endorsed by, sponsored by, or representing Cisco Systems, Inc. Product references are to publicly available Cisco offerings; the assembly and the voice are mine. Full statement on the <a href="/disclaimer/">disclaimer page</a>.
+          </p>
+        </div>
+
+        <div class="colophon">
+          <div>
+            <b>One tenant</b><span class="sep">·</span><b>One lab</b><span class="sep">·</span>Every story starts here.
+          </div>
+          <div>
+            <a href="mailto:bgarcia@cisco.com">bgarcia@cisco.com</a><span class="sep">·</span><a href="https://github.com/Batman4NY">github.com/Batman4NY</a>
+          </div>
         </div>
       </section>
     </div>
