@@ -7,36 +7,42 @@
 <title>Batman4NY — Cisco DC SE · Lab Artifacts</title>
 <meta name="description" content="Reproducible builds, integration roadmaps, and demos from a Cisco GES Premier DC Systems Engineer.">
 <style>
-  /* ── Batman4NY — muted technical: cool paper ground, considered sans, mono detail, one decisive accent ── */
+  /* ── Batman4NY — muted technical: cool paper, considered sans, mono detail, decisive Cisco cyan ── */
   :root{
-    --bg:        #f2f4f6;
-    --bg-2:      #e8ebee;
+    --bg:        #f1f3f6;
+    --bg-2:      #e6eaed;
     --surface:   #ffffff;
-    --surface-2: #f7f8f9;
+    --surface-2: #f8f9fa;
+    --tint-cyan: #eaf4f8;
 
-    --ink:       #131820;
-    --ink-2:     #3a4552;
-    --ink-3:     #6b7684;
-    --dim:       #99a2ac;
+    --ink:       #111720;
+    --ink-2:     #38424f;
+    --ink-3:     #67717e;
+    --dim:       #97a1ab;
     --faint:     #c7ced5;
 
-    --line:      #dfe3e8;
-    --line-mid:  #cdd2d9;
-    --line-str:  #b5bcc4;
+    --line:      #dfe4e9;
+    --line-mid:  #ccd2d9;
+    --line-str:  #b1b8c0;
 
-    --accent:    #1e6a89;    /* muted Cisco cyan */
+    --accent:    #1e6a89;
     --accent-hi: #2a8cb5;
-    --accent-lo: #12475c;
+    --accent-lo: #103c50;
     --accent-tint:#1e6a8912;
+    --accent-glow:#1e6a8925;
 
     --notice:    #8a5a20;
     --notice-tint:#c9963f18;
-    --notice-line:#c9963f80;
+    --notice-line:#c9963f70;
 
     --ok:        #4b7d5f;
+    --ok-glow:   #4b7d5f30;
 
-    --radius:    6px;
-    --radius-lg: 10px;
+    --radius:    7px;
+    --radius-lg: 11px;
+
+    /* subtle decorative grid used sparingly */
+    --grid:      radial-gradient(circle at 1px 1px, #1117201c 1px, transparent 0);
   }
 
   *{box-sizing:border-box}
@@ -50,111 +56,133 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-feature-settings: "kern" 1, "liga" 1, "tnum" 1;
+    /* diffuse light behind the sheet — a suggestion, not a spotlight */
+    background:
+      radial-gradient(1200px 600px at 12% -8%, #d4e2e94a 0, transparent 60%),
+      radial-gradient(900px 500px at 88% 5%, #d9dbdd3a 0, transparent 55%),
+      var(--bg);
+    background-attachment: fixed;
   }
   ::selection{background:#2a8cb540;color:var(--ink)}
 
   a{color:var(--accent);text-decoration:none;transition:color .14s ease}
-  a:hover{color:var(--accent-lo);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+  a:hover{color:var(--accent-lo)}
 
   .mono{font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace}
 
   /* ── top bar ───────────────────────────────────────────────────────────── */
   .topbar{
     position:sticky;top:0;z-index:5;
-    background: #f2f4f6cc;
-    backdrop-filter: blur(10px) saturate(1.2);
+    background: #f1f3f6d9;
+    backdrop-filter: blur(14px) saturate(1.2);
     border-bottom: 1px solid var(--line);
   }
   .topbar-inner{
-    max-width: 980px;margin:0 auto;
-    padding: 14px 28px;
+    max-width: 1020px;margin:0 auto;
+    padding: 13px 30px;
     display:flex;align-items:baseline;gap:22px;flex-wrap:wrap;
   }
   .brand{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 13px;font-weight:600;color:var(--ink);letter-spacing:.02em;
+    font-size: 13px;font-weight:600;color:var(--ink);letter-spacing:.005em;
     display:inline-flex;align-items:center;gap:10px;
   }
-  .brand::before{
-    content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-tint);
-    display:inline-block;
+  .brand .live{
+    width:8px;height:8px;border-radius:50%;background:var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-tint), 0 0 12px var(--accent-glow);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow: 0 0 0 3px var(--accent-tint), 0 0 12px var(--accent-glow)}
+    50%    {box-shadow: 0 0 0 5px var(--accent-tint), 0 0 20px var(--accent-glow)}
   }
   .brand .sep{color:var(--faint);font-weight:400;margin:0 2px}
   .brand .role{color:var(--ink-3);font-weight:500}
   .top-meta{
     margin-left:auto;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
+    font-size: 11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);
     display:inline-flex;gap:12px;align-items:baseline;
   }
   .top-meta .sep{color:var(--faint)}
   .top-meta b{color:var(--ink);font-weight:600}
 
   /* ── page ──────────────────────────────────────────────────────────────── */
-  .page{max-width:980px;margin:0 auto;padding:56px 28px 96px}
-
-  /* ── overline / label ──────────────────────────────────────────────────── */
-  .overline{
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
-    display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;
-  }
-  .overline::before{
-    content:"";width:22px;height:1px;background:var(--accent);
-  }
+  .page{max-width:1020px;margin:0 auto;padding:64px 30px 108px}
 
   /* ── hero ──────────────────────────────────────────────────────────────── */
+  .hero{
+    display:grid;grid-template-columns:1fr auto;gap:48px;align-items:end;
+    padding-bottom:36px;margin-bottom:32px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero .l{min-width:0}
+  .overline{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    display:inline-flex;align-items:center;gap:12px;margin-bottom:22px;
+  }
+  .overline::before{
+    content:"";width:28px;height:2px;background:var(--accent);border-radius:1px;
+  }
   h1{
-    font-size: clamp(30px, 4.4vw, 40px);
-    font-weight: 640;
-    line-height: 1.1;
-    letter-spacing: -0.022em;
-    margin: 0 0 14px;
+    font-size: clamp(34px, 4.8vw, 46px);
+    font-weight: 660;
+    line-height: 1.06;
+    letter-spacing: -0.026em;
+    margin: 0 0 18px;
     color: var(--ink);
     text-wrap: balance;
-    max-width: 22ch;
+    max-width: 20ch;
   }
-  h1 .accent{color:var(--accent);font-weight:640}
-
+  h1 .accent{color:var(--accent);font-weight:660}
   .subtitle{
-    font-size: 17px;line-height: 1.55;color: var(--ink-2);margin: 0 0 24px;
-    max-width: 60ch;font-weight:400;
+    font-size: 17px;line-height: 1.55;color: var(--ink-2);margin: 0 0 4px;
+    max-width: 58ch;font-weight:420;
   }
   .subtitle b{color:var(--ink);font-weight:600}
 
-  .metabar{
-    display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 22px;
-    padding: 14px 0;
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:12px;letter-spacing:.03em;color:var(--ink-3);
-    margin-bottom:44px;
+  .hero .r{
+    /* subtle nodes-and-lines decoration — reads as network topology at a glance */
+    padding: 6px 4px;opacity:.7;
   }
-  .metabar .item{display:inline-flex;align-items:baseline;gap:6px}
-  .metabar .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:600}
+  .hero .r svg{width:150px;height:110px;display:block}
+  @media(max-width:780px){.hero{grid-template-columns:1fr;gap:24px} .hero .r{display:none}}
+
+  .metabar{
+    display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 26px;
+    padding: 16px 0 18px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:12px;letter-spacing:.02em;color:var(--ink-3);
+    margin-bottom:52px;
+    border-bottom:1px solid var(--line);
+  }
+  .metabar .item{display:inline-flex;align-items:baseline;gap:7px}
+  .metabar .k{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:700}
   .metabar .v{color:var(--ink);font-weight:600;font-size:12.5px}
   .metabar .sep{color:var(--faint)}
 
   /* ── section head ──────────────────────────────────────────────────────── */
   .sechead{
-    display:flex;align-items:baseline;gap:14px;margin:0 0 20px;
+    display:flex;align-items:baseline;gap:16px;margin:0 0 22px;
   }
   .sechead .no{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:12px;color:var(--faint);font-weight:600;letter-spacing:.06em;
+    font-size:11px;color:var(--dim);font-weight:700;letter-spacing:.08em;
+    padding: 3px 9px;border:1px solid var(--line-mid);border-radius:20px;background:var(--surface);
   }
   .sechead .t{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:700;
+    font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);font-weight:700;
   }
   .sechead .r{
-    flex:1;height:1px;background:var(--line);
+    flex:1;height:1px;background:linear-gradient(90deg,var(--line) 0,transparent 100%);
   }
   .sechead .x{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;color:var(--dim);letter-spacing:.04em;
+    font-size:11px;color:var(--ink-3);letter-spacing:.06em;
   }
+  .sechead .x b{color:var(--ink);font-weight:600}
 
   /* ── notice (disclaimer) — muted amber ─────────────────────────────────── */
   .notice{
@@ -164,16 +192,16 @@
     border-left-width: 3px;
     border-left-color: var(--notice);
     border-radius: var(--radius);
-    padding: 18px 22px;
-    margin: 0 0 56px;
+    padding: 20px 24px;
+    margin: 0 0 64px;
   }
   .notice .n-label{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 10px;letter-spacing: .22em;text-transform: uppercase;color: var(--notice);font-weight: 700;
-    display: block;margin-bottom: 8px;
+    font-size: 10.5px;letter-spacing: .24em;text-transform: uppercase;color: var(--notice);font-weight: 700;
+    display: inline-flex;align-items:center;gap:8px;margin-bottom: 10px;
   }
   .notice .n-title{
-    font-size: 15.5px;font-weight: 640;color: var(--ink);margin: 0 0 6px;letter-spacing: -.008em;
+    font-size: 16px;font-weight: 640;color: var(--ink);margin: 0 0 6px;letter-spacing: -.01em;
   }
   .notice .n-body{
     font-size: 13.5px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 82ch;
@@ -182,106 +210,153 @@
 
   /* ── artifact grid ─────────────────────────────────────────────────────── */
   .grid{
-    display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:56px;
+    display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:64px;
   }
-  @media(min-width:820px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  @media(min-width:840px){.grid{grid-template-columns:1fr 1fr 1fr}}
 
   .art{
     display:flex;flex-direction:column;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 20px 22px 18px;
+    border-radius: var(--radius-lg);
+    padding: 22px 22px 20px;
     color: inherit;text-decoration:none;
-    transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
-    position:relative;
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    position:relative;overflow:hidden;
+  }
+  /* accent hair on top edge of each card — reveals on hover */
+  .art::after{
+    content:"";position:absolute;left:0;right:0;top:0;height:2px;
+    background: linear-gradient(90deg, var(--accent) 0, var(--accent-hi) 100%);
+    transform: scaleX(0);transform-origin: left;
+    transition: transform .32s cubic-bezier(.22,.61,.36,1);
   }
   .art:hover{
     border-color: var(--line-str);
-    box-shadow: 0 1px 2px #13182008, 0 8px 22px #13182010;
-    transform: translateY(-1px);
-    text-decoration:none;
+    box-shadow: 0 1px 2px #11172010, 0 12px 32px #11172014, 0 0 0 3px var(--accent-tint);
+    transform: translateY(-2px);
   }
-  .art .kicker{
-    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  .art:hover::after{transform: scaleX(1)}
+
+  .art .cardno{
+    position:absolute;top:20px;right:22px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.06em;
+  }
+  .art:hover .cardno{color:var(--accent)}
+
+  .art .kicker{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
     margin-bottom:14px;
   }
   .art .kicker .pill{
-    padding:2px 8px;border-radius:20px;font-size:9px;letter-spacing:.16em;font-weight:700;
+    padding:2.5px 8px;border-radius:20px;font-size:9px;letter-spacing:.16em;font-weight:700;
   }
-  .art .kicker .pill.live{color:#2a5c40;background:#4b7d5f22}
-  .art .kicker .pill.live::before{content:"●";margin-right:5px;color:var(--ok);font-size:8px;vertical-align:1px}
+  .art .kicker .pill.live{
+    color:#2a5c40;background:#4b7d5f22;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .art .kicker .pill.live::before{
+    content:"";width:5px;height:5px;border-radius:50%;background:var(--ok);
+    box-shadow: 0 0 0 2px var(--ok-glow);
+    display:inline-block;
+    animation: dot 2.4s ease-in-out infinite;
+  }
+  @keyframes dot{
+    0%,100%{opacity:1}
+    50%{opacity:.5}
+  }
   .art .kicker .pill.oss{color:var(--accent);background:var(--accent-tint)}
 
   .art h2{
-    font-size:19px;font-weight:640;color:var(--ink);letter-spacing:-.012em;line-height:1.22;margin:0 0 4px;
+    font-size:19.5px;font-weight:640;color:var(--ink);letter-spacing:-.014em;line-height:1.22;margin:0 0 4px;
+    padding-right: 42px; /* avoid overlap with .cardno */
   }
-  .art h2 .sub{color:var(--ink-3);font-weight:440;font-size:15px;display:block;margin-top:2px;letter-spacing:-.004em}
+  .art h2 .sub{color:var(--ink-3);font-weight:440;font-size:14.5px;display:block;margin-top:3px;letter-spacing:-.004em;line-height:1.35}
+
   .art .desc{
-    font-size:13.5px;line-height:1.58;color:var(--ink-2);margin:12px 0 16px;flex:1;
+    font-size:13.5px;line-height:1.58;color:var(--ink-2);margin:14px 0 12px;
   }
   .art .desc b{color:var(--ink);font-weight:600}
+
+  .art .stack{
+    display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 16px;
+  }
+  .art .stack .chip{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:10.5px;letter-spacing:.02em;color:var(--ink-3);
+    padding:2px 8px;border-radius:4px;background:var(--bg-2);border:1px solid var(--line);
+    line-height:1.3;
+  }
   .art .refs{
-    display:flex;flex-direction:column;gap:4px;
+    display:flex;flex-direction:column;gap:5px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size:11.5px;color:var(--ink-2);letter-spacing:.005em;
     padding-top:14px;border-top:1px solid var(--line);
+    margin-top:auto;
   }
   .art .refs .r{display:flex;gap:8px;align-items:baseline}
-  .art .refs .rk{color:var(--dim);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;min-width:38px}
+  .art .refs .rk{color:var(--dim);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;min-width:42px}
   .art .refs .rv{color:var(--ink-2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-  .art .arrow{
-    position:absolute;top:20px;right:22px;color:var(--dim);transition: color .14s ease, transform .14s ease;
-  }
-  .art:hover .arrow{color:var(--accent);transform:translate(2px,-2px)}
+  .art:hover .refs .rv{color:var(--ink)}
 
   /* ── pull ──────────────────────────────────────────────────────────────── */
   .pull{
-    padding: 32px 32px 34px;
-    background: var(--surface);
+    padding: 36px 36px 38px;
+    background: linear-gradient(135deg, var(--surface) 0%, var(--tint-cyan) 100%);
     border: 1px solid var(--line);
     border-left: 3px solid var(--accent);
-    border-radius: var(--radius);
-    margin: 0 0 40px;
+    border-radius: var(--radius-lg);
+    margin: 0 0 44px;
+    position:relative;overflow:hidden;
+  }
+  .pull::before{
+    /* tiny dot-grid tucked into the corner — engineering wallpaper hint */
+    content:"";position:absolute;right:20px;top:20px;width:120px;height:120px;
+    background-image: var(--grid);background-size: 10px 10px;
+    opacity:.5;pointer-events:none;mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at 100% 0, #000 0, transparent 70%);
   }
   .pull .lead{
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:700;
-    display:block;margin-bottom:12px;
+    font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);font-weight:700;
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .pull .lead::before{
+    content:"";width:22px;height:2px;background:var(--accent);border-radius:1px;
   }
   .pull p{
-    font-size:19px;line-height:1.4;color:var(--ink);margin:0;max-width:56ch;
-    font-weight:440;letter-spacing:-.011em;text-wrap:balance;
+    font-size:20px;line-height:1.4;color:var(--ink);margin:0;max-width:52ch;
+    font-weight:500;letter-spacing:-.014em;text-wrap:balance;
   }
   .pull p em{color:var(--ink-3);font-style:normal}
 
   /* ── footer ────────────────────────────────────────────────────────────── */
   footer{
-    padding-top: 26px;border-top:1px solid var(--line);
-    display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    padding-top: 28px;border-top:1px solid var(--line);
+    display:grid;grid-template-columns:1fr 1fr;gap:24px;
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
   }
-  footer .l div,footer .r div{margin-bottom:4px}
-  footer .l .name{color:var(--ink);font-weight:600}
-  footer .l a{color:var(--ink-2)}
-  footer .r{text-align:right}
-  footer .r a{color:var(--ink-2)}
-  footer .k{color:var(--dim);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-right:6px}
+  footer .col > div{margin-bottom:6px}
+  footer .col.r{text-align:right}
+  footer .name{color:var(--ink);font-weight:600;font-size:12.5px}
+  footer a{color:var(--ink-2)}
+  footer a:hover{color:var(--accent)}
+  footer .k{color:var(--dim);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-right:7px}
 
-  /* ── responsive ────────────────────────────────────────────────────────── */
   @media(max-width:640px){
-    .topbar-inner{padding:12px 20px;gap:14px}
+    .topbar-inner{padding:11px 20px;gap:14px}
     .top-meta{display:none}
-    .page{padding:36px 20px 72px}
-    .metabar{gap:8px 16px}
+    .page{padding:40px 20px 76px}
+    .metabar{gap:10px 18px}
     .metabar .sep{display:none}
-    .pull{padding:24px 22px 26px}
-    footer{flex-direction:column;gap:14px}
-    footer .r{text-align:left}
+    .pull{padding:26px 22px 28px}
+    .pull p{font-size:18px}
+    footer{grid-template-columns:1fr;gap:16px}
+    footer .col.r{text-align:left}
   }
 </style>
 </head>
@@ -290,6 +365,7 @@
 <div class="topbar">
   <div class="topbar-inner">
     <span class="brand">
+      <span class="live"></span>
       Batman4NY
       <span class="sep">/</span>
       <span class="role">Cisco DC SE · Lab Artifacts</span>
@@ -306,13 +382,41 @@
 
 <div class="page">
 
-  <div class="overline">SE Lab · Cisco Secure AI Factory with NVIDIA</div>
-
-  <h1>Cisco security portfolio, <span class="accent">running end-to-end in a home lab.</span></h1>
-
-  <p class="subtitle">
-    Reproducible builds any SE can pick up. Reference architectures on free tier, real integrations, live URLs — <b>nothing here is a slide deck.</b>
-  </p>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="l">
+      <div class="overline">SE Lab · Cisco Secure AI Factory with NVIDIA</div>
+      <h1>Cisco security portfolio, <span class="accent">running end-to-end in a home lab.</span></h1>
+      <p class="subtitle">
+        Reproducible builds any SE can pick up. Reference architectures on free tier, real integrations, live URLs — <b>nothing here is a slide deck.</b>
+      </p>
+    </div>
+    <div class="r" aria-hidden="true">
+      <!-- Network topology suggestion: 5 nodes, thin connections; muted cyan. Reads engineering + AI + Cisco. -->
+      <svg viewBox="0 0 150 110" fill="none" stroke="currentColor" style="color:var(--accent)">
+        <!-- lines -->
+        <g stroke-width="1" opacity=".35">
+          <line x1="30" y1="20" x2="75" y2="55"/>
+          <line x1="120" y1="20" x2="75" y2="55"/>
+          <line x1="30" y1="90" x2="75" y2="55"/>
+          <line x1="120" y1="90" x2="75" y2="55"/>
+          <line x1="30" y1="20" x2="120" y2="20"/>
+          <line x1="30" y1="90" x2="120" y2="90"/>
+        </g>
+        <!-- outer nodes -->
+        <g fill="var(--surface)" stroke-width="1.4">
+          <circle cx="30" cy="20" r="5"/>
+          <circle cx="120" cy="20" r="5"/>
+          <circle cx="30" cy="90" r="5"/>
+          <circle cx="120" cy="90" r="5"/>
+        </g>
+        <!-- center node -->
+        <circle cx="75" cy="55" r="8" fill="var(--accent)" stroke="none"/>
+        <circle cx="75" cy="55" r="14" fill="none" stroke="currentColor" stroke-width="1" opacity=".3"/>
+        <circle cx="75" cy="55" r="20" fill="none" stroke="currentColor" stroke-width="1" opacity=".15"/>
+      </svg>
+    </div>
+  </section>
 
   <div class="metabar">
     <span class="item"><span class="k">Author</span><span class="v">Billy Garcia</span></span>
@@ -345,15 +449,13 @@
     <span class="no">§ 02</span>
     <span class="t">Artifacts</span>
     <span class="r"></span>
-    <span class="x">three published</span>
+    <span class="x"><b>3</b> published · <b>2</b> live</span>
   </div>
 
   <div class="grid">
 
     <a class="art" href="https://ciscopulse.uppernyack.com/" rel="noopener">
-      <span class="arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-      </span>
+      <span class="cardno">01</span>
       <div class="kicker">
         <span class="pill live">Live</span>
         <span>Integration Roadmap</span>
@@ -362,15 +464,21 @@
       <p class="desc">
         Fifteen-plus Cisco products stitched into the Secure AI Factory reference architecture — <b>Access, AI Runtime, Data, Compute, Network</b> — with observability and security wrapping. Same tenant a real customer deployment would use, on OCI free tier.
       </p>
+      <div class="stack">
+        <span class="chip">AI Defense</span>
+        <span class="chip">Duo</span>
+        <span class="chip">Umbrella</span>
+        <span class="chip">NIM</span>
+        <span class="chip">OCI</span>
+        <span class="chip">Caddy</span>
+      </div>
       <div class="refs">
         <span class="r"><span class="rk">Site</span><span class="rv">ciscopulse.uppernyack.com</span></span>
       </div>
     </a>
 
     <a class="art" href="https://github.com/Batman4NY/netbox-aidefense-demo" rel="noopener">
-      <span class="arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-      </span>
+      <span class="cardno">02</span>
       <div class="kicker">
         <span class="pill live">Live</span>
         <span class="pill oss">OSS</span>
@@ -380,6 +488,14 @@
       <p class="desc">
         Chatbot demo showing <b>Cisco AI Defense</b> guarding a <b>Nemotron</b>-driven NetBox operation at three inspection points — input, tool args, output. Six scenarios cover injection, destructive action, PII, credential exfil.
       </p>
+      <div class="stack">
+        <span class="chip">AI Defense</span>
+        <span class="chip">Nemotron</span>
+        <span class="chip">NetBox</span>
+        <span class="chip">FastAPI</span>
+        <span class="chip">Docker</span>
+        <span class="chip">Tetragon</span>
+      </div>
       <div class="refs">
         <span class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/netbox-aidefense-demo</span></span>
         <span class="r"><span class="rk">Live</span><span class="rv">aidefense-demo.uppernyack.com</span></span>
@@ -387,9 +503,7 @@
     </a>
 
     <a class="art" href="https://batman4ny.github.io/consolepi-build-guide/" rel="noopener">
-      <span class="arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-      </span>
+      <span class="cardno">03</span>
       <div class="kicker">
         <span class="pill oss">Docs</span>
         <span>Build Guide</span>
@@ -398,6 +512,12 @@
       <p class="desc">
         Tested recipe for turning a Raspberry Pi into a network-accessible serial console — <b>traditional RJ45 and modern USB-C</b> consoles (1200/3100/4200 Secure Firewalls, Catalyst 9000). Quiet 30-minute build, around $85 in parts.
       </p>
+      <div class="stack">
+        <span class="chip">Raspberry Pi</span>
+        <span class="chip">ser2net</span>
+        <span class="chip">USB-C CDC-ACM</span>
+        <span class="chip">MkDocs</span>
+      </div>
       <div class="refs">
         <span class="r"><span class="rk">Guide</span><span class="rv">batman4ny.github.io/consolepi-build-guide</span></span>
         <span class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/consolepi-build-guide</span></span>
@@ -422,11 +542,11 @@
 
   <!-- Footer -->
   <footer>
-    <div class="l">
-      <div><span class="name">Billy Garcia</span></div>
+    <div class="col l">
+      <div class="name">Billy Garcia</div>
       <div><span class="k">Contact</span><a href="mailto:bgarcia@cisco.com">bgarcia@cisco.com</a></div>
     </div>
-    <div class="r">
+    <div class="col r">
       <div><a href="https://github.com/Batman4NY">github.com/Batman4NY</a></div>
       <div><span class="k">Loc</span>Upper Nyack, NY</div>
     </div>
