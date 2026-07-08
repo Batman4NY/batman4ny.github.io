@@ -147,10 +147,13 @@
             <span class="r"></span>
           </div>
           <p>
-            The full enterprise SAIF is serious infrastructure — <b class="cy">Cisco AI PODs</b> built on <b class="cy">UCS C885A M8</b> dense GPU servers packing <b class="gn">8× NVIDIA HGX H200</b> or <b class="gn">B200 SXM</b> per node (NVIDIA's <b>2-8-9-400</b> pattern: 2 CPUs, 8 GPUs, 9 NICs, 400 GbE per GPU), a <b class="cy">Nexus 9364E-SG2</b> fabric on <b class="cy">Cisco Silicon One G200</b> (51.2 Tbps, 64× 800GbE), <b class="cy">Cisco Hybrid Mesh Firewall</b> offloaded to <b class="gn">NVIDIA BlueField-3</b> DPUs. A POD scales <b>4–32 nodes, up to 256 GPUs</b>. Not something an SE spins up over a weekend.
+            The full enterprise SAIF is serious infrastructure — <b class="cy">Cisco AI PODs</b> built on <b class="cy">UCS C885A M8</b> dense GPU servers packing <b class="gn">8× NVIDIA HGX H200 SXM</b> per node (or <b class="gn">8× AMD MI300X / MI350X OAM</b>) — NVIDIA's <b>2-8-9-400</b> pattern: 2 CPUs, 8 GPUs, 9 NICs, 400 Gbps per GPU to the backend fabric. Networking rides a <b class="cy">Nexus 9364E-SG2</b> fabric on <b class="cy">Cisco Silicon One G200</b> (51.2 Tbps, 64× 800GbE), with <b class="cy">Cisco Hybrid Mesh Firewall</b> offloaded to <b class="gn">NVIDIA BlueField-3</b> DPUs. Scale units are <b>32, 64, or 128 GPUs</b> (4 / 8 / 16 nodes), with incremental scale to <b>256, 512, or higher</b> GPU clusters. Not something an SE spins up over a weekend.
           </p>
           <p>
-            But the <em>pattern</em> is reproducible on <b class="gn">$0/mo</b> substrates: <b class="cy">OCI Free Tier</b> compute (2× AMD Micro + 1× ARM Ampere with 4 OCPU / 24 GB), <b class="gn">NVIDIA NIM Free Tier</b> hosted inference (5K credits/mo, replenishing), Cloudflare DNS, <b>Caddy</b> for auto-TLS via Let's Encrypt, GitHub Pages for static sites. Every layer that <em>can</em> be implemented on free-tier substrates <b>is</b> implemented. Where the reference requires enterprise hardware or paid services, the layer is honestly labeled — the <a href="/reference/">reference architecture page</a> spells it out.
+            But the <em>pattern</em> is reproducible on <b class="gn">$0/mo</b> substrates: <b class="cy">OCI Free Tier</b> compute (2× AMD E2.1.Micro + 1× ARM Ampere A1 with <b>2 OCPU / 12 GB</b><span style="font-size:11px;color:var(--ink-3);vertical-align:super">†</span>), <b class="gn">NVIDIA NIM Free Tier</b> hosted inference (up to <b>5,000 credits total</b>: 1,000 on signup + 4,000 with business-email upgrade to a 90-day NVIDIA AI Enterprise trial — not monthly-replenishing; 40 RPM default per model), Cloudflare DNS, <b>Caddy</b> for auto-TLS via Let's Encrypt, GitHub Pages for static sites. Every layer that <em>can</em> be implemented on free-tier substrates <b>is</b> implemented. Where the reference requires enterprise hardware or paid services, the layer is honestly labeled — the <a href="/reference/">reference architecture page</a> spells it out.
+          </p>
+          <p style="font-size:12.5px;color:var(--ink-3);line-height:1.55;margin:-8px 0 0">
+            <span style="font-size:11px;vertical-align:super">†</span> Oracle halved the Always Free Ampere A1 allowance from 4 OCPU / 24 GB to 2 OCPU / 12 GB on 2026-06-15; historical references to 24 GB in guides / screenshots are pre-cut. Current allowance per <a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm" style="color:var(--cyan);font-size:12.5px">docs.oracle.com Always Free Resources</a>.
           </p>
         </div>
 
@@ -175,7 +178,7 @@
             <span class="r"></span>
           </div>
           <p>
-            <b>Cisco Cloud Control</b> is Cisco's announced (pre-GA) AI-native platform for cross-domain security operations. When it ships, it's where customers will run every product on this site at production scale. This lab isn't a substitute for Cloud Control — it's the <b>hands-on foundation</b> SEs need to be fluent in the portfolio Cloud Control will orchestrate.
+            <b>Cisco Cloud Control</b> is Cisco's AI-native, agentic operating platform spanning <b class="cy">Networking</b>, <b class="cy">Security</b>, <b class="cy">Compute</b>, <b class="cy">Observability</b>, and <b class="cy">Collaboration</b> — the foundation of Cisco's <b>AgenticOps</b> model. It entered <b>Controlled Availability</b> in the US on <b>2026-06-02 at Cisco Live</b>, with Global Availability to follow. When Cloud Control reaches customers at scale, it's where they'll run every product on this site. This lab isn't a substitute — it's the <b>hands-on foundation</b> SEs need to be fluent in the portfolio Cloud Control will orchestrate.
           </p>
           <p>
             <em>Build the stack here now. Be ready to operate it there when the cockpit ships.</em> Full positioning on the <a href="/roadmap/">roadmap page</a>.

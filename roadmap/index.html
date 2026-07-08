@@ -400,7 +400,7 @@
               </div>
               <div class="saf-cell saf-cell-lab">
                 <span class="col-tag">This lab</span>
-                <span class="content"><span class="same">Same NIM</span><span class="prod">NVIDIA NIM Free</span> (hosted API, Cisco email, 5K credits/mo) · <span class="prod">Nemotron</span> chat model</span>
+                <span class="content"><span class="same">Same NIM</span><span class="prod">NVIDIA NIM Free</span> (hosted API · up to 5,000 credits total: 1K signup + 4K biz-email upgrade · 40 RPM) · <span class="prod">Nemotron</span> chat model</span>
               </div>
             </div>
 
@@ -428,11 +428,11 @@
               </div>
               <div class="saf-cell saf-cell-saf">
                 <span class="col-tag">Secure AI Factory</span>
-                <span class="content"><span class="prod">Cisco UCS</span> + <span class="prod">NVIDIA RTX PRO 4500 Blackwell</span> · <span class="prod">Cisco Unified Edge</span> (edge tier) · <span class="prod">BlueField DPU</span></span>
+                <span class="content"><span class="prod">Cisco UCS C885A M8</span> + <span class="prod">NVIDIA HGX H200 SXM</span> (or AMD MI300X/MI350X OAM) · <span class="prod">Cisco Unified Edge</span> (edge tier) · <span class="prod">BlueField-3 DPU</span></span>
               </div>
               <div class="saf-cell saf-cell-lab">
                 <span class="col-tag">This lab</span>
-                <span class="content">OCI Free Tier VMs (2 AMD + Ampere A1 24 GB) · <span class="prod">Cisco UCS C220 M8</span> (same rack, no GPU)</span>
+                <span class="content">OCI Free Tier VMs (2 AMD + Ampere A1 · 2 OCPU / 12 GB) · <span class="prod">Cisco UCS C220 M8</span> (same rack, no GPU)</span>
               </div>
             </div>
 
@@ -473,10 +473,10 @@
           </svg>
         </div>
         <div>
-          <span class="c3-eyebrow">Operational context · Cisco Cloud Control <span class="c3-pill">Announced · Pre-GA</span></span>
+          <span class="c3-eyebrow">Operational context · Cisco Cloud Control <span class="c3-pill">Controlled Availability · 2026-06-02</span></span>
           <h3 class="c3-title">The lab is the bench. <span class="c3-accent">Cloud Control will be the cockpit.</span></h3>
           <p class="c3-copy">
-            <span class="prod">Cisco Cloud Control</span> is Cisco's announced (pre-GA) AI-native platform for cross-domain security operations. When it ships, it's where customers will run every product on this page at production scale. This lab isn't a substitute for Cloud Control; it's the hands-on foundation SEs need to be fluent in the portfolio it will orchestrate. <span class="c3-emphasis">Build the stack here now. Be ready to operate it there when the cockpit ships.</span>
+            <span class="prod">Cisco Cloud Control</span> is Cisco's AI-native, agentic operating platform spanning <b>Networking</b>, <b>Security</b>, <b>Compute</b>, <b>Observability</b>, and <b>Collaboration</b> — the foundation of Cisco's <b>AgenticOps</b> model. It entered <b>Controlled Availability (US)</b> on <b>2026-06-02 at Cisco Live</b>, with Global Availability to follow. When customers run this portfolio at production scale, Cloud Control is the cockpit. This lab isn't a substitute; it's the hands-on foundation SEs need to be fluent in the portfolio it will orchestrate. <span class="c3-emphasis">Build the stack here now. Be ready to operate it there.</span>
           </p>
         </div>
       </div>
@@ -502,7 +502,7 @@
             <p class="zone-detail-desc">Hosts every public-facing surface — this site (batman4ny.github.io until pages was ready; roadmap now lives here) and the AI Defense demo. One AMD instance plus one ARM instance covers the distributed lab's public face at zero cost.</p>
             <div class="zone-detail-currently"><span class="lbl">Currently deployed</span>batman4ny.github.io (GitHub Pages) · aidefense-demo.uppernyack.com (OCI Ampere ARM)</div>
             <div class="zone-detail-specs">
-              <div class="spec"><span class="label">Compute</span><span class="val">1× AMD E2.1.Micro + 4 OCPU / 24 GB ARM A1</span></div>
+              <div class="spec"><span class="label">Compute</span><span class="val">2× AMD E2.1.Micro + 2 OCPU / 12 GB ARM A1</span></div>
               <div class="spec"><span class="label">Storage</span><span class="val">200 GB block · 20 GB object</span></div>
               <div class="spec"><span class="label">Egress</span><span class="val">10 TB / mo</span></div>
               <div class="spec"><span class="label">Guide</span><span class="val"><a href="/docs/" style="color:var(--cyan)">/docs · OCI Free Tier Lab</a></span></div>
@@ -515,12 +515,12 @@
               <span class="zone-detail-cost">Free · rate-limited</span>
             </div>
             <span class="zone-detail-provider">NVIDIA NIM · Build.nvidia.com Free Tier</span>
-            <p class="zone-detail-desc">Managed API endpoints for open-weights models — Nemotron, Llama, embedding stacks. No local GPU needed. Cisco email address unlocks a fresh credit pool every month; more than enough for on-demand chatbot demos.</p>
+            <p class="zone-detail-desc">Managed API endpoints for open-weights models — Nemotron, Llama, embedding stacks. No local GPU needed. Signup grants 1,000 credits (up to 5,000 total by upgrading to a business email under a free 90-day NVIDIA AI Enterprise trial); credits are a one-time allocation, not monthly-replenishing. Rate limit is 40 RPM by default.</p>
             <div class="zone-detail-currently"><span class="lbl">Currently deployed</span>Nemotron chat backend for the NetBox chatbot demo</div>
             <div class="zone-detail-specs">
-              <div class="spec"><span class="label">Access</span><span class="val">build.nvidia.com API key (Cisco email)</span></div>
-              <div class="spec"><span class="label">Credits</span><span class="val">5,000 / mo replenishing</span></div>
-              <div class="spec"><span class="label">Models</span><span class="val">Nemotron, Llama, embed models</span></div>
+              <div class="spec"><span class="label">Access</span><span class="val">build.nvidia.com API key</span></div>
+              <div class="spec"><span class="label">Credits</span><span class="val">Up to 5,000 total (one-time · 1K signup + 4K biz-email)</span></div>
+              <div class="spec"><span class="label">Rate limit</span><span class="val">40 RPM default per model</span></div>
               <div class="spec"><span class="label">Runs where</span><span class="val">NVIDIA-hosted (no local GPU)</span></div>
             </div>
           </div>
