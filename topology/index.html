@@ -79,15 +79,11 @@
     to{opacity:1}
   }
   .diagram-modal.open{display: flex}
-  .diagram-modal{padding: 0}
+  .diagram-modal{padding: 20px}   /* real backdrop click zone */
   .diagram-modal-inner{
     position: relative;
-    /* definite dimensions so the SVG has something to scale against;
-       resolves the shrink-to-fit chicken-and-egg with `width:100%` on the child */
-    width: 96vw;
-    height: 92vh;
-    max-width: 96vw;
-    max-height: 92vh;
+    width: 100%;
+    height: 100%;
     cursor: default;
     display: flex;
     flex-direction: column;
@@ -99,19 +95,24 @@
   }
   .diagram-modal-svg-holder{
     flex: 1 1 auto;
-    min-height: 0;           /* allow flex-shrink so height:100% resolves */
-    padding: 24px 28px 40px;  /* extra bottom pad clears the hint bar */
+    min-height: 0;
+    padding: 8px;
+    overflow: auto;              /* horizontal + vertical scroll if SVG > holder */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
   .diagram-modal-svg-holder svg{
     display: block;
-    width: 100%;
-    height: 100%;
-    /* viewBox + default preserveAspectRatio="xMidYMid meet" fits the box
-       while preserving aspect. No explicit width/height on the SVG needed. */
+    /* Fixed pixel floor + viewport-relative growth = always bigger than the
+       inline (which floors at min-width:1000px). On wide screens the SVG
+       takes ~90vw; on tight screens (or phones) it holds at 1400px native
+       and the holder scrolls — like the inline .netdiag scrolls horizontally. */
+    width: max(1400px, 90vw);
+    height: auto;
+    aspect-ratio: 1400 / 920;
+    flex-shrink: 0;              /* don't let flex compress our sized SVG */
+    margin: auto;                /* center when smaller than holder */
     cursor: default;
   }
   .diagram-modal-close{
@@ -138,9 +139,11 @@
   }
   .diagram-modal-hint b{color:var(--ink-2)}
   @media (max-width: 720px){
-    .diagram-modal-inner{width: 98vw;height: 96vh;max-width: 98vw;max-height: 96vh}
-    .diagram-modal-svg-holder{padding: 20px 16px 36px}
-    .diagram-modal-hint{font-size: 9.5px;letter-spacing:.08em}
+    .diagram-modal{padding: 8px}
+    .diagram-modal-svg-holder{padding: 4px}
+    .diagram-modal-svg-holder svg{width: max(1200px, 96vw)}
+    .diagram-modal-hint{font-size: 9.5px;letter-spacing:.08em;bottom: 6px;left: 12px}
+    .diagram-modal-close{top: 6px;right: 6px;padding: 4px 10px;font-size: 10px}
   }
 
   /* Topology canvas — reference view zone-cards */
@@ -1021,6 +1024,14 @@
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
+    /* Scroll to center of oversized SVG on open so the user sees the
+       middle of the diagram; edges are reachable by scrolling. */
+    requestAnimationFrame(function(){
+      var sx = (holder.scrollWidth  - holder.clientWidth ) / 2;
+      var sy = (holder.scrollHeight - holder.clientHeight) / 2;
+      if (sx > 0) holder.scrollLeft = sx;
+      if (sy > 0) holder.scrollTop  = sy;
+    });
   }
   function closeModal(){
     modal.classList.remove('open');
