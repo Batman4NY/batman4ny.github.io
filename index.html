@@ -67,7 +67,7 @@
   .saif-body{padding: 16px 24px 24px;display:flex;flex-direction:column;gap:6px}
 
   .saif-wrap{
-    display:grid;grid-template-columns: 130px 1fr auto;gap:14px;align-items:center;
+    display:grid;grid-template-columns: 130px 1fr auto;gap:14px;align-items:start;
     padding: 12px 18px;
     background: var(--cyan-tint);
     border: 1px dashed var(--cyan);border-radius: 6px;
@@ -75,13 +75,20 @@
     font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
   }
   .saif-wrap.sec{background: var(--green-tint);border-color: var(--green)}
-  .saif-wrap-label{color:var(--cyan);letter-spacing:.22em}
+  .saif-wrap-label{color:var(--cyan);letter-spacing:.22em;padding-top:2px}
   .saif-wrap.sec .saif-wrap-label{color:var(--green)}
-  .saif-wrap-content{color:var(--ink-2);font-size:10.5px;letter-spacing:.06em;font-weight:500;text-transform:none}
+  .saif-wrap-content{color:var(--ink-2);font-size:10.5px;letter-spacing:.06em;font-weight:500;text-transform:none;line-height:1.55}
   .saif-wrap-content .prod{color:var(--ink);font-weight:600}
+  .saif-wrap-content .impl{
+    display:block;margin-top:5px;
+    font-size:10.5px;color:var(--green);letter-spacing:.01em;font-weight:600;
+  }
+  .saif-wrap-content .impl a{color:var(--green);border-bottom:1px dotted var(--green-lo)}
+  .saif-wrap-content .impl a:hover{color:var(--green-hi);border-bottom-color:var(--green-hi)}
   .saif-wrap-status{
     font-size:9.5px;letter-spacing:.2em;color:var(--muted);font-weight:700;
     padding: 3px 8px;background:var(--paper-lo);border:1px solid var(--rule);border-radius:10px;
+    margin-top:2px;
   }
 
   .saif-layer{
@@ -411,14 +418,17 @@
               <span class="saif-layer-no">L5</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">Network Fabric</div>
-                <div class="saif-layer-content"><span class="prod">Nexus 9000</span> · <span class="prod">Silicon One</span> · <span class="prod">Nexus Dashboard</span> · <span class="prod">Hypershield</span></div>
+                <div class="saif-layer-content"><span class="prod">Nexus 9000</span> · <span class="prod">Silicon One</span> · <span class="prod">Nexus Dashboard</span> · spine/leaf VXLAN EVPN</div>
               </div>
               <span class="saif-status planned">Planned</span>
             </div>
 
             <div class="saif-wrap sec">
               <span class="saif-wrap-label">Security</span>
-              <span class="saif-wrap-content"><span class="prod">AI Defense</span> · input / args / output guards · Cisco XDR <em>(future)</em></span>
+              <span class="saif-wrap-content">
+                <span class="prod">AI Defense</span> (input / args / output guards) · <span class="prod">Isovalent</span> — Hypershield · Tetragon eBPF (Cisco 2024) · <span class="prod">Cisco XDR</span> <em>(future)</em>
+                <span class="impl">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard <b>+ Tetragon eBPF runtime observability</b> (both in the compose stack)</span>
+              </span>
               <span class="saif-wrap-status" style="color:var(--green);background:var(--green-tint);border-color:var(--green-lo)">implemented</span>
             </div>
 
