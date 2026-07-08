@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Batman4NY · Live Services</title>
+<meta name="description" content="Running services under Batman4NY — SE Lab and AI Defense demo, both live on OCI.">
+<link rel="stylesheet" href="/assets/console.css">
+<style>
+  .live-intro{
+    font-size: 14.5px;line-height: 1.6;color: var(--ink-2);margin: 0 0 22px;max-width: 78ch;
+  }
+  .live-intro b{color:var(--ink);font-weight:600}
+  .live-intro .gn{color:var(--green)}
+
+  .service-table{margin-bottom:16px}
+
+  .live-note{
+    padding: 16px 20px;
+    background: var(--paper-lo);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink-3);
+    border-radius: 6px;
+    font-size: 13px;line-height: 1.6;color: var(--ink-3);margin-top:24px;max-width:82ch;
+  }
+  .live-note b{color:var(--ink-2);font-weight:600}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bat" viewBox="0 0 100 32"><path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-8 4 16 3-10 3 6h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="8" y1="18" x2="14" y2="18"/></symbol>
+  <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4L6 22H2v-4z"/><path d="M15 5l4 4"/><path d="M18 3l3 3-2 2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><a href="/"><span class="mark"><svg><use href="#bat"/></svg></span><span class="wm">Batman4NY</span></a></div>
+    <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
+    <nav class="nav">
+      <div class="sec">Lab</div>
+      <a class="navlink" href="/"><svg><use href="#i-grid"/></svg> Overview</a>
+      <a class="navlink active" href="/live/"><svg><use href="#i-signal"/></svg> Live services<span class="live"></span></a>
+      <a class="navlink" href="/reference/"><svg><use href="#i-book"/></svg> Reference architecture</a>
+      <a class="navlink" href="/adjacent/"><svg><use href="#i-tools"/></svg> Adjacent tooling</a>
+      <a class="navlink" href="/code/"><svg><use href="#i-code"/></svg> Code<span class="cnt">3</span></a>
+      <a class="navlink" href="/docs/"><svg><use href="#i-docs"/></svg> Docs<span class="cnt">2</span></a>
+      <div class="sec">Identity</div>
+      <a class="navlink" href="/about/"><svg><use href="#i-user"/></svg> About</a>
+      <a class="navlink" href="/disclaimer/"><svg><use href="#i-warn"/></svg> Disclaimer</a>
+    </nav>
+    <div class="foot">
+      <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
+      <div class="row"><span>Services</span><b>2</b></div>
+      <div class="row"><span>All up</span><b>YES</b></div>
+      <div class="row"><span>Updated</span><b>2026·07·08</b></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span class="crumb"><b>Live services</b><span class="sep">/</span><span class="path">running URLs · reachable now</span></span>
+      <span class="status"><span><b>2</b> up</span><span class="sep">·</span><span>07·2026</span></span>
+    </div>
+
+    <div class="content">
+      <section>
+        <div class="sec-head">
+          <span class="eyebrow g">§ Live</span>
+          <span class="t">Running services</span>
+          <span class="r"></span>
+        </div>
+
+        <p class="live-intro">
+          Two Batman4NY services are currently reachable on the public internet — both hosted on <b>OCI Free Tier</b> compute (Ampere ARM64 · 4 OCPU · 12 GB), fronted by <b>Caddy</b> for auto-TLS, DNS via Cloudflare. Both surface directly on ports 443, no Cloudflare proxy between the visitor and origin.
+        </p>
+
+        <div class="service-table">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Service</th>
+                <th>Kind</th>
+                <th>URL</th>
+                <th style="text-align:right">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="title">SE Lab<span class="sub">Cisco Secure AI Factory roadmap · vision doc</span></td>
+                <td>Static site</td>
+                <td class="mono"><a href="https://ciscopulse.uppernyack.com/">ciscopulse.uppernyack.com<span class="arr">↗</span></a></td>
+                <td style="text-align:right"><span class="pill live">Live</span></td>
+              </tr>
+              <tr>
+                <td class="title">AI Defense demo<span class="sub">NetBox + Nemotron three-point guard</span></td>
+                <td>Interactive · SSE</td>
+                <td class="mono"><a href="https://aidefense-demo.uppernyack.com/">aidefense-demo.uppernyack.com<span class="arr">↗</span></a></td>
+                <td style="text-align:right"><span class="pill live">Live</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="live-note">
+          <b>Uptime philosophy.</b> No 24/7 SLA. If either service becomes unreachable, it means the OCI instance is being rebooted for updates, or something has broken and I'll fix it when I notice. For the demo especially, use it while it's up. Both services host their own state — no third-party dependencies beyond Cloudflare DNS and Let's Encrypt cert renewal (automatic via Caddy).
+        </p>
+      </section>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

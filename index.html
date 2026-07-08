@@ -8,396 +8,95 @@
 <meta name="description" content="Working index of Cisco Secure AI Factory implementation + practitioner tooling. By Billy Garcia, Cisco GES Premier DC Systems Engineer.">
 <link rel="stylesheet" href="/assets/console.css">
 <style>
-  /* ── landing-specific: overview intro + SAIF diagram ─────────────── */
-  .overview-block{
+  /* Landing hero + nav-card grid */
+  .hero-block{
     background: var(--paper);
     border: 1px solid var(--rule);
     border-radius: 10px;
-    padding: 24px 26px;
-    margin-bottom: 16px;
+    padding: 32px 34px 30px;
+    margin-bottom: 28px;
   }
-  .overview-block h1{
-    font-size: 26px;font-weight: 780;letter-spacing: -.022em;line-height: 1.14;
-    margin: 4px 0 12px;color: var(--ink);max-width: 30ch;
+  .hero-block h1{
+    font-size: clamp(30px, 4vw, 42px);font-weight: 780;letter-spacing: -.028em;line-height: 1.1;
+    margin: 4px 0 18px;color: var(--ink);max-width: 24ch;
   }
-  .overview-block h1 .cy{color:var(--cyan)}
-  .overview-block h1 .gn{color:var(--green)}
-  .overview-block p{
-    font-size:14.5px;line-height:1.62;color:var(--ink-2);margin:0 0 8px;max-width:78ch;
+  .hero-block h1 .cy{color:var(--cyan)}
+  .hero-block h1 .gn{color:var(--green)}
+  .hero-block p{
+    font-size:16px;line-height:1.6;color:var(--ink-2);margin:0;max-width:70ch;
   }
-  .overview-block p b{color:var(--ink);font-weight:600}
-  .overview-block p .cy{color:var(--cyan)}
-  .overview-block p .gn{color:var(--green)}
-  .overview-block .who{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;
-    display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;
-    padding-top:16px;border-top:1px solid var(--rule);
-  }
-  .overview-block .who b{color:var(--ink-2);font-weight:600}
-  .overview-block .who .sep{color:var(--faint)}
+  .hero-block p b{color:var(--ink);font-weight:600}
+  .hero-block p .cy{color:var(--cyan)}
+  .hero-block p .gn{color:var(--green)}
 
-  /* ── SAIF diagram ────────────────────────────────────────────────── */
-  .saif{
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-radius: 10px;
-    overflow:hidden;
+  .nav-cards{
+    display:grid;grid-template-columns: repeat(3, 1fr);gap: 12px;margin-bottom: 8px;
   }
-  .saif-head{
-    padding: 18px 24px 16px;
-    border-bottom: 1px solid var(--rule);
-    background: var(--paper-hi);
-    display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
-  }
-  .saif-head .t{
-    font-size: 13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-  }
-  .saif-head .t .cy{color:var(--cyan)}
-  .saif-head .t .gn{color:var(--green)}
-  .saif-head .x{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;letter-spacing:.06em;color:var(--ink-3);
-  }
-  .saif-head .x b{color:var(--ink-2);font-weight:700}
-  .saif-head .x .cy{color:var(--cyan)}
-  .saif-head .x .gn{color:var(--green)}
+  @media(max-width:820px){.nav-cards{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.nav-cards{grid-template-columns:1fr}}
 
-  .saif-body{padding: 16px 24px 24px;display:flex;flex-direction:column;gap:6px}
-
-  .saif-wrap{
-    display:grid;grid-template-columns: 130px 1fr auto;gap:14px;align-items:start;
-    padding: 12px 18px;
-    background: var(--cyan-tint);
-    border: 1px dashed var(--cyan);border-radius: 6px;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
-  }
-  .saif-wrap.sec{background: var(--green-tint);border-color: var(--green)}
-  .saif-wrap-label{color:var(--cyan);letter-spacing:.22em;padding-top:2px}
-  .saif-wrap.sec .saif-wrap-label{color:var(--green)}
-  .saif-wrap-content{color:var(--ink-2);font-size:10.5px;letter-spacing:.06em;font-weight:500;text-transform:none;line-height:1.55}
-  .saif-wrap-content .prod{color:var(--ink);font-weight:600}
-  .saif-wrap-content .impl{
-    display:block;margin-top:5px;
-    font-size:10.5px;color:var(--green);letter-spacing:.01em;font-weight:600;
-  }
-  .saif-wrap-content .impl a{color:var(--green);border-bottom:1px dotted var(--green-lo)}
-  .saif-wrap-content .impl a:hover{color:var(--green-hi);border-bottom-color:var(--green-hi)}
-  .saif-wrap-status{
-    font-size:9.5px;letter-spacing:.2em;color:var(--muted);font-weight:700;
-    padding: 3px 8px;background:var(--paper-lo);border:1px solid var(--rule);border-radius:10px;
-    margin-top:2px;
-  }
-
-  .saif-layer{
-    display:grid;grid-template-columns: 48px 1fr auto auto;gap: 14px;align-items:center;
-    padding: 14px 18px;
-    background: var(--paper-lo);
-    border: 1px solid var(--rule);border-radius: 6px;
-    transition: .16s ease;
-  }
-  .saif-wrap{grid-template-columns: 130px 1fr auto auto}
-
-  /* ── tier chips: per-layer 'where does this run' indicator ────────── */
-  .tier-chips{
-    display:inline-flex;gap:3px;align-items:center;flex-shrink:0;
-  }
-  .tier-chip{
-    display:inline-flex;align-items:center;justify-content:center;
-    min-width:22px;height:18px;padding:0 5px;
-    border-radius:3px;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:8.5px;letter-spacing:.05em;font-weight:700;line-height:1;
-    color:var(--faint);background:var(--paper-lo);border:1px solid var(--rule);
-    transition:.16s ease;
-  }
-  .tier-chip.on.c{color:var(--cyan);border-color:var(--cyan-lo);background:var(--cyan-tint)}
-  .tier-chip.on.le{color:var(--green);border-color:var(--green-lo);background:var(--green-tint)}
-  .tier-chip.on.ee{color:var(--amber);border-color:var(--amber-line);background:var(--amber-tint)}
-  .tier-chip.on.sp{color:var(--ink-2);border-color:var(--rule-str);background:var(--paper-hi)}
-  @media(max-width:640px){.tier-chips{display:none}}
-
-  /* ── agent security section — cross-cuts L2 + Security wrap ──────── */
-  .agent-panel{
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .agent-head{
-    padding: 18px 24px 16px;
-    background: linear-gradient(90deg, var(--paper-hi) 0%, var(--paper) 100%);
-    border-bottom: 1px solid var(--rule);
-    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
-  }
-  .agent-head .t{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:700;
-  }
-  .agent-head .t .accent{color:var(--cyan)}
-  .agent-head .x{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;color:var(--ink-3);letter-spacing:.08em;
-  }
-  .agent-head .x b{color:var(--ink-2);font-weight:700}
-
-  .agent-body{padding: 18px 24px 22px}
-  .agent-desc{
-    font-size:13.5px;line-height:1.62;color:var(--ink-2);margin: 0 0 18px;max-width:80ch;
-  }
-  .agent-desc b{color:var(--ink);font-weight:600}
-  .agent-desc .cy{color:var(--cyan)}
-  .agent-desc .gn{color:var(--green)}
-
-  .agent-grid{
-    display:grid;grid-template-columns: repeat(4, 1fr);gap: 10px;margin-bottom:16px;
-  }
-  @media(max-width:900px){.agent-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.agent-grid{grid-template-columns:1fr}}
-
-  .agent-comp{
-    background: var(--paper-lo);
-    border: 1px solid var(--rule);
-    border-left: 3px solid var(--cyan);
-    border-radius: 6px;
-    padding: 14px 16px;
+  .nav-card{
     display:flex;flex-direction:column;gap:8px;
+    padding: 18px 20px 20px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    text-decoration:none;color:inherit;
+    transition: border-color .16s ease, background .16s ease;
+    position:relative;
   }
-  .agent-comp.g{border-left-color: var(--green)}
-  .agent-comp .name{
+  .nav-card:hover{border-color: var(--cyan);background: var(--paper-hi);text-decoration:none}
+  .nav-card .k{
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:12px;letter-spacing:.02em;color:var(--ink);font-weight:700;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
   }
-  .agent-comp .name .v{color:var(--cyan-hi)}
-  .agent-comp.g .name .v{color:var(--green-hi)}
-  .agent-comp .role{
+  .nav-card h3{
+    font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.008em;line-height:1.2;
+    margin: 0;
+    transition: color .16s ease;
+  }
+  .nav-card:hover h3{color:var(--cyan-hi)}
+  .nav-card .desc{
+    font-size:12.5px;line-height:1.5;color:var(--ink-2);margin: 0;flex:1;
+  }
+  .nav-card .arr{
+    position:absolute;top: 18px;right:20px;
+    color:var(--ink-3);transition: color .16s ease, transform .16s ease;
+    font-family: "JetBrains Mono", ui-monospace, monospace;font-size:14px;
+  }
+  .nav-card:hover .arr{color:var(--cyan);transform:translate(2px,-2px)}
+  .nav-card .meta{
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);
+    padding-top:8px;border-top:1px solid var(--rule);margin-top:4px;
   }
-  .agent-comp .desc{
-    font-size:11.5px;line-height:1.5;color:var(--ink-2);margin:0;
+  .nav-card .meta .live{
+    color:var(--green);font-weight:700;
   }
-  .agent-comp .layer{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:9.5px;color:var(--muted);letter-spacing:.14em;font-weight:600;
-    padding-top:8px;border-top:1px solid var(--rule);
-  }
-  .agent-comp .layer .l{color:var(--ink-3);font-weight:700}
-
-  .agent-foot{
-    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
-    padding: 14px 24px;background: var(--paper-lo);border-top: 1px solid var(--rule);
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;color:var(--ink-3);letter-spacing:.02em;
-  }
-  .agent-foot .l b{color:var(--ink-2);font-weight:700}
-  .agent-foot .l .gn{color:var(--green)}
-  .agent-foot .r a{color:var(--cyan)}
-  .saif-layer:hover{border-color: var(--rule-str);background: var(--paper-hi)}
-  .saif-layer-no{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-align:center;
-    padding: 4px 0;background:var(--paper);border:1px solid var(--rule);border-radius:4px;line-height:1;
-  }
-  .saif-layer-body{min-width:0}
-  .saif-layer-name{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700;
-    margin-bottom: 4px;
-  }
-  .saif-layer-content{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;line-height:1.5;
-  }
-  .saif-layer-content .prod{color:var(--ink-2)}
-  .saif-layer-map{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;color:var(--green);letter-spacing:.01em;margin-top: 5px;
-  }
-  .saif-layer-map a{color:var(--green)}
-  .saif-layer-map a:hover{color:var(--green-hi)}
-  .saif-status{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:9.5px;letter-spacing:.2em;font-weight:700;text-transform:uppercase;
-    padding: 3px 8px;border-radius:10px;line-height:1;white-space:nowrap;
-  }
-  .saif-status.planned{color:var(--muted);background:var(--paper);border:1px solid var(--rule)}
-  .saif-status.adj{color:var(--cyan);background:var(--cyan-tint);border:1px solid var(--cyan-lo)}
-  .saif-status.impl{color:var(--green);background:var(--green-tint);border:1px solid var(--green-lo)}
-  .saif-status.impl::before{
-    content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--green);
-    box-shadow:0 0 0 2px var(--green-glow);margin-right:6px;vertical-align:1px;
+  .nav-card .meta .live::before{
+    content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
+    background:var(--green);box-shadow:0 0 0 2px var(--green-glow);
+    margin-right:6px;vertical-align:1px;
     animation:pulse 2.6s ease-in-out infinite;
   }
-  .saif-status.part{color:var(--green-hi);background:var(--green-tint);border:1px solid var(--green-lo);opacity:.95}
-  .saif-status.part::before{
-    content:"◐";display:inline-block;color:var(--green);font-size:11px;line-height:1;
-    margin-right:5px;vertical-align:0;
-  }
-
-  /* Green marker on actually-implemented products in the reference list */
-  .saif-layer-content .prod.impl,
-  .saif-wrap-content .prod.impl{
-    color: var(--green-hi);font-weight:700;
-  }
-  .saif-layer-content .prod.impl::after,
-  .saif-wrap-content .prod.impl::after{
-    content:"●";color:var(--green);font-size:7px;margin-left:4px;vertical-align:2px;
-  }
-
-  .saif-layer.hit{background:linear-gradient(180deg, var(--green-tint) 0%, transparent 100%);border-color:var(--green-lo)}
-  .saif-layer.hit .saif-layer-no{color:var(--green);border-color:var(--green-lo);background:var(--paper)}
-  .saif-layer.adj{background:linear-gradient(180deg, var(--cyan-tint) 0%, transparent 100%);border-color:var(--cyan-lo)}
-  .saif-layer.adj .saif-layer-no{color:var(--cyan);border-color:var(--cyan-lo);background:var(--paper)}
-  .saif-layer.adj .saif-layer-map{color:var(--cyan)}
-  .saif-layer.adj .saif-layer-map a{color:var(--cyan)}
-
-  .saif-foot{
-    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
-    padding: 14px 24px;background: var(--paper-lo);border-top: 1px solid var(--rule);
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;letter-spacing:.06em;color:var(--ink-3);
-  }
-  .saif-foot .l b{color:var(--ink-2);font-weight:700}
-  .saif-foot .r a{color:var(--cyan)}
-
-  .legend{
-    display:flex;gap:16px;flex-wrap:wrap;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;letter-spacing:.08em;color:var(--ink-3);font-weight:600;
-    padding: 12px 0 0;
-  }
-  .legend .item{display:inline-flex;align-items:center;gap:8px}
-  .legend .sw{width:12px;height:12px;border-radius:3px;border:1px solid transparent}
-  .legend .sw.impl{background:var(--green-tint);border-color:var(--green-lo)}
-  .legend .sw.adj{background:var(--cyan-tint);border-color:var(--cyan-lo)}
-  .legend .sw.planned{background:var(--paper-lo);border-color:var(--rule)}
-
-  /* Live services mini strip */
-  .services{margin-top: 24px}
-
-  /* ── deployment tiers (Central DC / Local Edge / Enterprise Edge / SP Edge) ── */
-  .tiers-grid{
-    display:grid;grid-template-columns: repeat(4, 1fr);gap: 12px;
-  }
-  @media(max-width:900px){.tiers-grid{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.tiers-grid{grid-template-columns:1fr}}
-
-  .tier-card{
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-top: 3px solid var(--ink-3);
-    border-radius: 8px;
-    padding: 16px 18px 18px;
-    display:flex;flex-direction:column;gap:10px;
-    transition: border-color .16s ease;
-  }
-  .tier-card:hover{border-color: var(--rule-str)}
-  .tier-card.dc{border-top-color: var(--cyan)}
-  .tier-card.le{border-top-color: var(--green)}
-  .tier-card.ee{border-top-color: var(--amber)}
-  .tier-card.sp{border-top-color: var(--muted)}
-
-  .tier-card .name{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
-    color:var(--ink);line-height:1;
-  }
-  .tier-card.dc .name{color:var(--cyan-hi)}
-  .tier-card.le .name{color:var(--green-hi)}
-  .tier-card.ee .name{color:var(--amber)}
-  .tier-card.sp .name{color:var(--ink-2)}
-
-  .tier-card .focus{
-    font-size:13px;line-height:1.55;color:var(--ink-2);margin:0;
-  }
-  .tier-card .focus b{color:var(--ink);font-weight:600}
-  .tier-card .prods{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;line-height:1.6;
-    padding-top:10px;border-top:1px solid var(--rule);
-  }
-  .tier-card .prods .prod{color:var(--ink);font-weight:600}
-  .tier-card .status{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
-    padding: 3px 8px;border-radius:10px;line-height:1;
-    align-self:flex-start;
-    display:inline-flex;align-items:center;gap:5px;
-  }
-  .tier-card .status.covered{color:var(--green);background:var(--green-tint);border:1px solid var(--green-lo)}
-  .tier-card .status.covered::before{
-    content:"";width:5px;height:5px;border-radius:50%;background:var(--green);
-    box-shadow:0 0 0 2px var(--green-glow);animation:pulse 2.6s ease-in-out infinite;
-  }
-  .tier-card .status.out{color:var(--muted);background:var(--paper-lo);border:1px solid var(--rule)}
-
-  /* ── adjacent tooling (not in SAIF, but the lab needs it) ────────── */
-  .adj-tooling{display:flex;flex-direction:column;gap:12px}
-  .adj-tool{
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-left: 3px solid var(--ink-3);
-    border-radius: 6px;
-    padding: 18px 22px;
-    display:grid;grid-template-columns: 1fr auto;gap: 16px;align-items:center;
-  }
-  .adj-tool:hover{border-color: var(--rule-str);border-left-color:var(--cyan)}
-  .adj-tool .body{min-width:0}
-  .adj-tool .head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
-  .adj-tool .name{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 14px;font-weight: 700;color: var(--ink);letter-spacing: .01em;
-  }
-  .adj-tool .role{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    padding: 2px 8px;background: var(--paper-hi);border: 1px solid var(--rule);border-radius: 10px;line-height:1.4;
-  }
-  .adj-tool .desc{
-    font-size: 13px;line-height: 1.55;color: var(--ink-2);margin: 0;max-width: 70ch;
-  }
-  .adj-tool .desc b{color:var(--ink);font-weight:600}
-  .adj-tool .link{
-    display:inline-flex;align-items:center;gap:8px;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 11.5px;color: var(--cyan);letter-spacing:.02em;font-weight:700;
-    padding: 9px 14px;background: var(--cyan-tint);
-    border: 1px solid var(--cyan-lo);border-radius: 6px;transition: .16s ease;
-    white-space:nowrap;
-  }
-  .adj-tool .link:hover{background: var(--cyan);color: var(--bg);text-decoration:none}
-  .adj-tool .link .arr{transition:transform .16s ease}
-  .adj-tool .link:hover .arr{transform:translateX(3px)}
-  @media(max-width:640px){.adj-tool{grid-template-columns:1fr}.adj-tool .link{justify-content:center}}
 </style>
 </head>
 <body>
 
 <!-- ── icon defs ────────────────────────────────────────────────────── -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <symbol id="bat" viewBox="0 0 100 32">
-    <path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/>
-  </symbol>
-  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/>
-  </symbol>
-  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/>
-  </symbol>
-  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
-  </symbol>
-  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/>
-  </symbol>
+  <symbol id="bat" viewBox="0 0 100 32"><path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-8 4 16 3-10 3 6h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="8" y1="18" x2="14" y2="18"/></symbol>
+  <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4L6 22H2v-4z"/><path d="M15 5l4 4"/><path d="M18 3l3 3-2 2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></symbol>
 </defs></svg>
 
 <div class="app">
-
-  <!-- SIDEBAR -->
   <aside class="side">
     <div class="brand">
       <a href="/">
@@ -408,33 +107,18 @@
     <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
 
     <nav class="nav">
+      <div class="sec">Lab</div>
+      <a class="navlink active" href="/"><svg><use href="#i-grid"/></svg> Overview</a>
+      <a class="navlink" href="/live/"><svg><use href="#i-signal"/></svg> Live services<span class="live"></span></a>
+      <a class="navlink" href="/reference/"><svg><use href="#i-book"/></svg> Reference architecture</a>
+      <a class="navlink" href="/adjacent/"><svg><use href="#i-tools"/></svg> Adjacent tooling</a>
 
-      <details class="nav-group" open>
-        <summary>Lab</summary>
-        <div class="sub-links">
-          <a class="sub-link active" href="/">Overview</a>
-          <a class="sub-link" href="/#live">Live services<span class="live"></span></a>
-          <a class="sub-link" href="/#reference">Reference architecture</a>
-          <a class="sub-link" href="/#adjacent">Adjacent tooling</a>
-        </div>
-      </details>
-
-      <a class="navlink" href="/code/">
-        <svg><use href="#i-code"/></svg> Code
-        <span class="cnt">3</span>
-      </a>
-      <a class="navlink" href="/docs/">
-        <svg><use href="#i-docs"/></svg> Docs
-        <span class="cnt">2</span>
-      </a>
+      <a class="navlink" href="/code/"><svg><use href="#i-code"/></svg> Code<span class="cnt">3</span></a>
+      <a class="navlink" href="/docs/"><svg><use href="#i-docs"/></svg> Docs<span class="cnt">2</span></a>
 
       <div class="sec">Identity</div>
-      <a class="navlink" href="/about/">
-        <svg><use href="#i-user"/></svg> About
-      </a>
-      <a class="navlink" href="/disclaimer/">
-        <svg><use href="#i-warn"/></svg> Disclaimer
-      </a>
+      <a class="navlink" href="/about/"><svg><use href="#i-user"/></svg> About</a>
+      <a class="navlink" href="/disclaimer/"><svg><use href="#i-warn"/></svg> Disclaimer</a>
     </nav>
 
     <div class="foot">
@@ -445,332 +129,72 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main>
     <div class="topbar">
       <span class="crumb"><b>Overview</b><span class="sep">/</span><span class="path">batman4ny.github.io</span></span>
-      <span class="status">
-        <span>rev <b>latest</b></span>
-        <span class="sep">·</span>
-        <span>07·2026</span>
-      </span>
+      <span class="status"><span>rev <b>latest</b></span><span class="sep">·</span><span>07·2026</span></span>
     </div>
 
     <div class="content">
 
-      <!-- OVERVIEW -->
-      <section id="overview">
-        <div class="sec-head">
-          <span class="eyebrow">§ Overview</span>
-          <span class="t">Who / what / why</span>
-          <span class="r"></span>
-          <span class="x">console for a working home-lab implementation</span>
-        </div>
-        <div class="overview-block">
+      <section>
+        <div class="hero-block">
           <h1><span class="cy">Cisco Secure AI Factory</span>, implemented in a home lab.</h1>
           <p>
-            A working home-lab rendering of the <b>Cisco Secure AI Factory with NVIDIA</b> reference architecture. Every layer that has a Batman4NY <a href="/code/">implementation</a> or an <a href="/docs/">adjacent tool</a> is marked below. Everything runs on <span class="cy">OCI Free Tier</span> and <span class="gn">NVIDIA NIM Free Tier</span> — <b>$0/month, perpetual, reproducible</b>.
+            A working rendering of the <b>Cisco Secure AI Factory with NVIDIA</b> reference architecture on <b class="cy">OCI Free Tier</b> + <b class="gn">NVIDIA NIM Free Tier</b> — <b>$0/mo, perpetual, reproducible</b>. Real code, live URLs, published guides. Each section below carries the depth for its topic.
           </p>
-          <p>
-            Not a slide deck. <b>Real code, live URLs, published guides.</b> See <a href="/code/">/code</a> for the repos, <a href="/docs/">/docs</a> for the guides, and <a href="/#reference">the diagram below</a> for the vision this implements.
-          </p>
-          <div class="who">
-            <span><b>BILLY GARCIA</b></span>
-            <span class="sep">·</span>
-            <span>Cisco GES Premier DC SE</span>
-            <span class="sep">·</span>
-            <span>Upper Nyack, NY</span>
-            <span class="sep">·</span>
-            <a href="/about/">/about</a>
-          </div>
+        </div>
+
+        <div class="nav-cards">
+          <a class="nav-card" href="/live/">
+            <span class="arr">→</span>
+            <span class="k">Live services</span>
+            <h3>What's running now</h3>
+            <p class="desc">SE Lab site and AI Defense demo — both on OCI, both reachable now.</p>
+            <div class="meta"><span class="live">2 services live</span></div>
+          </a>
+
+          <a class="nav-card" href="/reference/">
+            <span class="arr">→</span>
+            <span class="k">Reference architecture</span>
+            <h3>SAIF stack, layer by layer</h3>
+            <p class="desc">Cisco Secure AI Factory with NVIDIA — full L1-L5 stack with per-layer implementation status. The deep-dive page.</p>
+            <div class="meta">3 layers partial · 1 adj · 3 planned</div>
+          </a>
+
+          <a class="nav-card" href="/adjacent/">
+            <span class="arr">→</span>
+            <span class="k">Adjacent tooling</span>
+            <h3>Practitioner substrate</h3>
+            <p class="desc">Standard DC operator tooling that doesn't map to a SAIF layer — but the lab needs it.</p>
+            <div class="meta">ConsolePi · OOB serial</div>
+          </a>
+
+          <a class="nav-card" href="/code/">
+            <span class="arr">→</span>
+            <span class="k">Code</span>
+            <h3>Public repositories</h3>
+            <p class="desc">Every artifact is open source. Repo entries with HEAD, kind, jump-offs to GitHub + live URL.</p>
+            <div class="meta">3 repos · Apache-2.0</div>
+          </a>
+
+          <a class="nav-card" href="/docs/">
+            <span class="arr">→</span>
+            <span class="k">Docs</span>
+            <h3>Published guides</h3>
+            <p class="desc">Long-form technical walk-throughs on mkdocs-material. Reproduce the lab yourself.</p>
+            <div class="meta">2 guides · ~17K words</div>
+          </a>
+
+          <a class="nav-card" href="/about/">
+            <span class="arr">→</span>
+            <span class="k">Identity</span>
+            <h3>About Billy Garcia</h3>
+            <p class="desc">Cisco GES Premier DC Systems Engineer. Upper Nyack, NY. Contact + role.</p>
+            <div class="meta">Batman4NY on GitHub</div>
+          </a>
         </div>
       </section>
-
-      <!-- LIVE (compact) -->
-      <section id="live" class="services">
-        <div class="sec-head">
-          <span class="eyebrow g">§ Live</span>
-          <span class="t">Running services</span>
-          <span class="r"></span>
-          <span class="x"><b>2</b> services · both on OCI</span>
-        </div>
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th>Service</th>
-              <th>Kind</th>
-              <th>URL</th>
-              <th style="text-align:right">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="title">SE Lab<span class="sub">Cisco Secure AI Factory roadmap · vision doc</span></td>
-              <td>Static site</td>
-              <td class="mono"><a href="https://ciscopulse.uppernyack.com/">ciscopulse.uppernyack.com<span class="arr">↗</span></a></td>
-              <td style="text-align:right"><span class="pill live">Live</span></td>
-            </tr>
-            <tr>
-              <td class="title">AI Defense demo<span class="sub">NetBox + Nemotron three-point guard</span></td>
-              <td>Interactive · SSE</td>
-              <td class="mono"><a href="https://aidefense-demo.uppernyack.com/">aidefense-demo.uppernyack.com<span class="arr">↗</span></a></td>
-              <td style="text-align:right"><span class="pill live">Live</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- REFERENCE ARCHITECTURE — the main visual -->
-      <section id="reference">
-        <div class="sec-head">
-          <span class="eyebrow">§ Reference architecture</span>
-          <span class="t">The vision, layer by layer</span>
-          <span class="r"></span>
-          <span class="x">source: <a href="https://ciscopulse.uppernyack.com/" style="color:var(--cyan)">ciscopulse.uppernyack.com</a></span>
-        </div>
-
-        <div class="saif">
-          <div class="saif-head">
-            <span class="t"><span class="cy">Cisco Secure AI Factory</span> with <span class="gn">NVIDIA</span></span>
-            <span class="x">home-lab: <b class="gn">3 layers partial</b> · <b class="cy">1</b> adj · <b>3</b> planned &nbsp;·&nbsp; ● = product live in demo &nbsp;·&nbsp; tier chips: <b class="cy">C</b> Central DC · <b class="gn">LE</b> Local Edge · <b style="color:var(--amber)">EE</b> Enterprise Edge · <b>SP</b> SP Edge</span>
-          </div>
-
-          <div class="saif-body">
-
-            <div class="saif-wrap">
-              <span class="saif-wrap-label">Observability</span>
-              <span class="saif-wrap-content"><span class="prod">ThousandEyes</span> · <span class="prod">Talos</span> · Splunk <em>(future)</em> · XDR <em>(future)</em></span>
-              <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge · SP Edge">
-                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
-              </span>
-              <span class="saif-wrap-status">planned</span>
-            </div>
-
-            <div class="saif-layer">
-              <span class="saif-layer-no">L1</span>
-              <div class="saif-layer-body">
-                <div class="saif-layer-name">Access &amp; Apps</div>
-                <div class="saif-layer-content"><span class="prod">Duo</span> · <span class="prod">Umbrella</span> · TLS ingress · AI Defense on API edge</div>
-              </div>
-              <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge · SP Edge">
-                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
-              </span>
-              <span class="saif-status planned">Planned</span>
-            </div>
-
-            <div class="saif-layer hit">
-              <span class="saif-layer-no">L2</span>
-              <div class="saif-layer-body">
-                <div class="saif-layer-name">AI Runtime</div>
-                <div class="saif-layer-content"><span class="prod">NVIDIA AI Enterprise</span> · <span class="prod impl">NIM</span> · <span class="prod impl">Nemotron</span> · <span class="prod">OpenShell</span> · <span class="prod">Agent Toolkit</span></div>
-                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — hosted NIM + Nemotron behind the three-point guard <em>(the ● items above are live in the demo)</em></div>
-              </div>
-              <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge (not SP Edge)">
-                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span>
-              </span>
-              <span class="saif-status part">Partial · 2/5</span>
-            </div>
-
-            <div class="saif-layer hit">
-              <span class="saif-layer-no">L3</span>
-              <div class="saif-layer-body">
-                <div class="saif-layer-name">Data</div>
-                <div class="saif-layer-content"><span class="prod impl">NetBox</span> · vector store · knowledge base sources</div>
-                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — NetBox as source of truth <em>(the ● item above is live)</em></div>
-              </div>
-              <span class="tier-chips" title="Deployed at: Central DC · Local Edge (data locality)">
-                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip">EE</span><span class="tier-chip">SP</span>
-              </span>
-              <span class="saif-status part">Partial · 1/3</span>
-            </div>
-
-            <div class="saif-layer adj">
-              <span class="saif-layer-no">L4</span>
-              <div class="saif-layer-body">
-                <div class="saif-layer-name">Compute</div>
-                <div class="saif-layer-content"><span class="prod">Cisco UCS</span> + <span class="prod">NVIDIA RTX PRO 4500 Blackwell</span> · <span class="prod">Cisco Unified Edge</span> (edge tier)</div>
-                <div class="saif-layer-map">→ <a href="https://batman4ny.github.io/oci-free-tier-lab/">OCI Free Tier Lab</a> — home-lab compute substrate (2× AMD Micro + 1× Ampere A1)</div>
-              </div>
-              <span class="tier-chips" title="Deployed at all tiers (different scales)">
-                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
-              </span>
-              <span class="saif-status adj">Adjacent</span>
-            </div>
-
-            <div class="saif-layer">
-              <span class="saif-layer-no">L5</span>
-              <div class="saif-layer-body">
-                <div class="saif-layer-name">Network Fabric</div>
-                <div class="saif-layer-content"><span class="prod">Cisco N9100</span> (102.4T · Spectrum-6) · <span class="prod">Silicon One G300 / P200</span> · <span class="prod">NVIDIA Spectrum-X</span> · <span class="prod">Cisco Nexus One</span> (mgmt + Hyperfabric) · NX-OS / SONiC</div>
-              </div>
-              <span class="tier-chips" title="Primarily Central DC (fabric switches at scale); some Enterprise Edge for on-prem fabric">
-                <span class="tier-chip on c">C</span><span class="tier-chip">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span>
-              </span>
-              <span class="saif-status planned">Planned</span>
-            </div>
-
-            <div class="saif-wrap sec">
-              <span class="saif-wrap-label">Security</span>
-              <span class="saif-wrap-content">
-                <span class="prod impl">Cisco AI Defense</span> (LLM I/O guard) · <span class="prod">Cisco Hybrid Mesh Firewall</span> on <span class="prod">NVIDIA BlueField DPUs</span> (Isovalent Hypershield · east-west) · <span class="prod">NVIDIA NeMo Guardrails</span> (agent guardrails) · <span class="prod impl">Tetragon eBPF</span> · <span class="prod">Cisco XDR</span> <em>(future)</em>
-                <span class="impl">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard <b>+ Tetragon eBPF runtime observability</b> <em>(the ● items above are live in the compose stack; the rest are reference-only)</em></span>
-              </span>
-              <span class="tier-chips" title="Security wrap deployed at all tiers">
-                <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
-              </span>
-              <span class="saif-wrap-status" style="color:var(--green-hi);background:var(--green-tint);border-color:var(--green-lo);opacity:.95">◐ Partial · 2 / 5</span>
-            </div>
-
-          </div>
-
-          <div class="saif-foot">
-            <span class="l"><b>Deployed:</b> OCI Free Tier · 2× AMD E2.1.Micro + 1× Ampere A1.Flex · Ubuntu 24.04 · Caddy TLS · Cloudflare DNS</span>
-            <span class="r"><a href="https://ciscopulse.uppernyack.com/">Full stack write-up ↗</a></span>
-          </div>
-        </div>
-
-        <div class="legend">
-          <span class="item"><span class="sw impl"></span>Partial — one or more products from the layer's list run in the demo</span>
-          <span class="item"><span class="sw adj"></span>Adjacent — home-lab substitute for the reference product</span>
-          <span class="item"><span class="sw planned"></span>Planned — reference only</span>
-          <span class="item" style="color:var(--green-hi);font-weight:600">● Green marker = product is live in the demo compose stack</span>
-        </div>
-      </section>
-
-      <!-- DEPLOYMENT TIERS — orthogonal to L1-L5, where SAIF actually runs -->
-      <section id="tiers">
-        <div class="sec-head">
-          <span class="eyebrow">§ Deployment tiers</span>
-          <span class="t">Where SAIF actually runs</span>
-          <span class="r"></span>
-          <span class="x">GTC 2026 tier framing · lab coverage: <b class="cy">Central DC</b> only</span>
-        </div>
-
-        <div class="tiers-grid">
-          <div class="tier-card dc">
-            <div class="name">Central DC</div>
-            <p class="focus"><b>Large-scale AI factory.</b> Training and high-throughput inference. Where the full SAIF stack lives at scale.</p>
-            <div class="prods">
-              <span class="prod">Cisco UCS</span> + RTX PRO 4500 Blackwell · <span class="prod">Cisco N9100</span> (Spectrum-6) · <span class="prod">Silicon One G300/P200</span> · <span class="prod">Nexus One</span> · <span class="prod">Hybrid Mesh Firewall</span> on BlueField
-            </div>
-            <span class="status covered">In lab</span>
-          </div>
-
-          <div class="tier-card le">
-            <div class="name">Local Edge</div>
-            <p class="focus"><b>Real-time decision points.</b> Hospitals, warehouses, moving vehicles — where latency to a central DC would defeat the use case.</p>
-            <div class="prods">
-              <span class="prod">Cisco Unified Edge</span> · edge GPU compute · low-latency inference · edge AI runtime
-            </div>
-            <span class="status out">Not covered</span>
-          </div>
-
-          <div class="tier-card ee">
-            <div class="name">Enterprise Edge</div>
-            <p class="focus"><b>Mission-critical AI on edge hardware.</b> Enterprise sites running AI workloads that need locality and high availability.</p>
-            <div class="prods">
-              <span class="prod">Cisco Unified Edge</span> · edge compute + storage · HA topology · SAIF policy locally
-            </div>
-            <span class="status out">Not covered</span>
-          </div>
-
-          <div class="tier-card sp">
-            <div class="name">SP Edge</div>
-            <p class="focus"><b>Managed edge AI for customers.</b> Service providers hosting multi-tenant AI at the operator edge.</p>
-            <div class="prods">
-              <span class="prod">Cisco Mobility Services Platform</span> · multi-tenant edge · SP-managed AI · policy fan-out
-            </div>
-            <span class="status out">Not covered</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- AGENT SECURITY — cross-cuts L2 (runtime) and Security wrap (policy) -->
-      <section id="agent-security">
-        <div class="sec-head">
-          <span class="eyebrow">§ Agent security</span>
-          <span class="t">Emerging cross-cutting pattern</span>
-          <span class="r"></span>
-          <span class="x">cuts across <b>L2</b> + Security wrap · GTC 2026</span>
-        </div>
-
-        <div class="agent-panel">
-          <div class="agent-head">
-            <span class="t"><span class="accent">Agent runtime + policy</span> — where an autonomous agent runs and how it's governed</span>
-            <span class="x">status: <b>implemented</b> (LLM I/O guard) · <b>planned</b> (guardrails · agent runtime)</span>
-          </div>
-
-          <div class="agent-body">
-            <p class="agent-desc">
-              As LLM systems become <b>agentic</b> — invoking tools, calling other agents, taking actions with real consequences — a distinct security surface emerges that doesn't cleanly belong to any single SAIF layer. It runs at <b class="cy">L2 (AI Runtime)</b> for the runtime components and at the <b class="gn">Security wrap</b> for guardrails and policy. The GTC 2026 Cisco+NVIDIA co-announcement calls this out as a first-class integration pattern.
-            </p>
-
-            <div class="agent-grid">
-              <div class="agent-comp">
-                <div class="name"><span class="v">NVIDIA OpenShell</span></div>
-                <div class="role">Agent development platform</div>
-                <p class="desc">Runtime + tooling for building autonomous agents. The substrate the agent lives on.</p>
-                <div class="layer"><span class="l">Sits at</span> · L2 AI Runtime</div>
-              </div>
-
-              <div class="agent-comp">
-                <div class="name"><span class="v">NVIDIA Agent Toolkit</span></div>
-                <div class="role">Agent runtime tools</div>
-                <p class="desc">Libraries + connectors for building agents that invoke tools and other agents. The plumbing.</p>
-                <div class="layer"><span class="l">Sits at</span> · L2 AI Runtime</div>
-              </div>
-
-              <div class="agent-comp g">
-                <div class="name"><span class="v">NVIDIA NeMo Guardrails</span></div>
-                <div class="role">Runtime guardrails</div>
-                <p class="desc">Rails on what the LLM/agent can say + do. Programmable policy at inference time. Complements AI Defense.</p>
-                <div class="layer"><span class="l">Sits at</span> · Security wrap</div>
-              </div>
-
-              <div class="agent-comp g">
-                <div class="name"><span class="v">Cisco AI Defense</span></div>
-                <div class="role">LLM I/O guard</div>
-                <p class="desc">Three-point inspection of input · tool args · output. Catches prompt injection, destructive tool calls, PII/credential exfil.</p>
-                <div class="layer"><span class="l">Sits at</span> · Security wrap</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="agent-foot">
-            <span class="l"><b>Home-lab coverage:</b> <span class="gn">Cisco AI Defense (three-point guard)</span> live in the demo. NeMo Guardrails · OpenShell · Agent Toolkit remain planned.</span>
-            <span class="r">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">netbox-aidefense-demo ↗</a></span>
-          </div>
-        </div>
-      </section>
-
-      <!-- ADJACENT TOOLING — practitioner tools that don't map to a SAIF layer -->
-      <section id="adjacent">
-        <div class="sec-head">
-          <span class="eyebrow m">§ Adjacent tooling</span>
-          <span class="t">Practitioner substrate</span>
-          <span class="r"></span>
-          <span class="x">not in SAIF — but every lab needs it</span>
-        </div>
-
-        <div class="adj-tooling">
-          <div class="adj-tool">
-            <div class="body">
-              <div class="head">
-                <span class="name">ConsolePi</span>
-                <span class="role">OOB · Serial console</span>
-              </div>
-              <p class="desc">
-                Out-of-band (OOB) serial console server on Raspberry Pi hardware. Terminates serial from <b>Cisco Secure Firewalls</b> (1200 / 3100 / 4200) via USB-C native CDC-ACM, and from legacy DC gear via RJ45 with USB-serial adapters. Used for initial device bring-up and management-plane recovery. Not part of SAIF — standard DC operator tooling.
-              </p>
-            </div>
-            <a class="link" href="https://batman4ny.github.io/consolepi-build-guide/">
-              <span>Build guide</span>
-              <span class="arr">↗</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
     </div>
   </main>
 </div>

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Batman4NY · Adjacent Tooling</title>
+<meta name="description" content="Practitioner substrate — standard DC operator tooling that doesn't map to a SAIF layer but the lab needs.">
+<link rel="stylesheet" href="/assets/console.css">
+<style>
+  .adj-intro{
+    font-size: 14.5px;line-height: 1.6;color: var(--ink-2);margin: 0 0 24px;max-width: 78ch;
+  }
+  .adj-intro b{color:var(--ink);font-weight:600}
+  .adj-intro .cy{color:var(--cyan)}
+
+  .adj-tooling{display:flex;flex-direction:column;gap:12px}
+  .adj-tool{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink-3);
+    border-radius: 6px;
+    padding: 22px 24px;
+    display:grid;grid-template-columns: 1fr auto;gap: 20px;align-items:center;
+  }
+  .adj-tool:hover{border-color: var(--rule-str);border-left-color:var(--cyan)}
+  .adj-tool .body{min-width:0}
+  .adj-tool .head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+  .adj-tool .name{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 15px;font-weight: 700;color: var(--ink);letter-spacing: .01em;
+  }
+  .adj-tool .role{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    padding: 2px 8px;background: var(--paper-hi);border: 1px solid var(--rule);border-radius: 10px;line-height:1.4;
+  }
+  .adj-tool .desc{
+    font-size: 13.5px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 70ch;
+  }
+  .adj-tool .desc b{color:var(--ink);font-weight:600}
+  .adj-tool .link{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;color: var(--cyan);letter-spacing:.02em;font-weight:700;
+    padding: 10px 16px;background: var(--cyan-tint);
+    border: 1px solid var(--cyan-lo);border-radius: 6px;transition: .16s ease;
+    white-space:nowrap;
+  }
+  .adj-tool .link:hover{background: var(--cyan);color: var(--bg);text-decoration:none}
+  .adj-tool .link .arr{transition:transform .16s ease}
+  .adj-tool .link:hover .arr{transform:translateX(3px)}
+  @media(max-width:640px){.adj-tool{grid-template-columns:1fr}.adj-tool .link{justify-content:center}}
+
+  .adj-future{
+    margin-top: 24px;padding: 16px 20px;
+    background: var(--paper-lo);border: 1px solid var(--rule);border-radius: 6px;
+    font-size: 12.5px;line-height: 1.6;color: var(--ink-3);max-width: 82ch;
+    font-family: "JetBrains Mono", ui-monospace, monospace;letter-spacing:.02em;
+  }
+  .adj-future b{color:var(--ink-2);font-weight:700}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bat" viewBox="0 0 100 32"><path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-8 4 16 3-10 3 6h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="8" y1="18" x2="14" y2="18"/></symbol>
+  <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4L6 22H2v-4z"/><path d="M15 5l4 4"/><path d="M18 3l3 3-2 2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><a href="/"><span class="mark"><svg><use href="#bat"/></svg></span><span class="wm">Batman4NY</span></a></div>
+    <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
+    <nav class="nav">
+      <div class="sec">Lab</div>
+      <a class="navlink" href="/"><svg><use href="#i-grid"/></svg> Overview</a>
+      <a class="navlink" href="/live/"><svg><use href="#i-signal"/></svg> Live services<span class="live"></span></a>
+      <a class="navlink" href="/reference/"><svg><use href="#i-book"/></svg> Reference architecture</a>
+      <a class="navlink active" href="/adjacent/"><svg><use href="#i-tools"/></svg> Adjacent tooling</a>
+      <a class="navlink" href="/code/"><svg><use href="#i-code"/></svg> Code<span class="cnt">3</span></a>
+      <a class="navlink" href="/docs/"><svg><use href="#i-docs"/></svg> Docs<span class="cnt">2</span></a>
+      <div class="sec">Identity</div>
+      <a class="navlink" href="/about/"><svg><use href="#i-user"/></svg> About</a>
+      <a class="navlink" href="/disclaimer/"><svg><use href="#i-warn"/></svg> Disclaimer</a>
+    </nav>
+    <div class="foot">
+      <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
+      <div class="row"><span>Tools</span><b>1</b></div>
+      <div class="row"><span>Category</span><b>OOB</b></div>
+      <div class="row"><span>Updated</span><b>2026·07·08</b></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span class="crumb"><b>Adjacent tooling</b><span class="sep">/</span><span class="path">practitioner substrate · not in SAIF</span></span>
+      <span class="status"><span><b>1</b> tool</span><span class="sep">·</span><span>07·2026</span></span>
+    </div>
+
+    <div class="content">
+      <section>
+        <div class="sec-head">
+          <span class="eyebrow m">§ Adjacent tooling</span>
+          <span class="t">Standard DC operator tooling</span>
+          <span class="r"></span>
+        </div>
+
+        <p class="adj-intro">
+          Tools that don't map to a SAIF layer — but the lab needs them. Every DC operator has some version of these: <b>out-of-band console access</b>, <b>emergency management-plane recovery</b>, <b>physical device provisioning</b>. Not in the reference architecture, but assumed by everyone who's ever brought up a switch or firewall from a bare rack.
+        </p>
+
+        <div class="adj-tooling">
+          <div class="adj-tool">
+            <div class="body">
+              <div class="head">
+                <span class="name">ConsolePi</span>
+                <span class="role">OOB · Serial console</span>
+              </div>
+              <p class="desc">
+                Out-of-band (OOB) serial console server on Raspberry Pi hardware. Terminates serial from <b>Cisco Secure Firewalls</b> (1200 / 3100 / 4200) via USB-C native CDC-ACM, and from legacy DC gear via RJ45 with USB-serial adapters. Used for initial device bring-up and management-plane recovery.
+              </p>
+            </div>
+            <a class="link" href="https://batman4ny.github.io/consolepi-build-guide/">
+              <span>Build guide</span>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </div>
+
+        <p class="adj-future">
+          <b>ROADMAP.</b> More practitioner-adjacent tooling will land here as it's built — bare-metal provisioning, DC power-audit scripts, config-diff harnesses for change windows. If you have a suggestion for something an SE actually needs but no one publishes, <a href="mailto:bgarcia@cisco.com" style="color:var(--cyan)">bgarcia@cisco.com</a>.
+        </p>
+      </section>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

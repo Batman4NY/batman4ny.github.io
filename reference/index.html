@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Batman4NY · Reference Architecture</title>
+<meta name="description" content="Cisco Secure AI Factory with NVIDIA — full L1-L5 stack with per-layer implementation status. The deep-dive reference page.">
+<link rel="stylesheet" href="/assets/console.css">
+<link rel="stylesheet" href="/assets/reference.css">
+<style>
+  .ref-intro{
+    font-size: 14.5px;line-height: 1.6;color: var(--ink-2);margin: 0 0 22px;max-width: 78ch;
+  }
+  .ref-intro b{color:var(--ink);font-weight:600}
+  .ref-intro .cy{color:var(--cyan)}
+  .ref-intro .gn{color:var(--green)}
+  .ref-tier-note{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;color: var(--ink-3);letter-spacing:.02em;line-height:1.6;
+    margin: 24px 0;padding: 14px 20px;
+    background: var(--paper-lo);border: 1px solid var(--rule);border-radius: 6px;
+  }
+  .ref-tier-note b{color:var(--ink);font-weight:700}
+  .ref-tier-note .cy{color:var(--cyan-hi)}
+
+  .agent-note{
+    font-size: 14px;line-height: 1.62;color: var(--ink-2);
+    margin: 32px 0 4px;padding: 20px 24px;
+    background: var(--paper);border: 1px solid var(--rule);border-left: 3px solid var(--cyan);border-radius: 6px;
+    max-width: 82ch;
+  }
+  .agent-note h3{
+    font-size:14px;font-weight:700;color:var(--ink);letter-spacing:.02em;line-height:1;
+    margin: 0 0 10px;text-transform:uppercase;
+    font-family: "JetBrains Mono", ui-monospace, monospace;letter-spacing:.14em;
+  }
+  .agent-note h3 .accent{color:var(--cyan)}
+  .agent-note b{color:var(--ink);font-weight:600}
+  .agent-note .cy{color:var(--cyan)}
+  .agent-note .gn{color:var(--green)}
+  .agent-note a{color:var(--cyan)}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bat" viewBox="0 0 100 32"><path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-8 4 16 3-10 3 6h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="8" y1="18" x2="14" y2="18"/></symbol>
+  <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4L6 22H2v-4z"/><path d="M15 5l4 4"/><path d="M18 3l3 3-2 2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><a href="/"><span class="mark"><svg><use href="#bat"/></svg></span><span class="wm">Batman4NY</span></a></div>
+    <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
+    <nav class="nav">
+      <div class="sec">Lab</div>
+      <a class="navlink" href="/"><svg><use href="#i-grid"/></svg> Overview</a>
+      <a class="navlink" href="/live/"><svg><use href="#i-signal"/></svg> Live services<span class="live"></span></a>
+      <a class="navlink active" href="/reference/"><svg><use href="#i-book"/></svg> Reference architecture</a>
+      <a class="navlink" href="/adjacent/"><svg><use href="#i-tools"/></svg> Adjacent tooling</a>
+      <a class="navlink" href="/code/"><svg><use href="#i-code"/></svg> Code<span class="cnt">3</span></a>
+      <a class="navlink" href="/docs/"><svg><use href="#i-docs"/></svg> Docs<span class="cnt">2</span></a>
+      <div class="sec">Identity</div>
+      <a class="navlink" href="/about/"><svg><use href="#i-user"/></svg> About</a>
+      <a class="navlink" href="/disclaimer/"><svg><use href="#i-warn"/></svg> Disclaimer</a>
+    </nav>
+    <div class="foot">
+      <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
+      <div class="row"><span>Layers</span><b>7</b></div>
+      <div class="row"><span>Partial</span><b>3</b></div>
+      <div class="row"><span>Updated</span><b>2026·07·08</b></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span class="crumb"><b>Reference architecture</b><span class="sep">/</span><span class="path">SAIF stack · L1-L5 · GTC 2026 product line-up</span></span>
+      <span class="status"><span><b>3</b> partial</span><span class="sep">·</span><span><b>1</b> adj</span><span class="sep">·</span><span><b>3</b> planned</span></span>
+    </div>
+
+    <div class="content">
+      <section>
+        <div class="sec-head">
+          <span class="eyebrow">§ Reference architecture</span>
+          <span class="t">Cisco Secure AI Factory with NVIDIA</span>
+          <span class="r"></span>
+          <span class="x">source: <a href="https://ciscopulse.uppernyack.com/" style="color:var(--cyan)">ciscopulse.uppernyack.com ↗</a></span>
+        </div>
+
+        <p class="ref-intro">
+          The <b class="cy">Cisco Secure AI Factory with NVIDIA</b> reference architecture, layer by layer. Each row shows the reference products, deployment-tier coverage (via chips), and the home-lab implementation status. Product names taken from the <b>GTC 2026</b> Cisco+NVIDIA co-announcement. A green <b class="gn">●</b> marker means the product actually runs in the AI Defense demo.
+        </p>
+
+        <div class="saif">
+          <div class="saif-head">
+            <span class="t"><span class="cy">Cisco Secure AI Factory</span> with <span class="gn">NVIDIA</span></span>
+            <span class="x">home-lab: <b class="gn">3</b> partial · <b class="cy">1</b> adj · <b>3</b> planned</span>
+          </div>
+
+          <div class="saif-body">
+
+            <div class="saif-wrap">
+              <span class="saif-wrap-label">Observability</span>
+              <span class="saif-wrap-content"><span class="prod">ThousandEyes</span> · <span class="prod">Talos</span> · Splunk <em>(future)</em> · XDR <em>(future)</em></span>
+              <span class="tier-chips" title="All tiers"><span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span></span>
+              <span class="saif-wrap-status">planned</span>
+            </div>
+
+            <div class="saif-layer">
+              <span class="saif-layer-no">L1</span>
+              <div class="saif-layer-body">
+                <div class="saif-layer-name">Access &amp; Apps</div>
+                <div class="saif-layer-content"><span class="prod">Duo</span> · <span class="prod">Umbrella</span> · TLS ingress · AI Defense on API edge</div>
+              </div>
+              <span class="tier-chips" title="All tiers"><span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span></span>
+              <span class="saif-status planned">Planned</span>
+            </div>
+
+            <div class="saif-layer hit">
+              <span class="saif-layer-no">L2</span>
+              <div class="saif-layer-body">
+                <div class="saif-layer-name">AI Runtime</div>
+                <div class="saif-layer-content"><span class="prod">NVIDIA AI Enterprise</span> · <span class="prod impl">NIM</span> · <span class="prod impl">Nemotron</span> · <span class="prod">OpenShell</span> · <span class="prod">Agent Toolkit</span></div>
+              </div>
+              <span class="tier-chips" title="Central DC · Local Edge · Enterprise Edge"><span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span></span>
+              <span class="saif-status part">Partial · 2/5</span>
+            </div>
+
+            <div class="saif-layer hit">
+              <span class="saif-layer-no">L3</span>
+              <div class="saif-layer-body">
+                <div class="saif-layer-name">Data</div>
+                <div class="saif-layer-content"><span class="prod impl">NetBox</span> · vector store · knowledge base sources</div>
+              </div>
+              <span class="tier-chips" title="Central DC · Local Edge (data locality)"><span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip">EE</span><span class="tier-chip">SP</span></span>
+              <span class="saif-status part">Partial · 1/3</span>
+            </div>
+
+            <div class="saif-layer adj">
+              <span class="saif-layer-no">L4</span>
+              <div class="saif-layer-body">
+                <div class="saif-layer-name">Compute</div>
+                <div class="saif-layer-content"><span class="prod">Cisco UCS</span> + <span class="prod">NVIDIA RTX PRO 4500 Blackwell</span> · <span class="prod">Cisco Unified Edge</span> (edge tier)</div>
+                <div class="saif-layer-map">→ <a href="https://batman4ny.github.io/oci-free-tier-lab/">OCI Free Tier Lab</a> — home-lab compute substrate (2× AMD Micro + 1× Ampere A1)</div>
+              </div>
+              <span class="tier-chips" title="All tiers (different scales)"><span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span></span>
+              <span class="saif-status adj">Adjacent</span>
+            </div>
+
+            <div class="saif-layer">
+              <span class="saif-layer-no">L5</span>
+              <div class="saif-layer-body">
+                <div class="saif-layer-name">Network Fabric</div>
+                <div class="saif-layer-content"><span class="prod">Cisco N9100</span> (102.4T · Spectrum-6) · <span class="prod">Silicon One G300 / P200</span> · <span class="prod">NVIDIA Spectrum-X</span> · <span class="prod">Cisco Nexus One</span> (mgmt + Hyperfabric) · NX-OS / SONiC</div>
+              </div>
+              <span class="tier-chips" title="Central DC · some Enterprise Edge"><span class="tier-chip on c">C</span><span class="tier-chip">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span></span>
+              <span class="saif-status planned">Planned</span>
+            </div>
+
+            <div class="saif-wrap sec">
+              <span class="saif-wrap-label">Security</span>
+              <span class="saif-wrap-content">
+                <span class="prod impl">Cisco AI Defense</span> · <span class="prod">Cisco Hybrid Mesh Firewall</span> on <span class="prod">NVIDIA BlueField DPUs</span> · <span class="prod">NVIDIA NeMo Guardrails</span> · <span class="prod impl">Tetragon eBPF</span> · <span class="prod">Cisco XDR</span> <em>(future)</em>
+              </span>
+              <span class="tier-chips" title="All tiers"><span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span></span>
+              <span class="saif-wrap-status" style="color:var(--green-hi);background:var(--green-tint);border-color:var(--green-lo);opacity:.95">Partial · 2 / 5</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="legend">
+          <span class="item"><span class="sw impl"></span>Partial — at least one product from the layer's reference list runs in the demo</span>
+          <span class="item"><span class="sw adj"></span>Adjacent — home-lab substitute for the reference product</span>
+          <span class="item"><span class="sw planned"></span>Planned — reference-only</span>
+          <span class="item" style="color:var(--green-hi);font-weight:600">● = product live in demo compose stack</span>
+        </div>
+
+        <p class="ref-tier-note">
+          <b>Deployment tiers.</b> SAIF is positioned across four tiers per the GTC 2026 co-announcement — Central DC · Local Edge · Enterprise Edge · SP Edge — reflected as chips on each layer above. <span class="cy">Lab coverage is Central DC only</span>; Local Edge (real-time inference), Enterprise Edge (mission-critical on-prem), and SP Edge (managed multi-tenant) are reference-only. Full write-up: <a href="https://ciscopulse.uppernyack.com/" style="color:var(--cyan)">ciscopulse.uppernyack.com ↗</a>
+        </p>
+
+        <div class="agent-note">
+          <h3><span class="accent">§</span> Agent security — emerging cross-cutting pattern</h3>
+          <p style="margin:0">
+            As LLM systems become <b>agentic</b> — invoking tools, calling other agents, taking actions — a distinct security surface emerges that doesn't cleanly belong to one SAIF layer. It runs at <b class="cy">L2 · AI Runtime</b> (via NVIDIA OpenShell + Agent Toolkit) and at the <b class="gn">Security wrap</b> (via NVIDIA NeMo Guardrails + Cisco AI Defense). All four products are already listed in their home layers above; the pattern is the framing — GTC 2026 calls this out as a first-class integration.
+            <br><br>
+            <b>Lab coverage:</b> <span class="gn">Cisco AI Defense</span> is live (three-point guard in the <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a>). NeMo Guardrails · OpenShell · Agent Toolkit remain planned.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
