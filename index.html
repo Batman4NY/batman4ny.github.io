@@ -388,8 +388,8 @@
               <span class="saif-layer-no">L2</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">AI Runtime</div>
-                <div class="saif-layer-content"><span class="prod">NVIDIA NIM</span> (hosted) · <span class="prod">Nemotron</span> · Cisco AI Defense guard</div>
-                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard (input · args · output)</div>
+                <div class="saif-layer-content"><span class="prod">NVIDIA AI Enterprise</span> · <span class="prod">NIM</span> · <span class="prod">Nemotron</span> · <span class="prod">OpenShell</span> · <span class="prod">Agent Toolkit</span></div>
+                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — hosted NIM + Nemotron behind the three-point guard</div>
               </div>
               <span class="saif-status impl">Implemented</span>
             </div>
@@ -408,8 +408,8 @@
               <span class="saif-layer-no">L4</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">Compute</div>
-                <div class="saif-layer-content">DGX / HGX / on-prem GPU pods · edge inference</div>
-                <div class="saif-layer-map">→ <a href="https://batman4ny.github.io/oci-free-tier-lab/">OCI Free Tier Lab</a> — home-lab substitute (2× AMD + 1× ARM)</div>
+                <div class="saif-layer-content"><span class="prod">Cisco UCS</span> + <span class="prod">NVIDIA RTX PRO 4500 Blackwell</span> · <span class="prod">Cisco Unified Edge</span> (edge tier)</div>
+                <div class="saif-layer-map">→ <a href="https://batman4ny.github.io/oci-free-tier-lab/">OCI Free Tier Lab</a> — home-lab compute substrate (2× AMD Micro + 1× Ampere A1)</div>
               </div>
               <span class="saif-status adj">Adjacent</span>
             </div>
@@ -418,7 +418,7 @@
               <span class="saif-layer-no">L5</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">Network Fabric</div>
-                <div class="saif-layer-content"><span class="prod">Nexus 9000</span> · <span class="prod">Silicon One</span> · <span class="prod">Nexus Dashboard</span> · spine/leaf VXLAN EVPN</div>
+                <div class="saif-layer-content"><span class="prod">Cisco N9100</span> (102.4T · Spectrum-6) · <span class="prod">Silicon One G300 / P200</span> · <span class="prod">NVIDIA Spectrum-X</span> · <span class="prod">Cisco Nexus One</span> (mgmt + Hyperfabric) · NX-OS / SONiC</div>
               </div>
               <span class="saif-status planned">Planned</span>
             </div>
@@ -426,7 +426,7 @@
             <div class="saif-wrap sec">
               <span class="saif-wrap-label">Security</span>
               <span class="saif-wrap-content">
-                <span class="prod">AI Defense</span> (input / args / output guards) · <span class="prod">Isovalent</span> — Hypershield · Tetragon eBPF (Cisco 2024) · <span class="prod">Cisco XDR</span> <em>(future)</em>
+                <span class="prod">Cisco AI Defense</span> (LLM I/O guard) · <span class="prod">Cisco Hybrid Mesh Firewall</span> on <span class="prod">NVIDIA BlueField DPUs</span> (Isovalent Hypershield · east-west) · <span class="prod">NVIDIA NeMo Guardrails</span> (agent guardrails) · Tetragon eBPF · <span class="prod">Cisco XDR</span> <em>(future)</em>
                 <span class="impl">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard <b>+ Tetragon eBPF runtime observability</b> (both in the compose stack)</span>
               </span>
               <span class="saif-wrap-status" style="color:var(--green);background:var(--green-tint);border-color:var(--green-lo)">implemented</span>
@@ -435,7 +435,7 @@
           </div>
 
           <div class="saif-foot">
-            <span class="l"><b>Deployed:</b> OCI Free Tier · 2× AMD E2.1.Micro + 1× Ampere A1.Flex · Ubuntu 24.04 · Caddy TLS · Cloudflare DNS</span>
+            <span class="l"><b>Deployed:</b> OCI Free Tier · 2× AMD E2.1.Micro + 1× Ampere A1.Flex · Ubuntu 24.04 · Caddy TLS · Cloudflare DNS &nbsp;·&nbsp; <b>SAIF tiers:</b> Central DC · Local Edge · Enterprise Edge · Service Provider Edge</span>
             <span class="r"><a href="https://ciscopulse.uppernyack.com/">Full stack write-up ↗</a></span>
           </div>
         </div>
