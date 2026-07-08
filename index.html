@@ -29,55 +29,14 @@
   .hero-block p .cy{color:var(--cyan)}
   .hero-block p .gn{color:var(--green)}
 
-  .nav-cards{
-    display:grid;grid-template-columns: repeat(3, 1fr);gap: 12px;margin-bottom: 8px;
-  }
-  @media(max-width:820px){.nav-cards{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.nav-cards{grid-template-columns:1fr}}
-
-  .nav-card{
-    display:flex;flex-direction:column;gap:8px;
-    padding: 18px 20px 20px;
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    text-decoration:none;color:inherit;
-    transition: border-color .16s ease, background .16s ease;
-    position:relative;
-  }
-  .nav-card:hover{border-color: var(--cyan);background: var(--paper-hi);text-decoration:none}
-  .nav-card .k{
+  .hero-hint{
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    font-size: 11px;letter-spacing: .18em;text-transform: uppercase;color: var(--ink-3);font-weight: 600;
+    margin-top: 20px;
+    display: inline-flex;align-items: center;gap: 10px;
   }
-  .nav-card h3{
-    font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.008em;line-height:1.2;
-    margin: 0;
-    transition: color .16s ease;
-  }
-  .nav-card:hover h3{color:var(--cyan-hi)}
-  .nav-card .desc{
-    font-size:12.5px;line-height:1.5;color:var(--ink-2);margin: 0;flex:1;
-  }
-  .nav-card .arr{
-    position:absolute;top: 18px;right:20px;
-    color:var(--ink-3);transition: color .16s ease, transform .16s ease;
-    font-family: "JetBrains Mono", ui-monospace, monospace;font-size:14px;
-  }
-  .nav-card:hover .arr{color:var(--cyan);transform:translate(2px,-2px)}
-  .nav-card .meta{
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);
-    padding-top:8px;border-top:1px solid var(--rule);margin-top:4px;
-  }
-  .nav-card .meta .live{
-    color:var(--green);font-weight:700;
-  }
-  .nav-card .meta .live::before{
-    content:"";display:inline-block;width:6px;height:6px;border-radius:50%;
-    background:var(--green);box-shadow:0 0 0 2px var(--green-glow);
-    margin-right:6px;vertical-align:1px;
-    animation:pulse 2.6s ease-in-out infinite;
+  .hero-hint::before{
+    content: "";width: 22px;height: 1px;background: var(--ink-3);
   }
 </style>
 </head>
@@ -141,58 +100,9 @@
         <div class="hero-block">
           <h1><span class="cy">Cisco Secure AI Factory</span>, implemented in a home lab.</h1>
           <p>
-            A working rendering of the <b>Cisco Secure AI Factory with NVIDIA</b> reference architecture on <b class="cy">OCI Free Tier</b> + <b class="gn">NVIDIA NIM Free Tier</b> — <b>$0/mo, perpetual, reproducible</b>. Real code, live URLs, published guides. Each section below carries the depth for its topic.
+            A working rendering of the <b>Cisco Secure AI Factory with NVIDIA</b> reference architecture on <b class="cy">OCI Free Tier</b> + <b class="gn">NVIDIA NIM Free Tier</b> — <b>$0/mo, perpetual, reproducible</b>. Real code, live URLs, published guides.
           </p>
-        </div>
-
-        <div class="nav-cards">
-          <a class="nav-card" href="/live/">
-            <span class="arr">→</span>
-            <span class="k">Live services</span>
-            <h3>What's running now</h3>
-            <p class="desc">SE Lab site and AI Defense demo — both on OCI, both reachable now.</p>
-            <div class="meta"><span class="live">2 services live</span></div>
-          </a>
-
-          <a class="nav-card" href="/reference/">
-            <span class="arr">→</span>
-            <span class="k">Reference architecture</span>
-            <h3>SAIF stack, layer by layer</h3>
-            <p class="desc">Cisco Secure AI Factory with NVIDIA — full L1-L5 stack with per-layer implementation status. The deep-dive page.</p>
-            <div class="meta">3 layers partial · 1 adj · 3 planned</div>
-          </a>
-
-          <a class="nav-card" href="/adjacent/">
-            <span class="arr">→</span>
-            <span class="k">Adjacent tooling</span>
-            <h3>Practitioner substrate</h3>
-            <p class="desc">Standard DC operator tooling that doesn't map to a SAIF layer — but the lab needs it.</p>
-            <div class="meta">ConsolePi · OOB serial</div>
-          </a>
-
-          <a class="nav-card" href="/code/">
-            <span class="arr">→</span>
-            <span class="k">Code</span>
-            <h3>Public repositories</h3>
-            <p class="desc">Every artifact is open source. Repo entries with HEAD, kind, jump-offs to GitHub + live URL.</p>
-            <div class="meta">3 repos · Apache-2.0</div>
-          </a>
-
-          <a class="nav-card" href="/docs/">
-            <span class="arr">→</span>
-            <span class="k">Docs</span>
-            <h3>Published guides</h3>
-            <p class="desc">Long-form technical walk-throughs on mkdocs-material. Reproduce the lab yourself.</p>
-            <div class="meta">2 guides · ~17K words</div>
-          </a>
-
-          <a class="nav-card" href="/about/">
-            <span class="arr">→</span>
-            <span class="k">Identity</span>
-            <h3>About Billy Garcia</h3>
-            <p class="desc">Cisco GES Premier DC Systems Engineer. Upper Nyack, NY. Contact + role.</p>
-            <div class="meta">Batman4NY on GitHub</div>
-          </a>
+          <div class="hero-hint">Sidebar ← for each section</div>
         </div>
       </section>
     </div>
