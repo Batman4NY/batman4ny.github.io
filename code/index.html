@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Batman4NY · Code — Public Repositories</title>
+<meta name="description" content="Public GitHub repositories under Batman4NY — Cisco DC SE lab implementations and practitioner tooling.">
+<link rel="stylesheet" href="/assets/console.css">
+<style>
+  /* ── code-page specific: repo entries ────────────────────────────── */
+  .repo{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    margin-bottom: 18px;
+    overflow: hidden;
+    transition: border-color .16s ease;
+  }
+  .repo:hover{border-color: var(--rule-str)}
+  .repo-head{
+    padding: 20px 24px 18px;
+    display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;
+    border-bottom: 1px solid var(--rule);
+    background: linear-gradient(180deg, var(--paper-hi) 0%, var(--paper) 100%);
+  }
+  .repo-head .name-block{flex:1;min-width:220px}
+  .repo-head .name{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 18px;font-weight: 700;color: var(--ink);letter-spacing: -.008em;line-height: 1.2;
+  }
+  .repo-head .name .org{color:var(--ink-3);font-weight:500}
+  .repo-head .name a{color:var(--ink)}
+  .repo-head .name a:hover{color:var(--cyan)}
+  .repo-head .desc{
+    font-size: 14px;line-height: 1.55;color: var(--ink-2);margin: 8px 0 0;max-width: 76ch;
+  }
+  .repo-head .desc b{color:var(--ink);font-weight:600}
+  .repo-head .pills{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+
+  .repo-body{
+    padding: 16px 24px;
+    display:grid;grid-template-columns: repeat(auto-fit,minmax(200px,1fr));gap:16px 24px;
+  }
+  .repo-field{display:flex;flex-direction:column;gap:4px}
+  .repo-field .k{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:700;
+  }
+  .repo-field .v{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:12.5px;color:var(--ink-2);letter-spacing:.005em;
+  }
+  .repo-field .v b{color:var(--ink);font-weight:700}
+  .repo-field .v .sha{color:var(--cyan);font-weight:700}
+
+  .repo-jumps{
+    display:flex;gap:10px;flex-wrap:wrap;padding: 14px 24px 20px;
+    border-top: 1px solid var(--rule);
+    background: var(--paper-lo);
+  }
+  .repo-jump{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:12px;color:var(--cyan);font-weight:700;letter-spacing:.02em;
+    padding: 9px 16px;background: var(--cyan-tint);
+    border: 1px solid var(--cyan-lo);border-radius: 6px;transition: .16s ease;
+  }
+  .repo-jump:hover{background: var(--cyan);color: var(--bg);text-decoration:none}
+  .repo-jump .arr{transition: transform .16s ease}
+  .repo-jump:hover .arr{transform: translateX(3px)}
+  .repo-jump.gh{color:var(--ink);background:var(--paper-hi);border-color:var(--rule-str)}
+  .repo-jump.gh:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+  .repo-summary{
+    display:grid;grid-template-columns: 1fr 1fr 1fr;gap:0;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;overflow:hidden;
+    margin-bottom: 24px;
+  }
+  .repo-summary .cell{padding:22px 22px 20px;border-right: 1px solid var(--rule)}
+  .repo-summary .cell:last-child{border-right:0}
+  .repo-summary .cell .k{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:700;
+    margin-bottom:8px;
+  }
+  .repo-summary .cell .v{
+    font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.024em;line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .repo-summary .cell .v.cy{color:var(--cyan)}
+  .repo-summary .cell .v.gn{color:var(--green)}
+  .repo-summary .cell .sub{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;margin-top:8px;
+  }
+  @media(max-width:640px){.repo-summary{grid-template-columns:1fr}.repo-summary .cell{border-right:0;border-bottom:1px solid var(--rule)}.repo-summary .cell:last-child{border-bottom:0}}
+
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bat" viewBox="0 0 100 32">
+    <path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/>
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/>
+  </symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/>
+  </symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+  </symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/>
+  </symbol>
+</defs></svg>
+
+<div class="app">
+
+  <aside class="side">
+    <div class="brand">
+      <a href="/">
+        <span class="mark"><svg><use href="#bat"/></svg></span>
+        <span class="wm">Batman4NY</span>
+      </a>
+    </div>
+    <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
+
+    <nav class="nav">
+
+      <details class="nav-group">
+        <summary>Lab</summary>
+        <div class="sub-links">
+          <a class="sub-link" href="/">Overview</a>
+          <a class="sub-link" href="/#live">Live services<span class="live"></span></a>
+          <a class="sub-link" href="/#reference">Reference architecture</a>
+        </div>
+      </details>
+
+      <a class="navlink active" href="/code/">
+        <svg><use href="#i-code"/></svg> Code
+        <span class="cnt">3</span>
+      </a>
+      <a class="navlink" href="/docs/">
+        <svg><use href="#i-docs"/></svg> Docs
+        <span class="cnt">2</span>
+      </a>
+
+      <div class="sec">Identity</div>
+      <a class="navlink" href="/about/">
+        <svg><use href="#i-user"/></svg> About
+      </a>
+      <a class="navlink" href="/disclaimer/">
+        <svg><use href="#i-warn"/></svg> Disclaimer
+      </a>
+    </nav>
+
+    <div class="foot">
+      <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
+      <div class="row"><span>Repos</span><b>3</b></div>
+      <div class="row"><span>License</span><b>Apache-2.0</b></div>
+      <div class="row"><span>Updated</span><b>2026·07·08</b></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span class="crumb"><b>Code</b><span class="sep">/</span><span class="path">public repositories · Batman4NY on GitHub</span></span>
+      <span class="status">
+        <span><b>3</b> repos</span>
+        <span class="sep">·</span>
+        <span><b>0</b> private</span>
+        <span class="sep">·</span>
+        <span>Apache-2.0</span>
+      </span>
+    </div>
+
+    <div class="content">
+
+      <section>
+        <div class="sec-head">
+          <span class="eyebrow">§ Code</span>
+          <span class="t">Public repositories</span>
+          <span class="r"></span>
+          <span class="x">source: <a href="https://github.com/Batman4NY" style="color:var(--cyan)">github.com/Batman4NY ↗</a></span>
+        </div>
+
+        <div class="repo-summary">
+          <div class="cell">
+            <div class="k">Repositories</div>
+            <div class="v">3</div>
+            <div class="sub">all public · Apache-2.0</div>
+          </div>
+          <div class="cell">
+            <div class="k">Kind</div>
+            <div class="v cy">2 <span style="font-size:14px;color:var(--ink-3);font-weight:600">docs</span> + 1 <span style="font-size:14px;color:var(--ink-3);font-weight:600">demo</span></div>
+            <div class="sub">mkdocs sites · Docker Compose demo</div>
+          </div>
+          <div class="cell">
+            <div class="k">Deployment</div>
+            <div class="v gn">2 <span style="font-size:14px;color:var(--ink-3);font-weight:600">live</span></div>
+            <div class="sub">GitHub Pages · OCI Free Tier</div>
+          </div>
+        </div>
+
+        <!-- REPO 1 — netbox-aidefense-demo -->
+        <article class="repo">
+          <div class="repo-head">
+            <div class="name-block">
+              <div class="name"><span class="org">Batman4NY / </span><a href="https://github.com/Batman4NY/netbox-aidefense-demo">netbox-aidefense-demo</a></div>
+              <p class="desc">
+                Concrete implementation of the <b>Cisco AI Defense</b> three-point guard pattern on an LLM-driven infra operation. NetBox as source of truth, Nemotron via NVIDIA NIM as the LLM, AI Defense inspecting <b>input</b>, <b>tool arguments</b>, and <b>output</b>. Six demo scenarios: prompt injection, destructive action, PII leakage, credential exfil.
+              </p>
+            </div>
+            <div class="pills">
+              <span class="pill live">Live</span>
+              <span class="pill pub">Public</span>
+            </div>
+          </div>
+          <div class="repo-body">
+            <div class="repo-field">
+              <span class="k">Kind</span>
+              <span class="v"><b>Demo</b> · Docker Compose · FastAPI + SSE</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">HEAD</span>
+              <span class="v"><span class="sha">8418404</span></span>
+            </div>
+            <div class="repo-field">
+              <span class="k">Stack</span>
+              <span class="v">NetBox v4.4 · Caddy · Tetragon</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">Runs on</span>
+              <span class="v">OCI Ampere ARM64 · 4 OCPU · 12 GB</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">SAIF mapping</span>
+              <span class="v" style="color:var(--green)"><b>L2 · L3 · Security wrap</b></span>
+            </div>
+            <div class="repo-field">
+              <span class="k">License</span>
+              <span class="v"><b>Apache-2.0</b></span>
+            </div>
+          </div>
+          <div class="repo-jumps">
+            <a class="repo-jump gh" href="https://github.com/Batman4NY/netbox-aidefense-demo">
+              <span>github.com/Batman4NY/netbox-aidefense-demo</span>
+              <span class="arr">↗</span>
+            </a>
+            <a class="repo-jump" href="https://aidefense-demo.uppernyack.com">
+              <span>Try it: aidefense-demo.uppernyack.com</span>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- REPO 2 — consolepi-build-guide -->
+        <article class="repo">
+          <div class="repo-head">
+            <div class="name-block">
+              <div class="name"><span class="org">Batman4NY / </span><a href="https://github.com/Batman4NY/consolepi-build-guide">consolepi-build-guide</a></div>
+              <p class="desc">
+                Practitioner-tooling build guide for turning a <b>Raspberry Pi</b> into a network-accessible serial console server for the Cisco <b>1200 / 3100 / 4200</b> Secure Firewalls and <b>Catalyst 9000</b> series. Both traditional RJ45 and modern USB-C consoles. Around $85 and 30 minutes.
+              </p>
+            </div>
+            <div class="pills">
+              <span class="pill pub">Public</span>
+              <span class="pill doc">Docs</span>
+            </div>
+          </div>
+          <div class="repo-body">
+            <div class="repo-field">
+              <span class="k">Kind</span>
+              <span class="v"><b>Docs</b> · mkdocs-material</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">HEAD</span>
+              <span class="v"><span class="sha">d5ec002</span></span>
+            </div>
+            <div class="repo-field">
+              <span class="k">Chapters</span>
+              <span class="v"><b>11</b></span>
+            </div>
+            <div class="repo-field">
+              <span class="k">Deploy</span>
+              <span class="v">GitHub Pages · Actions build</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">SAIF mapping</span>
+              <span class="v" style="color:var(--cyan)"><b>L5 · Network fabric</b> — physical access</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">License</span>
+              <span class="v"><b>Apache-2.0</b></span>
+            </div>
+          </div>
+          <div class="repo-jumps">
+            <a class="repo-jump gh" href="https://github.com/Batman4NY/consolepi-build-guide">
+              <span>github.com/Batman4NY/consolepi-build-guide</span>
+              <span class="arr">↗</span>
+            </a>
+            <a class="repo-jump" href="https://batman4ny.github.io/consolepi-build-guide/">
+              <span>Read guide: batman4ny.github.io/consolepi-build-guide</span>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- REPO 3 — oci-free-tier-lab -->
+        <article class="repo">
+          <div class="repo-head">
+            <div class="name-block">
+              <div class="name"><span class="org">Batman4NY / </span><a href="https://github.com/Batman4NY/oci-free-tier-lab">oci-free-tier-lab</a></div>
+              <p class="desc">
+                Reproducible walk-through for building a <b>free, perpetual Oracle Cloud lab</b> — <b>2× AMD Micros + 1× ARM Ampere A1</b>, Ubuntu 24.04, Caddy for auto-TLS, Cloudflare DNS. The infrastructure everything else on this site actually runs on. Around $0/month, forever.
+              </p>
+            </div>
+            <div class="pills">
+              <span class="pill pub">Public</span>
+              <span class="pill doc">Docs</span>
+            </div>
+          </div>
+          <div class="repo-body">
+            <div class="repo-field">
+              <span class="k">Kind</span>
+              <span class="v"><b>Docs</b> · mkdocs-material</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">HEAD</span>
+              <span class="v"><span class="sha">26934b7</span></span>
+            </div>
+            <div class="repo-field">
+              <span class="k">Chapters</span>
+              <span class="v"><b>13</b></span>
+            </div>
+            <div class="repo-field">
+              <span class="k">Deploy</span>
+              <span class="v">GitHub Pages · Actions build</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">SAIF mapping</span>
+              <span class="v" style="color:var(--cyan)"><b>L4 · Compute</b> — home-lab substrate</span>
+            </div>
+            <div class="repo-field">
+              <span class="k">License</span>
+              <span class="v"><b>Apache-2.0</b></span>
+            </div>
+          </div>
+          <div class="repo-jumps">
+            <a class="repo-jump gh" href="https://github.com/Batman4NY/oci-free-tier-lab">
+              <span>github.com/Batman4NY/oci-free-tier-lab</span>
+              <span class="arr">↗</span>
+            </a>
+            <a class="repo-jump" href="https://batman4ny.github.io/oci-free-tier-lab/">
+              <span>Read guide: batman4ny.github.io/oci-free-tier-lab</span>
+              <span class="arr">↗</span>
+            </a>
+          </div>
+        </article>
+
+      </section>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

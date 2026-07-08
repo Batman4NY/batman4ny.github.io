@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Batman4NY · About — Billy Garcia</title>
+<meta name="description" content="Billy Garcia — Cisco GES Premier DC Systems Engineer, based in Upper Nyack, NY.">
+<link rel="stylesheet" href="/assets/console.css">
+<style>
+  .about-card{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 32px 36px;
+    display:grid;grid-template-columns:1fr 260px;gap:40px;
+  }
+  @media(max-width:720px){.about-card{grid-template-columns:1fr;padding:24px}}
+  .about-bio .name{
+    display:block;font-size: 32px;font-weight: 800;color: var(--ink);letter-spacing: -.024em;line-height: 1.05;
+    margin-bottom: 6px;
+  }
+  .about-bio .role{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:12px;color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    margin-bottom: 24px;
+  }
+  .about-bio p{font-size:15px;line-height:1.62;color:var(--ink-2);margin:0 0 14px;max-width:64ch}
+  .about-bio p b{color:var(--ink);font-weight:600}
+  .about-bio p .cy{color:var(--cyan)}
+
+  .about-contact{
+    background: var(--paper-lo);border: 1px solid var(--rule);border-radius: 8px;
+    padding: 20px 22px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:12px;color:var(--ink-3);letter-spacing:.02em;
+  }
+  .about-contact .k{
+    font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);font-weight:700;
+    margin-bottom:4px;
+  }
+  .about-contact .v{
+    font-size:13px;color:var(--ink);font-weight:600;margin-bottom:14px;
+  }
+  .about-contact .v a{color:var(--cyan);font-weight:600}
+  .about-contact .v a:hover{color:var(--cyan-hi)}
+  .about-contact .v:last-child{margin-bottom:0}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bat" viewBox="0 0 100 32">
+    <path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/>
+  </symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/>
+  </symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/>
+  </symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+  </symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/>
+  </symbol>
+</defs></svg>
+
+<div class="app">
+
+  <aside class="side">
+    <div class="brand">
+      <a href="/">
+        <span class="mark"><svg><use href="#bat"/></svg></span>
+        <span class="wm">Batman4NY</span>
+      </a>
+    </div>
+    <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
+
+    <nav class="nav">
+
+      <details class="nav-group">
+        <summary>Lab</summary>
+        <div class="sub-links">
+          <a class="sub-link" href="/">Overview</a>
+          <a class="sub-link" href="/#live">Live services<span class="live"></span></a>
+          <a class="sub-link" href="/#reference">Reference architecture</a>
+        </div>
+      </details>
+
+      <a class="navlink" href="/code/">
+        <svg><use href="#i-code"/></svg> Code
+        <span class="cnt">3</span>
+      </a>
+      <a class="navlink" href="/docs/">
+        <svg><use href="#i-docs"/></svg> Docs
+        <span class="cnt">2</span>
+      </a>
+
+      <div class="sec">Identity</div>
+      <a class="navlink active" href="/about/">
+        <svg><use href="#i-user"/></svg> About
+      </a>
+      <a class="navlink" href="/disclaimer/">
+        <svg><use href="#i-warn"/></svg> Disclaimer
+      </a>
+    </nav>
+
+    <div class="foot">
+      <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
+      <div class="row"><span>Since</span><b>2026</b></div>
+      <div class="row"><span>Loc</span><b>NY</b></div>
+      <div class="row"><span>Updated</span><b>2026·07·08</b></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span class="crumb"><b>About</b><span class="sep">/</span><span class="path">practitioner · Billy Garcia</span></span>
+      <span class="status">
+        <span>Batman4NY</span>
+        <span class="sep">·</span>
+        <span>Cisco GES Premier DC SE</span>
+      </span>
+    </div>
+
+    <div class="content">
+
+      <section>
+        <div class="sec-head">
+          <span class="eyebrow m">§ About</span>
+          <span class="t">The practitioner</span>
+          <span class="r"></span>
+        </div>
+
+        <div class="about-card">
+          <div class="about-bio">
+            <span class="name">Billy Garcia</span>
+            <span class="role">Cisco GES Premier DC Systems Engineer</span>
+
+            <p>
+              Data-center Systems Engineer at Cisco, based in <b>Upper Nyack, NY</b>. This site is a working index of things I've built on my own time — <b>reproducible</b> implementations of Cisco reference architectures + adjacent practitioner tooling, all runnable on <b class="cy">free tier</b>.
+            </p>
+            <p>
+              The premise: SEs shouldn't need a slide deck to answer "what does <b>Cisco Secure AI Factory</b> look like at scale?" — the answer should open in a browser tab. This site collects the artifacts that make that possible.
+            </p>
+            <p>
+              If you're a Cisco peer or a customer engineer curious about how the pieces fit together, hop into <a href="/code/">/code</a> for the repos, <a href="/docs/">/docs</a> for the guides, or <a href="/">/</a> for the architectural overview.
+            </p>
+          </div>
+
+          <div class="about-contact">
+            <div class="k">GitHub</div>
+            <div class="v"><a href="https://github.com/Batman4NY">Batman4NY ↗</a></div>
+
+            <div class="k">Email</div>
+            <div class="v"><a href="mailto:bgarcia@cisco.com">bgarcia@cisco.com</a></div>
+
+            <div class="k">Location</div>
+            <div class="v">Upper Nyack, NY</div>
+
+            <div class="k">Role</div>
+            <div class="v">Cisco GES Premier DC SE</div>
+
+            <div class="k">Focus</div>
+            <div class="v">Data-center · AI security</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
