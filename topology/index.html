@@ -49,6 +49,75 @@
   .netdiag-mini-legend .line.sso{background:#a78bcc}
   .netdiag-mini-legend .line.planned{background:transparent;border-top:2px dashed #d97706}
 
+  /* Click-to-enlarge affordance on the SVG */
+  .netdiag svg{cursor: zoom-in;transition: filter .18s ease}
+  .netdiag svg:hover{filter: brightness(1.06)}
+  .netdiag-head .zoom-hint{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--cyan);font-weight:700;
+    padding: 3px 9px;background: var(--cyan-tint);border: 1px solid var(--cyan-lo);border-radius:20px;
+    font-size:10px;letter-spacing:.14em;
+  }
+  .netdiag-head .zoom-hint::before{
+    content:"⌖";font-size:12px;line-height:1;
+  }
+
+  /* Lightbox modal */
+  .diagram-modal{
+    position: fixed;inset: 0;
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    display: none;
+    align-items: center;justify-content: center;
+    padding: 32px;
+    cursor: zoom-out;
+    animation: modalFade 0.16s ease-out;
+  }
+  @keyframes modalFade{
+    from{opacity:0}
+    to{opacity:1}
+  }
+  .diagram-modal.open{display: flex}
+  .diagram-modal-inner{
+    position: relative;
+    max-width: 96vw;max-height: 92vh;
+    cursor: default;
+  }
+  .diagram-modal-svg-holder{
+    background: var(--paper);
+    border: 1px solid var(--rule-str);
+    border-radius: 12px;
+    padding: 24px;
+    max-height: 92vh;
+    overflow: auto;
+  }
+  .diagram-modal-svg-holder svg{
+    display: block;
+    width: min(100%, 92vw);
+    height: auto;
+    max-height: calc(92vh - 60px);
+    cursor: default;
+  }
+  .diagram-modal-close{
+    position: absolute;top: -40px;right: 0;
+    color: var(--ink);
+    background: transparent;border: 1px solid var(--rule-str);border-radius: 6px;
+    padding: 6px 14px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;letter-spacing:.14em;font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;align-items: center;gap: 8px;
+  }
+  .diagram-modal-close:hover{border-color: var(--cyan);color: var(--cyan-hi)}
+  .diagram-modal-close::before{content: "×";font-size: 18px;line-height:1}
+  .diagram-modal-hint{
+    position: absolute;bottom: -32px;left: 0;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;color: var(--ink-3);letter-spacing:.14em;
+  }
+  .diagram-modal-hint b{color:var(--ink-2)}
+
   /* Topology canvas — reference view zone-cards */
   .topo{
     background: var(--paper);
@@ -287,7 +356,7 @@
         <div class="netdiag">
           <div class="netdiag-head">
             <span class="t">§ Network diagram · connections drawn</span>
-            <span class="x">solid = live · dashed = planned · line color = edge type</span>
+            <span class="x">solid = live · dashed = planned · line color = edge type&nbsp;&nbsp;<span class="zoom-hint">Click to enlarge</span></span>
           </div>
 
           <svg viewBox="0 0 1400 920" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Batman4NY network topology showing user surfaces, cloud tenants, Cisco tenant, and home rack with connections">
@@ -900,6 +969,59 @@
     </div>
   </main>
 </div>
+
+<!-- Lightbox modal for the network diagram -->
+<div class="diagram-modal" id="diagramModal" aria-hidden="true" role="dialog" aria-label="Enlarged network diagram">
+  <div class="diagram-modal-inner">
+    <button type="button" class="diagram-modal-close" aria-label="Close">Close</button>
+    <div class="diagram-modal-svg-holder"></div>
+    <div class="diagram-modal-hint">Click outside · <b>ESC</b> · or <b>Close</b> to dismiss</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var netdiag = document.querySelector('.netdiag svg');
+  var modal   = document.getElementById('diagramModal');
+  if (!netdiag || !modal) return;
+
+  var holder  = modal.querySelector('.diagram-modal-svg-holder');
+  var closeBtn = modal.querySelector('.diagram-modal-close');
+
+  function openModal(){
+    holder.innerHTML = '';
+    var clone = netdiag.cloneNode(true);
+    clone.removeAttribute('style');
+    holder.appendChild(clone);
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    holder.innerHTML = '';
+  }
+
+  netdiag.addEventListener('click', openModal);
+
+  modal.addEventListener('click', function(e){
+    // Close on backdrop click (target IS the modal itself, not a child)
+    if (e.target === modal) closeModal();
+  });
+  closeBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  // Prevent clicks inside the SVG holder from bubbling to the modal backdrop
+  holder.addEventListener('click', function(e){ e.stopPropagation(); });
+})();
+</script>
 
 </body>
 </html>
