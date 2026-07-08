@@ -259,7 +259,8 @@
   .impl .head .r b{color:var(--ink);font-weight:700}
 
   .grid{display:grid;grid-template-columns:1fr;gap: 40px}
-  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr;gap:48px}}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr;gap:44px}}
+  @media(min-width:1080px){.grid{grid-template-columns:repeat(3,1fr);gap:32px}}
 
   .art{
     color:inherit;text-decoration:none;display:flex;flex-direction:column;
@@ -376,7 +377,7 @@
     <span class="top-meta">
       <span><b>2</b> live</span>
       <span class="sep">·</span>
-      <span><b>3</b> published</span>
+      <span><b>4</b> published</span>
       <span class="sep">·</span>
       <span>07·2026</span>
     </span>
@@ -474,7 +475,7 @@
   <section class="impl">
     <div class="head">
       <span class="label green">Implementations — Working Code</span>
-      <span class="r"><b>1</b> live SAIF pattern · <b>1</b> adjacent practitioner tool</span>
+      <span class="r"><b>1</b> live SAIF pattern · <b>2</b> practitioner tools</span>
     </div>
 
     <div class="grid">
@@ -508,6 +509,22 @@
         <div class="refs">
           <div class="r"><span class="rk">Guide</span><span class="rv">batman4ny.github.io/consolepi-build-guide <span class="arr">→</span></span></div>
           <div class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/consolepi-build-guide <span class="arr">→</span></span></div>
+        </div>
+      </a>
+
+      <a class="art" href="https://batman4ny.github.io/oci-free-tier-lab/">
+        <div class="kicker">
+          <span>Build Guide · Docs</span>
+          <span>·</span>
+          <span class="layer">Adjacent · The plumbing</span>
+        </div>
+        <h3>OCI Free Tier Lab<span class="sub">Every public surface here, at $0/month</span></h3>
+        <p class="body">
+          The infrastructure everything on this page runs on. Reproducible walk-through for building a free, perpetual Oracle Cloud lab — <b>2× AMD Micros + 1× ARM Ampere A1</b>, Ubuntu 24.04, <b>Caddy</b> for auto-TLS, Cloudflare DNS. 13 chapters, ~10K words, generic template any SE can adapt.
+        </p>
+        <div class="refs">
+          <div class="r"><span class="rk">Guide</span><span class="rv">batman4ny.github.io/oci-free-tier-lab <span class="arr">→</span></span></div>
+          <div class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/oci-free-tier-lab <span class="arr">→</span></span></div>
         </div>
       </a>
     </div>
