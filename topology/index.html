@@ -79,44 +79,69 @@
     to{opacity:1}
   }
   .diagram-modal.open{display: flex}
+  .diagram-modal{padding: 0}
   .diagram-modal-inner{
     position: relative;
-    max-width: 96vw;max-height: 92vh;
+    /* definite dimensions so the SVG has something to scale against;
+       resolves the shrink-to-fit chicken-and-egg with `width:100%` on the child */
+    width: 96vw;
+    height: 92vh;
+    max-width: 96vw;
+    max-height: 92vh;
     cursor: default;
-  }
-  .diagram-modal-svg-holder{
+    display: flex;
+    flex-direction: column;
     background: var(--paper);
     border: 1px solid var(--rule-str);
     border-radius: 12px;
-    padding: 24px;
-    max-height: 92vh;
-    overflow: auto;
+    box-shadow: 0 24px 60px rgba(0,0,0,.45);
+    overflow: hidden;
+  }
+  .diagram-modal-svg-holder{
+    flex: 1 1 auto;
+    min-height: 0;           /* allow flex-shrink so height:100% resolves */
+    padding: 24px 28px 40px;  /* extra bottom pad clears the hint bar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
   .diagram-modal-svg-holder svg{
     display: block;
-    width: min(100%, 92vw);
-    height: auto;
-    max-height: calc(92vh - 60px);
+    width: 100%;
+    height: 100%;
+    /* viewBox + default preserveAspectRatio="xMidYMid meet" fits the box
+       while preserving aspect. No explicit width/height on the SVG needed. */
     cursor: default;
   }
   .diagram-modal-close{
-    position: absolute;top: -40px;right: 0;
+    position: absolute;
+    top: 12px;right: 12px;
+    z-index: 2;
     color: var(--ink);
-    background: transparent;border: 1px solid var(--rule-str);border-radius: 6px;
+    background: var(--paper);
+    border: 1px solid var(--rule-str);border-radius: 6px;
     padding: 6px 14px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 12px;letter-spacing:.14em;font-weight: 700;
+    font-size: 11px;letter-spacing:.14em;font-weight: 700;
     cursor: pointer;
     display: inline-flex;align-items: center;gap: 8px;
   }
-  .diagram-modal-close:hover{border-color: var(--cyan);color: var(--cyan-hi)}
+  .diagram-modal-close:hover{border-color: var(--cyan);color: var(--cyan-hi);background: var(--cyan-tint)}
   .diagram-modal-close::before{content: "×";font-size: 18px;line-height:1}
   .diagram-modal-hint{
-    position: absolute;bottom: -32px;left: 0;
+    position: absolute;
+    bottom: 12px;left: 20px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 10.5px;color: var(--ink-3);letter-spacing:.14em;
+    pointer-events: none;
   }
   .diagram-modal-hint b{color:var(--ink-2)}
+  @media (max-width: 720px){
+    .diagram-modal-inner{width: 98vw;height: 96vh;max-width: 98vw;max-height: 96vh}
+    .diagram-modal-svg-holder{padding: 20px 16px 36px}
+    .diagram-modal-hint{font-size: 9.5px;letter-spacing:.08em}
+  }
 
   /* Topology canvas — reference view zone-cards */
   .topo{
