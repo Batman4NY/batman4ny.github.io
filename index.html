@@ -147,7 +147,7 @@
             <span class="r"></span>
           </div>
           <p>
-            The full enterprise SAIF is serious infrastructure — <b>Cisco UCS + NVIDIA RTX PRO 4500 Blackwell</b> GPUs, <b>Nexus 9000</b> fabric with <b>Silicon One G300/P200</b>, <b>Cisco Hybrid Mesh Firewall on NVIDIA BlueField DPUs</b>. Not something an SE spins up over a weekend.
+            The full enterprise SAIF is serious infrastructure — <b class="cy">Cisco AI PODs</b> built on <b class="cy">UCS C885A M8</b> dense GPU servers packing <b class="gn">8× NVIDIA HGX H200</b> or <b class="gn">B200 SXM</b> per node (NVIDIA's <b>2-8-9-400</b> pattern: 2 CPUs, 8 GPUs, 9 NICs, 400 GbE per GPU), a <b class="cy">Nexus 9364E-SG2</b> fabric on <b class="cy">Cisco Silicon One G200</b> (51.2 Tbps, 64× 800GbE), <b class="cy">Cisco Hybrid Mesh Firewall</b> offloaded to <b class="gn">NVIDIA BlueField-3</b> DPUs. A POD scales <b>4–32 nodes, up to 256 GPUs</b>. Not something an SE spins up over a weekend.
           </p>
           <p>
             But the <em>pattern</em> is reproducible on <b class="gn">$0/mo</b> substrates: <b class="cy">OCI Free Tier</b> compute (2× AMD Micro + 1× ARM Ampere with 4 OCPU / 24 GB), <b class="gn">NVIDIA NIM Free Tier</b> hosted inference (5K credits/mo, replenishing), Cloudflare DNS, <b>Caddy</b> for auto-TLS via Let's Encrypt, GitHub Pages for static sites. Every layer that <em>can</em> be implemented on free-tier substrates <b>is</b> implemented. Where the reference requires enterprise hardware or paid services, the layer is honestly labeled — the <a href="/reference/">reference architecture page</a> spells it out.
