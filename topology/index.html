@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Batman4NY · Topology — Physical + Logical View</title>
+<meta name="description" content="Physical and logical topology of the Batman4NY Cisco DC SE home lab — OCI + NVIDIA NIM + Cisco tenant + Home rack + user surfaces, with trust boundaries and edge types.">
+<link rel="stylesheet" href="/assets/console.css">
+<style>
+  .topo-intro{
+    font-size: 14.5px;line-height: 1.6;color: var(--ink-2);margin: 0 0 22px;max-width: 78ch;
+  }
+  .topo-intro b{color:var(--ink);font-weight:600}
+  .topo-intro .cy{color:var(--cyan)}
+  .topo-intro .gn{color:var(--green)}
+  .topo-intro .am{color:var(--amber)}
+
+  /* Topology canvas — a single large diagram area */
+  .topo{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow-x: auto;
+  }
+  .topo-canvas{
+    min-width: 900px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    position: relative;
+  }
+
+  /* Trust zone — a bordered container for grouped components */
+  .zone{
+    border: 1px dashed var(--rule-str);
+    border-radius: 10px;
+    padding: 18px;
+    background: linear-gradient(180deg, var(--paper-hi) 0%, transparent 100%);
+    position: relative;
+  }
+  .zone.cisco   { border-color: var(--cyan-lo);  background: linear-gradient(180deg, #049fd910 0%, transparent 100%); }
+  .zone.nvidia  { border-color: var(--green-lo); background: linear-gradient(180deg, #76b90010 0%, transparent 100%); }
+  .zone.oci     { border-color: #c05a2670;       background: linear-gradient(180deg, #c05a2610 0%, transparent 100%); }
+  .zone.github  { border-color: #999da750;       background: linear-gradient(180deg, #99a2ac10 0%, transparent 100%); }
+  .zone.home    { border-color: var(--amber-line); background: linear-gradient(180deg, #d9770610 0%, transparent 100%); }
+  .zone.users   { border-color: #7f5abf70;       background: linear-gradient(180deg, #7f5abf10 0%, transparent 100%); }
+
+  .zone-label{
+    position: absolute;top: -10px;left: 20px;
+    background: var(--paper);
+    padding: 2px 12px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;letter-spacing: .22em;text-transform: uppercase;
+    font-weight: 700;
+    display: inline-flex;align-items: baseline;gap: 8px;
+  }
+  .zone.cisco   .zone-label{ color: var(--cyan); }
+  .zone.nvidia  .zone-label{ color: var(--green); }
+  .zone.oci     .zone-label{ color: #d97706; }
+  .zone.github  .zone-label{ color: var(--ink-3); }
+  .zone.home    .zone-label{ color: var(--amber); }
+  .zone.users   .zone-label{ color: #a78bcc; }
+  .zone-label .sub{
+    font-size: 9px;letter-spacing: .18em;color: var(--ink-3);font-weight: 600;
+  }
+
+  /* Node grid inside a zone */
+  .nodes{
+    display: grid;grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;margin-top: 4px;
+  }
+  .node{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 12px 14px;
+    display: flex;flex-direction: column;gap: 6px;
+    position: relative;
+  }
+  .node .name{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11.5px;font-weight: 700;color: var(--ink);letter-spacing: .01em;line-height: 1.2;
+  }
+  .node .name .badge{
+    font-size: 8.5px;letter-spacing: .12em;color: var(--ink-3);font-weight: 700;
+    padding: 1px 5px;border: 1px solid var(--rule);border-radius: 3px;
+    background: var(--paper-lo);margin-left: 6px;text-transform: uppercase;
+  }
+  .node .name .badge.live{color: var(--green);border-color: var(--green-lo);background: var(--green-tint)}
+  .node .name .badge.wip{color: var(--amber);border-color: var(--amber-line);background: var(--amber-tint)}
+  .node .name .badge.plan{color: var(--muted)}
+  .node .kind{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 9.5px;letter-spacing: .16em;text-transform: uppercase;
+    color: var(--ink-3);font-weight: 600;
+  }
+  .node .detail{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;color: var(--ink-3);letter-spacing: .005em;line-height: 1.4;
+  }
+  .node .detail b{color: var(--ink-2);font-weight: 600}
+
+  /* Edges — a section below the diagram documenting the connections */
+  .edges{
+    display: grid;grid-template-columns: 1fr;gap: 0;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .edges-head{
+    padding: 12px 18px;background: var(--paper-hi);
+    border-bottom: 1px solid var(--rule);
+    display: flex;justify-content: space-between;align-items: baseline;gap: 16px;flex-wrap: wrap;
+  }
+  .edges-head .t{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11px;letter-spacing: .22em;text-transform: uppercase;color: var(--ink);font-weight: 700;
+  }
+  .edges-head .x{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;color: var(--ink-3);letter-spacing: .04em;
+  }
+  .edge-row{
+    display: grid;
+    grid-template-columns: 90px 200px 24px 200px 1fr 120px;
+    gap: 12px;align-items: center;
+    padding: 12px 18px;border-top: 1px solid var(--rule);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+  }
+  .edge-row:first-of-type{border-top: 0}
+  .edge-row .type{
+    font-size: 9px;letter-spacing: .18em;text-transform: uppercase;font-weight: 700;
+    padding: 3px 8px;border-radius: 20px;text-align: center;line-height: 1.2;
+  }
+  .edge-row .type.public { color: var(--cyan);   background: var(--cyan-tint);   border: 1px solid var(--cyan-lo); }
+  .edge-row .type.mgmt   { color: var(--amber);  background: var(--amber-tint);  border: 1px solid var(--amber-line); }
+  .edge-row .type.data   { color: var(--green);  background: var(--green-tint);  border: 1px solid var(--green-lo); }
+  .edge-row .type.oob    { color: var(--ink-3);  background: var(--paper-lo);    border: 1px solid var(--rule); }
+  .edge-row .type.sso    { color: #a78bcc;       background: #7f5abf1a;          border: 1px solid #7f5abf50; }
+  .edge-row .from,.edge-row .to{
+    color: var(--ink);font-weight: 700;letter-spacing: .01em;
+  }
+  .edge-row .arr{
+    text-align: center;font-size: 14px;color: var(--ink-3);
+  }
+  .edge-row .detail{
+    color: var(--ink-2);letter-spacing: .005em;
+  }
+  .edge-row .detail b{color: var(--ink);font-weight: 600}
+  .edge-row .auth{
+    font-size: 9.5px;letter-spacing: .14em;text-transform: uppercase;color: var(--ink-3);font-weight: 700;
+    text-align: right;
+  }
+  .edge-row .auth b{color: var(--ink-2)}
+  @media(max-width:900px){
+    .edge-row{grid-template-columns: 80px 1fr;gap: 8px}
+    .edge-row .from, .edge-row .to, .edge-row .arr, .edge-row .detail, .edge-row .auth{
+      grid-column: 2;font-size: 10.5px;
+    }
+    .edge-row .arr{display:none}
+  }
+
+  /* Legend */
+  .legend-block{
+    display: grid;grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));gap: 10px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 8px;padding: 16px 20px;
+  }
+  .legend-item{
+    display: flex;gap: 10px;align-items: baseline;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10.5px;color: var(--ink-2);letter-spacing: .02em;line-height: 1.5;
+  }
+  .legend-item .sw{
+    width: 10px;height: 10px;border-radius: 3px;flex-shrink: 0;
+  }
+  .legend-item .sw.public { background: var(--cyan-tint);   border: 1px solid var(--cyan-lo); }
+  .legend-item .sw.mgmt   { background: var(--amber-tint);  border: 1px solid var(--amber-line); }
+  .legend-item .sw.data   { background: var(--green-tint);  border: 1px solid var(--green-lo); }
+  .legend-item .sw.oob    { background: var(--paper-lo);    border: 1px solid var(--rule); }
+  .legend-item .sw.sso    { background: #7f5abf1a;          border: 1px solid #7f5abf50; }
+  .legend-item b{color: var(--ink);font-weight: 700}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="bat" viewBox="0 0 100 32"><path fill="currentColor" d="M50 4 L46 10 L40 8 L34 12 L26 8 L18 14 L6 12 L14 20 L4 24 L16 26 L26 20 L34 26 L42 22 L48 28 L50 24 L52 28 L58 22 L66 26 L74 20 L84 26 L96 24 L86 20 L94 12 L82 14 L74 8 L66 12 L60 8 L54 10 Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-8 4 16 3-10 3 6h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="8" y1="18" x2="14" y2="18"/></symbol>
+  <symbol id="i-topo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M6.5 6.5 10.5 10.5M13.5 10.5 17.5 6.5M6.5 17.5 10.5 13.5M13.5 13.5 17.5 17.5"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4L6 22H2v-4z"/><path d="M15 5l4 4"/><path d="M18 3l3 3-2 2"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/><path d="m14 4-4 16"/></symbol>
+  <symbol id="i-docs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 17h6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 21h20z"/><path d="M12 9v6"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></symbol>
+</defs></svg>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand"><a href="/"><span class="mark"><svg><use href="#bat"/></svg></span><span class="wm">Batman4NY</span></a></div>
+    <div class="brand-role">Billy Garcia · <b>Cisco DC SE</b></div>
+    <nav class="nav">
+      <div class="sec">Lab</div>
+      <a class="navlink" href="/"><svg><use href="#i-grid"/></svg> Overview</a>
+      <a class="navlink" href="/live/"><svg><use href="#i-signal"/></svg> Live services<span class="live"></span></a>
+      <a class="navlink" href="/reference/"><svg><use href="#i-book"/></svg> Reference architecture</a>
+      <a class="navlink active" href="/topology/"><svg><use href="#i-topo"/></svg> Topology</a>
+      <a class="navlink" href="/roadmap/"><svg><use href="#i-map"/></svg> Roadmap</a>
+      <a class="navlink" href="/adjacent/"><svg><use href="#i-tools"/></svg> Adjacent tooling</a>
+      <a class="navlink" href="/code/"><svg><use href="#i-code"/></svg> Code<span class="cnt">4</span></a>
+      <a class="navlink" href="/docs/"><svg><use href="#i-docs"/></svg> Docs<span class="cnt">3</span></a>
+      <div class="sec">Identity</div>
+      <a class="navlink" href="/about/"><svg><use href="#i-user"/></svg> About</a>
+      <a class="navlink" href="/disclaimer/"><svg><use href="#i-warn"/></svg> Disclaimer</a>
+    </nav>
+    <div class="foot">
+      <div class="row"><span class="live-t"><span class="dot"></span>SYSTEM ONLINE</span></div>
+      <div class="row"><span>Zones</span><b>6</b></div>
+      <div class="row"><span>Nodes</span><b>~20</b></div>
+      <div class="row"><span>Updated</span><b>2026·07·08</b></div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span class="crumb"><b>Topology</b><span class="sep">/</span><span class="path">physical + logical view · 6 zones · ~20 nodes</span></span>
+      <span class="status"><span>rev <b>latest</b></span><span class="sep">·</span><span>07·2026</span></span>
+    </div>
+
+    <div class="content">
+      <section>
+        <div class="sec-head">
+          <span class="eyebrow">§ Topology</span>
+          <span class="t">Physical + logical view — what talks to what, and how</span>
+          <span class="r"></span>
+        </div>
+
+        <p class="topo-intro">
+          The Batman4NY lab spans <b>six trust zones</b> — four cloud tenants (<b class="cy">Cisco</b>, <b class="gn">NVIDIA</b>, OCI, GitHub), one home rack, one user surface. Nodes group by zone; edges below the diagram document the connections with protocol, edge type, and auth pattern. Legend at the bottom.
+        </p>
+
+        <!-- ── TOPOLOGY DIAGRAM ──────────────────────────────────────────── -->
+        <div class="topo">
+          <div class="topo-canvas">
+
+            <!-- USER SURFACE -->
+            <div class="zone users">
+              <span class="zone-label">Users<span class="sub">public + admin</span></span>
+              <div class="nodes">
+                <div class="node">
+                  <div class="name">Public visitor</div>
+                  <div class="kind">Any browser</div>
+                  <div class="detail">Reads the demo → hits <b>aidefense-demo</b></div>
+                </div>
+                <div class="node">
+                  <div class="name">Peer / reader</div>
+                  <div class="kind">Any browser</div>
+                  <div class="detail">Reads the site → <b>batman4ny.github.io</b></div>
+                </div>
+                <div class="node">
+                  <div class="name">Admin (Billy)</div>
+                  <div class="kind">Workstation</div>
+                  <div class="detail">Manages every tenant + rack + repo</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- OCI TENANCY -->
+            <div class="zone oci">
+              <span class="zone-label">OCI tenancy<span class="sub">$0/mo free tier</span></span>
+              <div class="nodes">
+                <div class="node">
+                  <div class="name">cisco-web-1-arm <span class="badge live">LIVE</span></div>
+                  <div class="kind">Ampere ARM64 · 4 OCPU · 12 GB</div>
+                  <div class="detail">Hosts <b>aidefense-demo.uppernyack.com</b><br/>Caddy TLS · Docker Compose · nftables</div>
+                </div>
+                <div class="node">
+                  <div class="name">Cloudflare DNS</div>
+                  <div class="kind">Zone: uppernyack.com</div>
+                  <div class="detail">Gray-cloud (DNS-only) A record → <b>129.80.113.130</b></div>
+                </div>
+                <div class="node">
+                  <div class="name">Let's Encrypt</div>
+                  <div class="kind">ACME · tls-alpn-01</div>
+                  <div class="detail">Automatic cert via <b>Caddy</b>; 60-day renewal</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- NVIDIA -->
+            <div class="zone nvidia">
+              <span class="zone-label">NVIDIA <span class="sub">tenant · free tier</span></span>
+              <div class="nodes">
+                <div class="node">
+                  <div class="name">build.nvidia.com <span class="badge live">LIVE</span></div>
+                  <div class="kind">NIM Free Tier · hosted API</div>
+                  <div class="detail">5K credits/mo replenishing · Cisco email · 240 req/min</div>
+                </div>
+                <div class="node">
+                  <div class="name">Nemotron model</div>
+                  <div class="kind">Endpoint via NIM</div>
+                  <div class="detail">LLM backend for the <b>NetBox chatbot</b></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CISCO TENANT -->
+            <div class="zone cisco">
+              <span class="zone-label">Cisco tenant<span class="sub">SSO federated</span></span>
+              <div class="nodes">
+                <div class="node">
+                  <div class="name">AI Defense</div>
+                  <div class="kind">Cloud service</div>
+                  <div class="detail">3-point guard API · input · tool-args · output</div>
+                </div>
+                <div class="node">
+                  <div class="name">Security Cloud Control <span class="badge wip">WIP</span></div>
+                  <div class="kind">Central FTD mgmt · SCC tenant</div>
+                  <div class="detail">Onboarding pending on <b>1210CE</b></div>
+                </div>
+                <div class="node">
+                  <div class="name">ThousandEyes</div>
+                  <div class="kind">Cloud + endpoint tenant</div>
+                  <div class="detail">200+ cloud agents · 1 local agent</div>
+                </div>
+                <div class="node">
+                  <div class="name">Talos</div>
+                  <div class="kind">Intel feeds</div>
+                  <div class="detail">IPS rules + URL categorization; pulled by <b>1210 FTD</b></div>
+                </div>
+                <div class="node">
+                  <div class="name">Umbrella <span class="badge plan">PLAN</span></div>
+                  <div class="kind">DNS + SIG · SASE</div>
+                  <div class="detail">IPsec tunnel from 1210 outside interface (planned)</div>
+                </div>
+                <div class="node">
+                  <div class="name">Duo <span class="badge plan">PLAN</span></div>
+                  <div class="kind">MFA IdP</div>
+                  <div class="detail">SAML in front of SCC + FDM (planned)</div>
+                </div>
+                <div class="node">
+                  <div class="name">Smart Software Manager</div>
+                  <div class="kind">Licensing</div>
+                  <div class="detail">1210CE Smart License registration; 90-day eval today</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- GITHUB -->
+            <div class="zone github">
+              <span class="zone-label">GitHub<span class="sub">Batman4NY</span></span>
+              <div class="nodes">
+                <div class="node">
+                  <div class="name">Pages hosting <span class="badge live">LIVE</span></div>
+                  <div class="kind">Static site · Actions build</div>
+                  <div class="detail">Serves <b>batman4ny.github.io/*</b> · 5 sub-sites</div>
+                </div>
+                <div class="node">
+                  <div class="name">Repos</div>
+                  <div class="kind">Apache-2.0 · public</div>
+                  <div class="detail">4 repos · every artifact open-sourced</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- HOME RACK -->
+            <div class="zone home">
+              <span class="zone-label">Home rack<span class="sub">Upper Nyack, NY</span></span>
+              <div class="nodes">
+                <div class="node">
+                  <div class="name">Home internet uplink</div>
+                  <div class="kind">ISP · WAN</div>
+                  <div class="detail">Cable / fiber → 1210 outside interface</div>
+                </div>
+                <div class="node">
+                  <div class="name">Cisco 1210CE <span class="badge wip">WIP</span></div>
+                  <div class="kind">Secure Firewall · FTD 7.6</div>
+                  <div class="detail">FDM local mgmt today · SCC-managed soon<br/>90-day eval · full features</div>
+                </div>
+                <div class="node">
+                  <div class="name">LAN switch</div>
+                  <div class="kind">Managed L2/L3</div>
+                  <div class="detail">Inside network fan-out for the rack</div>
+                </div>
+                <div class="node">
+                  <div class="name">UCS C220 M8 <span class="badge plan">PLAN</span></div>
+                  <div class="kind">Rack server · Intersight</div>
+                  <div class="detail">Planned compute node · no GPU (yet)</div>
+                </div>
+                <div class="node">
+                  <div class="name">ConsolePi <span class="badge live">LIVE</span></div>
+                  <div class="kind">Pi 3B+ · ser2net</div>
+                  <div class="detail">USB-C CDC-ACM to 1210 · ttyACM0 :9000</div>
+                </div>
+                <div class="node">
+                  <div class="name">ThousandEyes local agent</div>
+                  <div class="kind">Endpoint on Pi</div>
+                  <div class="detail">Home-LAN path visibility → cloud tenant</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── EDGES / CONNECTIONS ──────────────────────────────────────── -->
+        <div class="edges">
+          <div class="edges-head">
+            <span class="t">§ Edges · connections · auth patterns</span>
+            <span class="x">colored by edge type — see legend</span>
+          </div>
+
+          <div class="edge-row">
+            <span class="type public">Public</span>
+            <span class="from">Public visitor</span>
+            <span class="arr">→</span>
+            <span class="to">cisco-web-1-arm</span>
+            <span class="detail">HTTPS · <b>aidefense-demo.uppernyack.com</b> · Caddy on :443 · Let's Encrypt cert</span>
+            <span class="auth"><b>TLS</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type public">Public</span>
+            <span class="from">Peer / reader</span>
+            <span class="arr">→</span>
+            <span class="to">GitHub Pages</span>
+            <span class="detail">HTTPS · <b>batman4ny.github.io/*</b> · GitHub-served TLS</span>
+            <span class="auth"><b>TLS</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type data">Data</span>
+            <span class="from">cisco-web-1-arm</span>
+            <span class="arr">→</span>
+            <span class="to">build.nvidia.com</span>
+            <span class="detail">HTTPS · <b>NIM API call</b> from demo orchestrator to Nemotron endpoint</span>
+            <span class="auth"><b>API key</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type data">Data</span>
+            <span class="from">cisco-web-1-arm</span>
+            <span class="arr">→</span>
+            <span class="to">AI Defense</span>
+            <span class="detail">HTTPS · <b>3-point guard scan</b> (input, tool args, output) via AI Defense API</span>
+            <span class="auth"><b>API key</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type public">Public</span>
+            <span class="from">Cloudflare DNS</span>
+            <span class="arr">→</span>
+            <span class="to">cisco-web-1-arm</span>
+            <span class="detail">DNS resolution · <b>A record</b> maps hostname → OCI public IP · gray-cloud (DNS-only)</span>
+            <span class="auth"><b>DNSSEC</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type mgmt">Mgmt</span>
+            <span class="from">1210CE</span>
+            <span class="arr">→</span>
+            <span class="to">Security Cloud Control</span>
+            <span class="detail">HTTPS · outbound from FTD mgmt interface · SCC controls policy + reports events</span>
+            <span class="auth"><b>Token · mTLS</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type mgmt">Mgmt</span>
+            <span class="from">1210CE</span>
+            <span class="arr">→</span>
+            <span class="to">Smart Software Manager</span>
+            <span class="detail">HTTPS · Smart Licensing registration + entitlement pull</span>
+            <span class="auth"><b>Token</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type data">Data</span>
+            <span class="from">1210CE</span>
+            <span class="arr">→</span>
+            <span class="to">Talos</span>
+            <span class="detail">HTTPS · <b>rule + URL DB updates</b> pulled to FTD 7.6 on scheduled interval</span>
+            <span class="auth"><b>SmartLic ent.</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type data">Data</span>
+            <span class="from">1210CE</span>
+            <span class="arr">→</span>
+            <span class="to">Umbrella <span style="color:var(--muted)">(planned)</span></span>
+            <span class="detail">IPsec IKEv2 · outside IP → Umbrella SIG POP · DNS + SWG traffic</span>
+            <span class="auth"><b>PSK · IKE</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type data">Data</span>
+            <span class="from">TE local agent</span>
+            <span class="arr">→</span>
+            <span class="to">ThousandEyes tenant</span>
+            <span class="detail">HTTPS · endpoint agent registration + test data upload · 240 req/min limit</span>
+            <span class="auth"><b>API key</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type oob">OOB</span>
+            <span class="from">ConsolePi</span>
+            <span class="arr">↔</span>
+            <span class="to">1210CE</span>
+            <span class="detail">USB-C serial · CDC-ACM · ttyACM0 · ser2net exposes as <b>telnet ConsolePi.local 9000</b></span>
+            <span class="auth"><b>None (physical)</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type mgmt">Mgmt</span>
+            <span class="from">Admin</span>
+            <span class="arr">→</span>
+            <span class="to">Security Cloud Control</span>
+            <span class="detail">HTTPS · SSO federation via Cisco tenant · Duo MFA planned on top</span>
+            <span class="auth"><b>SAML SSO</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type sso">SSO</span>
+            <span class="from">Cisco tenant</span>
+            <span class="arr">↔</span>
+            <span class="to">Duo <span style="color:var(--muted)">(planned)</span></span>
+            <span class="detail">SAML IdP federation · Duo layered in front of SCC + FDM for MFA</span>
+            <span class="auth"><b>SAML · MFA</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type mgmt">Mgmt</span>
+            <span class="from">Admin</span>
+            <span class="arr">→</span>
+            <span class="to">1210CE (FDM)</span>
+            <span class="detail">HTTPS to FDM UI · direct on-box mgmt · admin + local password (Duo planned)</span>
+            <span class="auth"><b>Password</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type mgmt">Mgmt</span>
+            <span class="from">Admin</span>
+            <span class="arr">→</span>
+            <span class="to">OCI console</span>
+            <span class="detail">HTTPS · Oracle account · MFA enabled · manages cisco-web-1-arm + tenancy</span>
+            <span class="auth"><b>MFA</b></span>
+          </div>
+          <div class="edge-row">
+            <span class="type mgmt">Mgmt</span>
+            <span class="from">Admin</span>
+            <span class="arr">→</span>
+            <span class="to">GitHub</span>
+            <span class="detail">HTTPS + git SSH · Batman4NY account · fine-grained PAT for CI, SSH key for local push</span>
+            <span class="auth"><b>PAT · SSH key</b></span>
+          </div>
+        </div>
+
+        <!-- LEGEND -->
+        <div class="legend-block">
+          <div class="legend-item"><span class="sw public"></span><b>Public</b> — user-facing HTTPS · TLS termination</div>
+          <div class="legend-item"><span class="sw mgmt"></span><b>Mgmt</b> — control plane · admin sessions · policy push</div>
+          <div class="legend-item"><span class="sw data"></span><b>Data</b> — service-to-service API · feed pulls · tunnels</div>
+          <div class="legend-item"><span class="sw oob"></span><b>OOB</b> — out-of-band · serial · physical layer</div>
+          <div class="legend-item"><span class="sw sso"></span><b>SSO</b> — auth federation · SAML · MFA</div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>
