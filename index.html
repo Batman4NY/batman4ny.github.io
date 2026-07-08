@@ -231,6 +231,21 @@
     box-shadow:0 0 0 2px var(--green-glow);margin-right:6px;vertical-align:1px;
     animation:pulse 2.6s ease-in-out infinite;
   }
+  .saif-status.part{color:var(--green-hi);background:var(--green-tint);border:1px solid var(--green-lo);opacity:.95}
+  .saif-status.part::before{
+    content:"◐";display:inline-block;color:var(--green);font-size:11px;line-height:1;
+    margin-right:5px;vertical-align:0;
+  }
+
+  /* Green marker on actually-implemented products in the reference list */
+  .saif-layer-content .prod.impl,
+  .saif-wrap-content .prod.impl{
+    color: var(--green-hi);font-weight:700;
+  }
+  .saif-layer-content .prod.impl::after,
+  .saif-wrap-content .prod.impl::after{
+    content:"●";color:var(--green);font-size:7px;margin-left:4px;vertical-align:2px;
+  }
 
   .saif-layer.hit{background:linear-gradient(180deg, var(--green-tint) 0%, transparent 100%);border-color:var(--green-lo)}
   .saif-layer.hit .saif-layer-no{color:var(--green);border-color:var(--green-lo);background:var(--paper)}
@@ -517,7 +532,7 @@
         <div class="saif">
           <div class="saif-head">
             <span class="t"><span class="cy">Cisco Secure AI Factory</span> with <span class="gn">NVIDIA</span></span>
-            <span class="x">home-lab: <b class="gn">3 of 7</b> impl · <b class="cy">1</b> adj &nbsp;·&nbsp; tier chips per row: <b class="cy">C</b> Central DC · <b class="gn">LE</b> Local Edge · <b style="color:var(--amber)">EE</b> Enterprise Edge · <b>SP</b> Service Provider Edge</span>
+            <span class="x">home-lab: <b class="gn">3 layers partial</b> · <b class="cy">1</b> adj · <b>3</b> planned &nbsp;·&nbsp; ● = product live in demo &nbsp;·&nbsp; tier chips: <b class="cy">C</b> Central DC · <b class="gn">LE</b> Local Edge · <b style="color:var(--amber)">EE</b> Enterprise Edge · <b>SP</b> SP Edge</span>
           </div>
 
           <div class="saif-body">
@@ -547,26 +562,26 @@
               <span class="saif-layer-no">L2</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">AI Runtime</div>
-                <div class="saif-layer-content"><span class="prod">NVIDIA AI Enterprise</span> · <span class="prod">NIM</span> · <span class="prod">Nemotron</span> · <span class="prod">OpenShell</span> · <span class="prod">Agent Toolkit</span></div>
-                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — hosted NIM + Nemotron behind the three-point guard</div>
+                <div class="saif-layer-content"><span class="prod">NVIDIA AI Enterprise</span> · <span class="prod impl">NIM</span> · <span class="prod impl">Nemotron</span> · <span class="prod">OpenShell</span> · <span class="prod">Agent Toolkit</span></div>
+                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — hosted NIM + Nemotron behind the three-point guard <em>(the ● items above are live in the demo)</em></div>
               </div>
               <span class="tier-chips" title="Deployed at: Central DC · Local Edge · Enterprise Edge (not SP Edge)">
                 <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip">SP</span>
               </span>
-              <span class="saif-status impl">Implemented</span>
+              <span class="saif-status part">Partial · 2/5</span>
             </div>
 
             <div class="saif-layer hit">
               <span class="saif-layer-no">L3</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">Data</div>
-                <div class="saif-layer-content"><span class="prod">NetBox</span> · vector store · knowledge base sources</div>
-                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — NetBox as source of truth</div>
+                <div class="saif-layer-content"><span class="prod impl">NetBox</span> · vector store · knowledge base sources</div>
+                <div class="saif-layer-map">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — NetBox as source of truth <em>(the ● item above is live)</em></div>
               </div>
               <span class="tier-chips" title="Deployed at: Central DC · Local Edge (data locality)">
                 <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip">EE</span><span class="tier-chip">SP</span>
               </span>
-              <span class="saif-status impl">Implemented</span>
+              <span class="saif-status part">Partial · 1/3</span>
             </div>
 
             <div class="saif-layer adj">
@@ -597,13 +612,13 @@
             <div class="saif-wrap sec">
               <span class="saif-wrap-label">Security</span>
               <span class="saif-wrap-content">
-                <span class="prod">Cisco AI Defense</span> (LLM I/O guard) · <span class="prod">Cisco Hybrid Mesh Firewall</span> on <span class="prod">NVIDIA BlueField DPUs</span> (Isovalent Hypershield · east-west) · <span class="prod">NVIDIA NeMo Guardrails</span> (agent guardrails) · Tetragon eBPF · <span class="prod">Cisco XDR</span> <em>(future)</em>
-                <span class="impl">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard <b>+ Tetragon eBPF runtime observability</b> (both in the compose stack)</span>
+                <span class="prod impl">Cisco AI Defense</span> (LLM I/O guard) · <span class="prod">Cisco Hybrid Mesh Firewall</span> on <span class="prod">NVIDIA BlueField DPUs</span> (Isovalent Hypershield · east-west) · <span class="prod">NVIDIA NeMo Guardrails</span> (agent guardrails) · <span class="prod impl">Tetragon eBPF</span> · <span class="prod">Cisco XDR</span> <em>(future)</em>
+                <span class="impl">→ <a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense demo</a> — three-point guard <b>+ Tetragon eBPF runtime observability</b> <em>(the ● items above are live in the compose stack; the rest are reference-only)</em></span>
               </span>
               <span class="tier-chips" title="Security wrap deployed at all tiers">
                 <span class="tier-chip on c">C</span><span class="tier-chip on le">LE</span><span class="tier-chip on ee">EE</span><span class="tier-chip on sp">SP</span>
               </span>
-              <span class="saif-wrap-status" style="color:var(--green);background:var(--green-tint);border-color:var(--green-lo)">implemented</span>
+              <span class="saif-wrap-status" style="color:var(--green-hi);background:var(--green-tint);border-color:var(--green-lo);opacity:.95">◐ Partial · 2 / 5</span>
             </div>
 
           </div>
@@ -615,9 +630,10 @@
         </div>
 
         <div class="legend">
-          <span class="item"><span class="sw impl"></span>Implemented — code + live URL</span>
+          <span class="item"><span class="sw impl"></span>Partial — one or more products from the layer's list run in the demo</span>
           <span class="item"><span class="sw adj"></span>Adjacent — home-lab substitute for the reference product</span>
           <span class="item"><span class="sw planned"></span>Planned — reference only</span>
+          <span class="item" style="color:var(--green-hi);font-weight:600">● Green marker = product is live in the demo compose stack</span>
         </div>
       </section>
 
