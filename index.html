@@ -158,6 +158,45 @@
 
   /* Live services mini strip */
   .services{margin-top: 24px}
+
+  /* ── adjacent tooling (not in SAIF, but the lab needs it) ────────── */
+  .adj-tooling{display:flex;flex-direction:column;gap:12px}
+  .adj-tool{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink-3);
+    border-radius: 6px;
+    padding: 18px 22px;
+    display:grid;grid-template-columns: 1fr auto;gap: 16px;align-items:center;
+  }
+  .adj-tool:hover{border-color: var(--rule-str);border-left-color:var(--cyan)}
+  .adj-tool .body{min-width:0}
+  .adj-tool .head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+  .adj-tool .name{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 14px;font-weight: 700;color: var(--ink);letter-spacing: .01em;
+  }
+  .adj-tool .role{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    padding: 2px 8px;background: var(--paper-hi);border: 1px solid var(--rule);border-radius: 10px;line-height:1.4;
+  }
+  .adj-tool .desc{
+    font-size: 13px;line-height: 1.55;color: var(--ink-2);margin: 0;max-width: 70ch;
+  }
+  .adj-tool .desc b{color:var(--ink);font-weight:600}
+  .adj-tool .link{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 11.5px;color: var(--cyan);letter-spacing:.02em;font-weight:700;
+    padding: 9px 14px;background: var(--cyan-tint);
+    border: 1px solid var(--cyan-lo);border-radius: 6px;transition: .16s ease;
+    white-space:nowrap;
+  }
+  .adj-tool .link:hover{background: var(--cyan);color: var(--bg);text-decoration:none}
+  .adj-tool .link .arr{transition:transform .16s ease}
+  .adj-tool .link:hover .arr{transform:translateX(3px)}
+  @media(max-width:640px){.adj-tool{grid-template-columns:1fr}.adj-tool .link{justify-content:center}}
 </style>
 </head>
 <body>
@@ -201,6 +240,7 @@
           <a class="sub-link active" href="/">Overview</a>
           <a class="sub-link" href="/#live">Live services<span class="live"></span></a>
           <a class="sub-link" href="/#reference">Reference architecture</a>
+          <a class="sub-link" href="/#adjacent">Adjacent tooling</a>
         </div>
       </details>
 
@@ -367,14 +407,13 @@
               <span class="saif-status adj">Adjacent</span>
             </div>
 
-            <div class="saif-layer adj">
+            <div class="saif-layer">
               <span class="saif-layer-no">L5</span>
               <div class="saif-layer-body">
                 <div class="saif-layer-name">Network Fabric</div>
-                <div class="saif-layer-content"><span class="prod">Catalyst 9000</span> · <span class="prod">Nexus</span> fabric · SD-WAN · secure access</div>
-                <div class="saif-layer-map">→ <a href="https://batman4ny.github.io/consolepi-build-guide/">ConsolePi</a> — practitioner tooling for physical access</div>
+                <div class="saif-layer-content"><span class="prod">Nexus 9000</span> · <span class="prod">Silicon One</span> · <span class="prod">Nexus Dashboard</span> · <span class="prod">Hypershield</span></div>
               </div>
-              <span class="saif-status adj">Adjacent</span>
+              <span class="saif-status planned">Planned</span>
             </div>
 
             <div class="saif-wrap sec">
@@ -393,8 +432,36 @@
 
         <div class="legend">
           <span class="item"><span class="sw impl"></span>Implemented — code + live URL</span>
-          <span class="item"><span class="sw adj"></span>Adjacent — practitioner tooling</span>
+          <span class="item"><span class="sw adj"></span>Adjacent — home-lab substitute for the reference product</span>
           <span class="item"><span class="sw planned"></span>Planned — reference only</span>
+        </div>
+      </section>
+
+      <!-- ADJACENT TOOLING — practitioner tools that don't map to a SAIF layer -->
+      <section id="adjacent">
+        <div class="sec-head">
+          <span class="eyebrow m">§ Adjacent tooling</span>
+          <span class="t">Practitioner substrate</span>
+          <span class="r"></span>
+          <span class="x">not in SAIF — but every lab needs it</span>
+        </div>
+
+        <div class="adj-tooling">
+          <div class="adj-tool">
+            <div class="body">
+              <div class="head">
+                <span class="name">ConsolePi</span>
+                <span class="role">OOB · Serial console</span>
+              </div>
+              <p class="desc">
+                Pi-based serial console server for reaching Cisco <b>1200 / 3100 / 4200</b> Secure Firewalls and <b>Catalyst 9000</b> series during initial provisioning and when the management plane is unreachable. Both RJ45 and USB-C consoles. Not part of SAIF — but every real lab has physical devices that need a console at some point.
+              </p>
+            </div>
+            <a class="link" href="https://batman4ny.github.io/consolepi-build-guide/">
+              <span>Build guide</span>
+              <span class="arr">↗</span>
+            </a>
+          </div>
         </div>
       </section>
 
