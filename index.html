@@ -4,283 +4,336 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>Batman4NY — Lab Artifacts</title>
-<meta name="description" content="Reproducible builds, integration roadmaps, and demos from a Cisco GES Premier DC Systems Engineer. SE Lab, AI Defense demo, ConsolePi build guide.">
+<title>Batman4NY — Cisco DC SE · Lab Artifacts</title>
+<meta name="description" content="Reproducible builds, integration roadmaps, and demos from a Cisco GES Premier DC Systems Engineer.">
 <style>
-  /* ── Batman4NY — muted e-paper (warm reading ground, deep ink, editorial rhythm) ── */
+  /* ── Batman4NY — muted technical: cool paper ground, considered sans, mono detail, one decisive accent ── */
   :root{
-    --paper:      #ede4d0;
-    --paper-hi:   #f2eadb;
-    --paper-lo:   #e4dac2;
-    --ink:        #2a2521;
-    --ink-2:      #5b5148;
-    --ink-3:      #8a8071;
-    --faint:      #b5a893;
-    --rule:       #c8bda6;
-    --rule-hair:  #d6cdb8;
-    --accent:     #7a4638;   /* burnt sienna — used sparingly */
-    --accent-2:   #a76a4f;   /* softer variant for hovers */
-    --notice:     #8a3d2c;   /* only on the disclaimer */
-    --serif:      "Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,"Charter",Georgia,serif;
-    --sans-sc:    ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --bg:        #f2f4f6;
+    --bg-2:      #e8ebee;
+    --surface:   #ffffff;
+    --surface-2: #f7f8f9;
+
+    --ink:       #131820;
+    --ink-2:     #3a4552;
+    --ink-3:     #6b7684;
+    --dim:       #99a2ac;
+    --faint:     #c7ced5;
+
+    --line:      #dfe3e8;
+    --line-mid:  #cdd2d9;
+    --line-str:  #b5bcc4;
+
+    --accent:    #1e6a89;    /* muted Cisco cyan */
+    --accent-hi: #2a8cb5;
+    --accent-lo: #12475c;
+    --accent-tint:#1e6a8912;
+
+    --notice:    #8a5a20;
+    --notice-tint:#c9963f18;
+    --notice-line:#c9963f80;
+
+    --ok:        #4b7d5f;
+
+    --radius:    6px;
+    --radius-lg: 10px;
   }
 
   *{box-sizing:border-box}
-  html,body{background:var(--paper);color:var(--ink);height:100%}
+  html,body{background:var(--bg);color:var(--ink);height:100%}
   body{
     margin:0;
-    font:400 17px/1.66 var(--serif);
-    font-feature-settings:"onum" 1,"kern" 1,"liga" 1;
-    -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
-    /* barely-there paper grain — 2.5% opacity noise, tiled */
-    background-image:
-      radial-gradient(circle at 25% 15%, #d9cbaa22 0, transparent 42%),
-      radial-gradient(circle at 82% 78%, #d9cbaa1c 0, transparent 38%),
-      var(--paper);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    letter-spacing: -0.003em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1, "tnum" 1;
   }
-  ::selection{background:#c9a67a55;color:var(--ink)}
+  ::selection{background:#2a8cb540;color:var(--ink)}
 
-  a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .18s ease}
-  a:hover{border-bottom-color:var(--accent-2)}
+  a{color:var(--accent);text-decoration:none;transition:color .14s ease}
+  a:hover{color:var(--accent-lo);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
 
-  /* ── the sheet ────────────────────────────────────────────────────────── */
-  .sheet{
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 72px 40px 96px;
+  .mono{font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace}
+
+  /* ── top bar ───────────────────────────────────────────────────────────── */
+  .topbar{
+    position:sticky;top:0;z-index:5;
+    background: #f2f4f6cc;
+    backdrop-filter: blur(10px) saturate(1.2);
+    border-bottom: 1px solid var(--line);
   }
+  .topbar-inner{
+    max-width: 980px;margin:0 auto;
+    padding: 14px 28px;
+    display:flex;align-items:baseline;gap:22px;flex-wrap:wrap;
+  }
+  .brand{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;font-weight:600;color:var(--ink);letter-spacing:.02em;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .brand::before{
+    content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-tint);
+    display:inline-block;
+  }
+  .brand .sep{color:var(--faint);font-weight:400;margin:0 2px}
+  .brand .role{color:var(--ink-3);font-weight:500}
+  .top-meta{
+    margin-left:auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
+    display:inline-flex;gap:12px;align-items:baseline;
+  }
+  .top-meta .sep{color:var(--faint)}
+  .top-meta b{color:var(--ink);font-weight:600}
 
-  /* ── masthead ─────────────────────────────────────────────────────────── */
-  .masthead{
-    display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;
-    padding-bottom:14px;border-bottom:1px solid var(--rule);
-    font-family:var(--sans-sc);
+  /* ── page ──────────────────────────────────────────────────────────────── */
+  .page{max-width:980px;margin:0 auto;padding:56px 28px 96px}
+
+  /* ── overline / label ──────────────────────────────────────────────────── */
+  .overline{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
+    display:inline-flex;align-items:center;gap:10px;margin-bottom:16px;
   }
-  .masthead .l{color:var(--ink)}
-  .masthead .r{color:var(--ink-3)}
-
-  /* ── header block ─────────────────────────────────────────────────────── */
-  .head{
-    padding:56px 0 22px;border-bottom:1px solid var(--rule);
-    display:flex;align-items:flex-end;justify-content:space-between;gap:36px;flex-wrap:wrap;
-  }
-  .head .title{flex:1;min-width:280px}
-  .head h1{
-    font-family:var(--serif);
-    font-size: clamp(34px, 5.4vw, 46px);
-    line-height:1.08;
-    font-weight:400;
-    letter-spacing:-0.008em;
-    margin:0 0 12px;
-    text-wrap:balance;
-    color:var(--ink);
-  }
-  .head h1 em{font-style:italic;color:var(--accent);font-weight:400}
-  .head .byline{
-    font-family:var(--sans-sc);
-    font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
-    display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;
-  }
-  .head .byline .sep{color:var(--faint)}
-  .head .drop{
-    flex-shrink:0;color:var(--accent);opacity:.55;transform:translateY(4px);
-  }
-  .head .drop svg{width:64px;height:64px}
-
-  /* ── lede ─────────────────────────────────────────────────────────────── */
-  .lede{
-    padding:22px 0 0;
-    font-size:19.5px;line-height:1.55;color:var(--ink-2);
-    max-width:60ch;
-    font-style: italic;
-    font-family:var(--serif);
-  }
-  .lede::first-letter{
-    initial-letter: 2;
-    -webkit-initial-letter: 2;
-    color:var(--accent);
-    font-weight:400;
-    margin-right:6px;
-  }
-  .lede em{font-style:normal;color:var(--ink)}
-
-  /* ── section rule ─────────────────────────────────────────────────────── */
-  .rulehead{
-    margin:56px 0 22px;
-    display:flex;align-items:center;gap:14px;
-  }
-  .rulehead .lbl{
-    font-family:var(--sans-sc);
-    font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    white-space:nowrap;
-  }
-  .rulehead::after{
-    content:"";flex:1;height:1px;background:var(--rule);
-  }
-  .rulehead .num{
-    font-family:var(--serif);
-    font-style:italic;color:var(--faint);font-size:15px;font-weight:400;letter-spacing:0;
+  .overline::before{
+    content:"";width:22px;height:1px;background:var(--accent);
   }
 
-  /* ── notice (disclaimer) ──────────────────────────────────────────────── */
+  /* ── hero ──────────────────────────────────────────────────────────────── */
+  h1{
+    font-size: clamp(30px, 4.4vw, 40px);
+    font-weight: 640;
+    line-height: 1.1;
+    letter-spacing: -0.022em;
+    margin: 0 0 14px;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+  h1 .accent{color:var(--accent);font-weight:640}
+
+  .subtitle{
+    font-size: 17px;line-height: 1.55;color: var(--ink-2);margin: 0 0 24px;
+    max-width: 60ch;font-weight:400;
+  }
+  .subtitle b{color:var(--ink);font-weight:600}
+
+  .metabar{
+    display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 22px;
+    padding: 14px 0;
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:12px;letter-spacing:.03em;color:var(--ink-3);
+    margin-bottom:44px;
+  }
+  .metabar .item{display:inline-flex;align-items:baseline;gap:6px}
+  .metabar .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:600}
+  .metabar .v{color:var(--ink);font-weight:600;font-size:12.5px}
+  .metabar .sep{color:var(--faint)}
+
+  /* ── section head ──────────────────────────────────────────────────────── */
+  .sechead{
+    display:flex;align-items:baseline;gap:14px;margin:0 0 20px;
+  }
+  .sechead .no{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:12px;color:var(--faint);font-weight:600;letter-spacing:.06em;
+  }
+  .sechead .t{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:700;
+  }
+  .sechead .r{
+    flex:1;height:1px;background:var(--line);
+  }
+  .sechead .x{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11px;color:var(--dim);letter-spacing:.04em;
+  }
+
+  /* ── notice (disclaimer) — muted amber ─────────────────────────────────── */
   .notice{
-    margin:20px 0 12px;
-    padding: 18px 22px 20px 26px;
-    background: #e2c9ad33;
-    border-top: 1px solid var(--notice);
-    border-bottom: 1px solid var(--notice);
     position:relative;
+    background: var(--notice-tint);
+    border: 1px solid var(--notice-line);
+    border-left-width: 3px;
+    border-left-color: var(--notice);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 0 0 56px;
   }
   .notice .n-label{
-    font-family:var(--sans-sc);
-    font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--notice);font-weight:700;
-    display:block;margin-bottom:8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10px;letter-spacing: .22em;text-transform: uppercase;color: var(--notice);font-weight: 700;
+    display: block;margin-bottom: 8px;
   }
   .notice .n-title{
-    font-family:var(--serif);
-    font-size:19px;line-height:1.3;color:var(--ink);margin:0 0 8px;
-    font-weight:400;font-style:italic;
+    font-size: 15.5px;font-weight: 640;color: var(--ink);margin: 0 0 6px;letter-spacing: -.008em;
   }
   .notice .n-body{
-    font-family:var(--serif);
-    font-size:15.5px;line-height:1.6;color:var(--ink-2);margin:0;
+    font-size: 13.5px;line-height: 1.6;color: var(--ink-2);margin: 0;max-width: 82ch;
   }
   .notice .n-body b{color:var(--ink);font-weight:600}
 
-  /* ── artifact entries (like a printed contents page) ─────────────────── */
-  .entry{
-    padding:26px 0 22px;
-    border-bottom:1px solid var(--rule-hair);
-    display:grid;
-    grid-template-columns: 54px 1fr;
-    gap: 8px 20px;
-    align-items:baseline;
+  /* ── artifact grid ─────────────────────────────────────────────────────── */
+  .grid{
+    display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:56px;
   }
-  .entry:last-of-type{border-bottom:0}
-  .entry .roman{
-    font-family:var(--serif);
-    font-size:26px;line-height:1;font-weight:400;font-style:italic;color:var(--accent);
-    letter-spacing:-.01em;
-  }
-  .entry .body{min-width:0}
-  .entry .kicker{
-    font-family:var(--sans-sc);
-    font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
-    display:flex;gap:14px;align-items:baseline;margin-bottom:4px;
-  }
-  .entry .kicker .live::before{
-    content:"●";color:var(--accent);margin-right:6px;font-size:9px;vertical-align:1px;
-  }
-  .entry h2{
-    font-family:var(--serif);
-    font-size:23px;line-height:1.24;font-weight:400;letter-spacing:-.006em;color:var(--ink);margin:0 0 3px;
-  }
-  .entry h2 .sub{color:var(--ink-3);font-style:italic;font-weight:400}
-  .entry h2 a{color:inherit;border:0}
-  .entry h2 a:hover{color:var(--accent)}
-  .entry .desc{
-    font-family:var(--serif);
-    font-size:15.5px;line-height:1.62;color:var(--ink-2);margin:6px 0 12px;
-    max-width:60ch;
-  }
-  .entry .desc b{color:var(--ink);font-weight:600}
-  .entry .refs{
-    font-family:var(--sans-sc);
-    font-size:12px;letter-spacing:.02em;color:var(--ink-3);
-    display:flex;flex-direction:column;gap:2px;
-  }
-  .entry .refs .r-label{
-    font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--faint);font-weight:700;
-    margin-right:8px;display:inline-block;min-width:44px;
-  }
-  .entry .refs a{color:var(--ink-2);border-bottom:1px dotted var(--faint)}
-  .entry .refs a:hover{color:var(--accent);border-bottom-color:var(--accent-2)}
+  @media(min-width:820px){.grid{grid-template-columns:1fr 1fr 1fr}}
 
-  /* ── pull quote (drop-cap style closer) ──────────────────────────────── */
+  .art{
+    display:flex;flex-direction:column;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 22px 18px;
+    color: inherit;text-decoration:none;
+    transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease;
+    position:relative;
+  }
+  .art:hover{
+    border-color: var(--line-str);
+    box-shadow: 0 1px 2px #13182008, 0 8px 22px #13182010;
+    transform: translateY(-1px);
+    text-decoration:none;
+  }
+  .art .kicker{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:700;
+    margin-bottom:14px;
+  }
+  .art .kicker .pill{
+    padding:2px 8px;border-radius:20px;font-size:9px;letter-spacing:.16em;font-weight:700;
+  }
+  .art .kicker .pill.live{color:#2a5c40;background:#4b7d5f22}
+  .art .kicker .pill.live::before{content:"●";margin-right:5px;color:var(--ok);font-size:8px;vertical-align:1px}
+  .art .kicker .pill.oss{color:var(--accent);background:var(--accent-tint)}
+
+  .art h2{
+    font-size:19px;font-weight:640;color:var(--ink);letter-spacing:-.012em;line-height:1.22;margin:0 0 4px;
+  }
+  .art h2 .sub{color:var(--ink-3);font-weight:440;font-size:15px;display:block;margin-top:2px;letter-spacing:-.004em}
+  .art .desc{
+    font-size:13.5px;line-height:1.58;color:var(--ink-2);margin:12px 0 16px;flex:1;
+  }
+  .art .desc b{color:var(--ink);font-weight:600}
+  .art .refs{
+    display:flex;flex-direction:column;gap:4px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11.5px;color:var(--ink-2);letter-spacing:.005em;
+    padding-top:14px;border-top:1px solid var(--line);
+  }
+  .art .refs .r{display:flex;gap:8px;align-items:baseline}
+  .art .refs .rk{color:var(--dim);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;min-width:38px}
+  .art .refs .rv{color:var(--ink-2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .art .arrow{
+    position:absolute;top:20px;right:22px;color:var(--dim);transition: color .14s ease, transform .14s ease;
+  }
+  .art:hover .arrow{color:var(--accent);transform:translate(2px,-2px)}
+
+  /* ── pull ──────────────────────────────────────────────────────────────── */
   .pull{
-    margin:64px 0 8px;
-    padding: 32px 0 12px;
-    border-top:1px solid var(--rule);
+    padding: 32px 32px 34px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    margin: 0 0 40px;
+  }
+  .pull .lead{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:700;
+    display:block;margin-bottom:12px;
   }
   .pull p{
-    font-family:var(--serif);
-    font-size:22px;line-height:1.4;color:var(--ink);
-    margin:0;max-width:56ch;
-    font-style:italic;font-weight:400;
-    text-wrap:balance;
+    font-size:19px;line-height:1.4;color:var(--ink);margin:0;max-width:56ch;
+    font-weight:440;letter-spacing:-.011em;text-wrap:balance;
   }
-  .pull p .lead{color:var(--accent);font-style:normal;font-weight:600;letter-spacing:-.008em;display:block;margin-bottom:8px;font-size:15px;letter-spacing:.18em;text-transform:uppercase;font-family:var(--sans-sc)}
-  .pull p em{color:var(--ink-2);font-style:normal}
+  .pull p em{color:var(--ink-3);font-style:normal}
 
-  /* ── colophon ─────────────────────────────────────────────────────────── */
-  .colophon{
-    margin-top:64px;padding-top:22px;border-top:1px solid var(--rule);
-    font-family:var(--sans-sc);
-    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);font-weight:600;
-    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  /* ── footer ────────────────────────────────────────────────────────────── */
+  footer{
+    padding-top: 26px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size:11.5px;letter-spacing:.02em;color:var(--ink-3);
   }
-  .colophon .r{text-align:right}
-  .colophon a{color:var(--ink-2)}
-  .colophon a:hover{color:var(--accent)}
-  .colophon .note{
-    display:block;margin-top:6px;text-transform:none;letter-spacing:.02em;
-    font-family:var(--serif);font-style:italic;color:var(--ink-3);font-size:13px;font-weight:400;
-  }
+  footer .l div,footer .r div{margin-bottom:4px}
+  footer .l .name{color:var(--ink);font-weight:600}
+  footer .l a{color:var(--ink-2)}
+  footer .r{text-align:right}
+  footer .r a{color:var(--ink-2)}
+  footer .k{color:var(--dim);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-right:6px}
 
-  /* ── responsive ───────────────────────────────────────────────────────── */
+  /* ── responsive ────────────────────────────────────────────────────────── */
   @media(max-width:640px){
-    .sheet{padding:42px 26px 68px}
-    .head{padding-top:38px;gap:22px}
-    .head .drop svg{width:48px;height:48px}
-    .entry{grid-template-columns:38px 1fr;gap:6px 14px}
-    .entry .roman{font-size:22px}
-    .entry h2{font-size:20px}
-    .pull p{font-size:19px}
-    .lede{font-size:17px}
+    .topbar-inner{padding:12px 20px;gap:14px}
+    .top-meta{display:none}
+    .page{padding:36px 20px 72px}
+    .metabar{gap:8px 16px}
+    .metabar .sep{display:none}
+    .pull{padding:24px 22px 26px}
+    footer{flex-direction:column;gap:14px}
+    footer .r{text-align:left}
   }
 </style>
 </head>
 <body>
 
-<div class="sheet">
-
-  <!-- Masthead -->
-  <div class="masthead">
-    <span class="l">Batman4NY · Lab Artifacts</span>
-    <span class="r">MMXXVI · Upper Nyack, NY</span>
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">
+      Batman4NY
+      <span class="sep">/</span>
+      <span class="role">Cisco DC SE · Lab Artifacts</span>
+    </span>
+    <span class="top-meta">
+      <span><b>3</b> artifacts</span>
+      <span class="sep">·</span>
+      <span><b>2</b> live</span>
+      <span class="sep">·</span>
+      <span>updated <b>2026·07</b></span>
+    </span>
   </div>
+</div>
 
-  <!-- Header -->
-  <header class="head">
-    <div class="title">
-      <h1>Cisco security portfolio, <em>running end-to-end in a home lab.</em></h1>
-      <div class="byline">
-        <span>Billy Garcia</span>
-        <span class="sep">·</span>
-        <span>Cisco GES Premier DC Systems Engineer</span>
-      </div>
-    </div>
-    <div class="drop" aria-hidden="true">
-      <svg viewBox="0 0 64 64" fill="currentColor">
-        <path d="M32 8 L36 24 L52 20 L48 34 L60 40 L48 44 L52 58 L36 52 L32 62 L28 52 L12 58 L16 44 L4 40 L16 34 L12 20 L28 24 Z" opacity="0.9"/>
-      </svg>
-    </div>
-  </header>
+<div class="page">
 
-  <!-- Lede -->
-  <p class="lede">
-    Reproducible builds any SE can pick up. Reference architectures on free tier, real integrations, live URLs — <em>nothing here is a slide deck.</em>
+  <div class="overline">SE Lab · Cisco Secure AI Factory with NVIDIA</div>
+
+  <h1>Cisco security portfolio, <span class="accent">running end-to-end in a home lab.</span></h1>
+
+  <p class="subtitle">
+    Reproducible builds any SE can pick up. Reference architectures on free tier, real integrations, live URLs — <b>nothing here is a slide deck.</b>
   </p>
 
-  <!-- Notice -->
-  <div class="rulehead">
-    <span class="lbl">Notice</span>
-    <span class="num">§</span>
+  <div class="metabar">
+    <span class="item"><span class="k">Author</span><span class="v">Billy Garcia</span></span>
+    <span class="sep">·</span>
+    <span class="item"><span class="k">Role</span><span class="v">Cisco GES Premier DC SE</span></span>
+    <span class="sep">·</span>
+    <span class="item"><span class="k">Stack</span><span class="v">15+ Cisco · NVIDIA NIM · OCI</span></span>
+    <span class="sep">·</span>
+    <span class="item"><span class="k">Cost</span><span class="v">$0 / mo · free tier</span></span>
   </div>
+
+  <!-- Notice -->
+  <div class="sechead">
+    <span class="no">§ 01</span>
+    <span class="t">Notice</span>
+    <span class="r"></span>
+    <span class="x">read this first</span>
+  </div>
+
   <div class="notice">
-    <span class="n-label">Read this first</span>
+    <span class="n-label">⚠ Disclaimer</span>
     <p class="n-title">Personal project — not Cisco-official.</p>
     <p class="n-body">
       These are <b>home lab artifacts</b> built by a Cisco employee on their own time. Product references are to <b>publicly available</b> Cisco offerings. <b>Not affiliated with, endorsed by, sponsored by, or representing Cisco Systems, Inc.</b> Nothing here should be construed as an official Cisco reference, product statement, or roadmap.
@@ -288,74 +341,96 @@
   </div>
 
   <!-- Artifacts -->
-  <div class="rulehead">
-    <span class="lbl">Artifacts</span>
-    <span class="num">three</span>
+  <div class="sechead">
+    <span class="no">§ 02</span>
+    <span class="t">Artifacts</span>
+    <span class="r"></span>
+    <span class="x">three published</span>
   </div>
 
-  <article class="entry">
-    <div class="roman">I.</div>
-    <div class="body">
-      <div class="kicker"><span class="live">Live</span><span>Integration Roadmap</span></div>
-      <h2><a href="https://ciscopulse.uppernyack.com/">SE Lab <span class="sub">— Cisco Secure AI Factory with NVIDIA</span></a></h2>
+  <div class="grid">
+
+    <a class="art" href="https://ciscopulse.uppernyack.com/" rel="noopener">
+      <span class="arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+      </span>
+      <div class="kicker">
+        <span class="pill live">Live</span>
+        <span>Integration Roadmap</span>
+      </div>
+      <h2>SE Lab<span class="sub">Cisco Secure AI Factory with NVIDIA</span></h2>
       <p class="desc">
         Fifteen-plus Cisco products stitched into the Secure AI Factory reference architecture — <b>Access, AI Runtime, Data, Compute, Network</b> — with observability and security wrapping. Same tenant a real customer deployment would use, on OCI free tier.
       </p>
       <div class="refs">
-        <span><span class="r-label">Site</span><a href="https://ciscopulse.uppernyack.com/">ciscopulse.uppernyack.com</a></span>
+        <span class="r"><span class="rk">Site</span><span class="rv">ciscopulse.uppernyack.com</span></span>
       </div>
-    </div>
-  </article>
+    </a>
 
-  <article class="entry">
-    <div class="roman">II.</div>
-    <div class="body">
-      <div class="kicker"><span class="live">Live</span><span>Customer Demo · Open Source</span></div>
-      <h2><a href="https://github.com/Batman4NY/netbox-aidefense-demo">AI Defense <span class="sub">— NetBox + Nemotron, three-point guard</span></a></h2>
+    <a class="art" href="https://github.com/Batman4NY/netbox-aidefense-demo" rel="noopener">
+      <span class="arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+      </span>
+      <div class="kicker">
+        <span class="pill live">Live</span>
+        <span class="pill oss">OSS</span>
+        <span>Customer Demo</span>
+      </div>
+      <h2>AI Defense<span class="sub">NetBox + Nemotron, three-point guard</span></h2>
       <p class="desc">
         Chatbot demo showing <b>Cisco AI Defense</b> guarding a <b>Nemotron</b>-driven NetBox operation at three inspection points — input, tool args, output. Six scenarios cover injection, destructive action, PII, credential exfil.
       </p>
       <div class="refs">
-        <span><span class="r-label">Repo</span><a href="https://github.com/Batman4NY/netbox-aidefense-demo">github.com/Batman4NY/netbox-aidefense-demo</a></span>
-        <span><span class="r-label">Live</span><a href="https://aidefense-demo.uppernyack.com">aidefense-demo.uppernyack.com</a></span>
+        <span class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/netbox-aidefense-demo</span></span>
+        <span class="r"><span class="rk">Live</span><span class="rv">aidefense-demo.uppernyack.com</span></span>
       </div>
-    </div>
-  </article>
+    </a>
 
-  <article class="entry">
-    <div class="roman">III.</div>
-    <div class="body">
-      <div class="kicker"><span>Build Guide · Docs</span></div>
-      <h2><a href="https://batman4ny.github.io/consolepi-build-guide/">ConsolePi <span class="sub">— Pi serial console for modern Cisco gear</span></a></h2>
+    <a class="art" href="https://batman4ny.github.io/consolepi-build-guide/" rel="noopener">
+      <span class="arrow">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+      </span>
+      <div class="kicker">
+        <span class="pill oss">Docs</span>
+        <span>Build Guide</span>
+      </div>
+      <h2>ConsolePi<span class="sub">Pi serial console for modern Cisco gear</span></h2>
       <p class="desc">
-        Tested recipe for turning a Raspberry Pi into a network-accessible serial console — <b>both traditional RJ45 and modern USB-C</b> consoles (1200/3100/4200 Secure Firewalls, Catalyst 9000). Quiet 30-minute build, around $85 in parts.
+        Tested recipe for turning a Raspberry Pi into a network-accessible serial console — <b>traditional RJ45 and modern USB-C</b> consoles (1200/3100/4200 Secure Firewalls, Catalyst 9000). Quiet 30-minute build, around $85 in parts.
       </p>
       <div class="refs">
-        <span><span class="r-label">Guide</span><a href="https://batman4ny.github.io/consolepi-build-guide/">batman4ny.github.io/consolepi-build-guide</a></span>
-        <span><span class="r-label">Repo</span><a href="https://github.com/Batman4NY/consolepi-build-guide">github.com/Batman4NY/consolepi-build-guide</a></span>
+        <span class="r"><span class="rk">Guide</span><span class="rv">batman4ny.github.io/consolepi-build-guide</span></span>
+        <span class="r"><span class="rk">Repo</span><span class="rv">github.com/Batman4NY/consolepi-build-guide</span></span>
       </div>
-    </div>
-  </article>
+    </a>
+
+  </div>
 
   <!-- Pull -->
+  <div class="sechead">
+    <span class="no">§ 03</span>
+    <span class="t">Statement</span>
+    <span class="r"></span>
+  </div>
+
   <div class="pull">
+    <span class="lead">One tenant · One lab · Every story starts here</span>
     <p>
-      <span class="lead">One tenant · One lab · Every story starts here</span>
       When a peer asks what a Cisco reference architecture looks like at enterprise scale, the answer opens in a browser tab — <em>not a PDF.</em>
     </p>
   </div>
 
-  <!-- Colophon -->
-  <div class="colophon">
-    <div>
-      <div>Billy Garcia</div>
-      <span class="note">bgarcia@cisco.com</span>
+  <!-- Footer -->
+  <footer>
+    <div class="l">
+      <div><span class="name">Billy Garcia</span></div>
+      <div><span class="k">Contact</span><a href="mailto:bgarcia@cisco.com">bgarcia@cisco.com</a></div>
     </div>
     <div class="r">
       <div><a href="https://github.com/Batman4NY">github.com/Batman4NY</a></div>
-      <span class="note">Set in Iowan Old Style · From Upper Nyack, NY</span>
+      <div><span class="k">Loc</span>Upper Nyack, NY</div>
     </div>
-  </div>
+  </footer>
 
 </div>
 
