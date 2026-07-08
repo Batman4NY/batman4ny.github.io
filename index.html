@@ -166,6 +166,62 @@
   /* Live services mini strip */
   .services{margin-top: 24px}
 
+  /* ── deployment tiers (Central DC / Local Edge / Enterprise Edge / SP Edge) ── */
+  .tiers-grid{
+    display:grid;grid-template-columns: repeat(4, 1fr);gap: 12px;
+  }
+  @media(max-width:900px){.tiers-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.tiers-grid{grid-template-columns:1fr}}
+
+  .tier-card{
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ink-3);
+    border-radius: 8px;
+    padding: 16px 18px 18px;
+    display:flex;flex-direction:column;gap:10px;
+    transition: border-color .16s ease;
+  }
+  .tier-card:hover{border-color: var(--rule-str)}
+  .tier-card.dc{border-top-color: var(--cyan)}
+  .tier-card.le{border-top-color: var(--green)}
+  .tier-card.ee{border-top-color: var(--amber)}
+  .tier-card.sp{border-top-color: var(--muted)}
+
+  .tier-card .name{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+    color:var(--ink);line-height:1;
+  }
+  .tier-card.dc .name{color:var(--cyan-hi)}
+  .tier-card.le .name{color:var(--green-hi)}
+  .tier-card.ee .name{color:var(--amber)}
+  .tier-card.sp .name{color:var(--ink-2)}
+
+  .tier-card .focus{
+    font-size:13px;line-height:1.55;color:var(--ink-2);margin:0;
+  }
+  .tier-card .focus b{color:var(--ink);font-weight:600}
+  .tier-card .prods{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:10.5px;color:var(--ink-3);letter-spacing:.02em;line-height:1.6;
+    padding-top:10px;border-top:1px solid var(--rule);
+  }
+  .tier-card .prods .prod{color:var(--ink);font-weight:600}
+  .tier-card .status{
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+    padding: 3px 8px;border-radius:10px;line-height:1;
+    align-self:flex-start;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .tier-card .status.covered{color:var(--green);background:var(--green-tint);border:1px solid var(--green-lo)}
+  .tier-card .status.covered::before{
+    content:"";width:5px;height:5px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 0 2px var(--green-glow);animation:pulse 2.6s ease-in-out infinite;
+  }
+  .tier-card .status.out{color:var(--muted);background:var(--paper-lo);border:1px solid var(--rule)}
+
   /* ── adjacent tooling (not in SAIF, but the lab needs it) ────────── */
   .adj-tooling{display:flex;flex-direction:column;gap:12px}
   .adj-tool{
@@ -435,7 +491,7 @@
           </div>
 
           <div class="saif-foot">
-            <span class="l"><b>Deployed:</b> OCI Free Tier · 2× AMD E2.1.Micro + 1× Ampere A1.Flex · Ubuntu 24.04 · Caddy TLS · Cloudflare DNS &nbsp;·&nbsp; <b>SAIF tiers:</b> Central DC · Local Edge · Enterprise Edge · Service Provider Edge</span>
+            <span class="l"><b>Deployed:</b> OCI Free Tier · 2× AMD E2.1.Micro + 1× Ampere A1.Flex · Ubuntu 24.04 · Caddy TLS · Cloudflare DNS</span>
             <span class="r"><a href="https://ciscopulse.uppernyack.com/">Full stack write-up ↗</a></span>
           </div>
         </div>
@@ -444,6 +500,54 @@
           <span class="item"><span class="sw impl"></span>Implemented — code + live URL</span>
           <span class="item"><span class="sw adj"></span>Adjacent — home-lab substitute for the reference product</span>
           <span class="item"><span class="sw planned"></span>Planned — reference only</span>
+        </div>
+      </section>
+
+      <!-- DEPLOYMENT TIERS — orthogonal to L1-L5, where SAIF actually runs -->
+      <section id="tiers">
+        <div class="sec-head">
+          <span class="eyebrow">§ Deployment tiers</span>
+          <span class="t">Where SAIF actually runs</span>
+          <span class="r"></span>
+          <span class="x">GTC 2026 tier framing · lab coverage: <b class="cy">Central DC</b> only</span>
+        </div>
+
+        <div class="tiers-grid">
+          <div class="tier-card dc">
+            <div class="name">Central DC</div>
+            <p class="focus"><b>Large-scale AI factory.</b> Training and high-throughput inference. Where the full SAIF stack lives at scale.</p>
+            <div class="prods">
+              <span class="prod">Cisco UCS</span> + RTX PRO 4500 Blackwell · <span class="prod">Cisco N9100</span> (Spectrum-6) · <span class="prod">Silicon One G300/P200</span> · <span class="prod">Nexus One</span> · <span class="prod">Hybrid Mesh Firewall</span> on BlueField
+            </div>
+            <span class="status covered">In lab</span>
+          </div>
+
+          <div class="tier-card le">
+            <div class="name">Local Edge</div>
+            <p class="focus"><b>Real-time decision points.</b> Hospitals, warehouses, moving vehicles — where latency to a central DC would defeat the use case.</p>
+            <div class="prods">
+              <span class="prod">Cisco Unified Edge</span> · edge GPU compute · low-latency inference · edge AI runtime
+            </div>
+            <span class="status out">Not covered</span>
+          </div>
+
+          <div class="tier-card ee">
+            <div class="name">Enterprise Edge</div>
+            <p class="focus"><b>Mission-critical AI on edge hardware.</b> Enterprise sites running AI workloads that need locality and high availability.</p>
+            <div class="prods">
+              <span class="prod">Cisco Unified Edge</span> · edge compute + storage · HA topology · SAIF policy locally
+            </div>
+            <span class="status out">Not covered</span>
+          </div>
+
+          <div class="tier-card sp">
+            <div class="name">SP Edge</div>
+            <p class="focus"><b>Managed edge AI for customers.</b> Service providers hosting multi-tenant AI at the operator edge.</p>
+            <div class="prods">
+              <span class="prod">Cisco Mobility Services Platform</span> · multi-tenant edge · SP-managed AI · policy fan-out
+            </div>
+            <span class="status out">Not covered</span>
+          </div>
         </div>
       </section>
 
