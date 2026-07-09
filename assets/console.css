@@ -310,64 +310,59 @@ main{flex:1;min-width:0;display:flex;flex-direction:column}
   .topbar{padding:12px 22px}
 }
 
-/* ─── MATTE + TYPE-BUMP (2026-07-09) ────────────────────────────────
-   Removes glossy card gradients/shadows/hover-lifts and
-   bumps prose type ~1px. Palette tokens untouched.
-   To revert: delete this block. */
+/* ─── MATTE + TYPE-BUMP (2026-07-09, amplified) ─────────────────────
+   Kill glossy gradients + shadows + hover-lifts, sharpen card corners
+   for cardstock feel, and bump prose type meaningfully (15→17px).
+   Palette tokens untouched. To revert: delete this block. */
 
-/* ── kill card background gradients (flatten to closest paper token) ── */
-.repo-head,
-.guide-head,
-.saf-banner,
-.agent-head{
+/* ── kill EVERY card gradient (flatten to a single paper tone) ────── */
+.repo-head, .guide-head, .saf-banner, .agent-head,
+.hero-block, .about-card, .disc-body, .thesis,
+.tier, .tier.next, .c3-companion, .saif, .agent-panel,
+.zone, .zone.cisco, .zone.nvidia, .zone.oci, .zone.github,
+.zone.home, .zone.users, .topo{
   background-image: none !important;
+}
+.repo-head, .guide-head, .saf-banner, .agent-head{
   background-color: var(--paper-hi) !important;
 }
-.tier.next{
-  background-image: none !important;
-  background-color: var(--paper) !important;
-}
+.tier.next{ background-color: var(--paper) !important; }
+
+/* Topology zones: keep the semantic color as a flat tint, drop the fade */
+.zone.cisco   { background-color: #049fd90d !important; }
+.zone.nvidia  { background-color: #76b9000d !important; }
+.zone.oci     { background-color: #c05a260d !important; }
+.zone.github  { background-color: #99a2ac0d !important; }
+.zone.home    { background-color: #d977060d !important; }
+.zone.users   { background-color: #7f5abf0d !important; }
+
 /* SAIF status layers: retain semantic tint but drop the fade */
-.saif-layer.hit{
-  background-image: none !important;
-  background-color: var(--green-tint) !important;
-}
-.saif-layer.adj{
-  background-image: none !important;
-  background-color: var(--cyan-tint) !important;
-}
+.saif-layer.hit{ background-color: var(--green-tint) !important; background-image: none !important; }
+.saif-layer.adj{ background-color: var(--cyan-tint)  !important; background-image: none !important; }
 
-/* ── kill non-status glossy shadows ─────────────────────────────── */
-/* Sidebar: keep the 1px inset edge; drop the diffuse right-side lift */
+/* ── kill non-focus, non-modal shadows ────────────────────────────── */
 .side{ box-shadow: inset -1px 0 0 #00000060 !important; }
+.hero-block, .repo, .guide, .about-card, .disc-body,
+.thesis, .c3-companion, .saif, .agent-panel, .tier,
+.notice, .close, .zone, .topo{ box-shadow: none !important; }
 
-/* ── soften card border-radius (10px → 8px) ─────────────────────── */
-.hero-block,
-.about-card,
-.disc-body,
-.thesis,
-.repo,
-.guide,
-.repo-summary,
-.lib-summary,
-.tier,
-.c3-companion,
-.close,
-.saif,
-.agent-panel,
-.tbl,
-.notice{ border-radius: 8px !important; }
-/* saf-stack was 12px, bring in-line */
-.saf-stack{ border-radius: 8px !important; }
+/* ── sharper card corners (cardstock feel, not rounded plastic) ──── */
+.hero-block, .about-card, .disc-body, .thesis,
+.repo, .guide, .repo-summary, .lib-summary, .tier,
+.c3-companion, .close, .saif, .agent-panel, .tbl,
+.notice, .zone, .topo{ border-radius: 6px !important; }
+.saf-stack{ border-radius: 6px !important; }
 
-/* ── prose type bump + breathing room ───────────────────────────── */
-.prose-block p{ font-size: 16px !important; line-height: 1.7 !important; }
-.hero-block .lede{ font-size: 17.5px !important; line-height: 1.65 !important; }
-.about-bio p{ font-size: 16px !important; line-height: 1.7 !important; }
-.disc-body p{ font-size: 16px !important; line-height: 1.7 !important; }
+/* ── prose type BUMP (undeniably visible: 15→17, 16.5→19) ────────── */
+.prose-block p        { font-size: 17px   !important; line-height: 1.72 !important; }
+.hero-block .lede     { font-size: 19px   !important; line-height: 1.55 !important; }
+.about-bio p          { font-size: 17px   !important; line-height: 1.72 !important; }
+.disc-body p          { font-size: 17px   !important; line-height: 1.7  !important; }
 .guide-head .desc,
-.repo-head .desc{ font-size: 15px !important; line-height: 1.6 !important; }
+.repo-head  .desc     { font-size: 16px   !important; line-height: 1.6  !important; }
 .live-intro,
 .adj-intro,
-.ref-intro{ font-size: 15.5px !important; line-height: 1.7 !important; }
+.ref-intro            { font-size: 16.5px !important; line-height: 1.7  !important; }
+.about-contact .v     { font-size: 14.5px !important; }
+.colophon             { font-size: 12.5px !important; }
 /* — end MATTE + TYPE-BUMP — */
