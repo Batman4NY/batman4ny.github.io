@@ -16,46 +16,48 @@
   .topo-intro .gn{color:var(--green)}
   .topo-intro .am{color:var(--amber)}
 
-  /* SVG NETWORK DIAGRAM ─────────────────────────────────────────────── */
+  /* SVG NETWORK DIAGRAM — dark island on metallic-paper page ─────────── */
   .netdiag{
-    background: var(--paper);
-    border: 1px solid var(--rule);
-    border-radius: 12px;
+    background: #0e1013;
+    border: 1px solid #23272e;
+    border-radius: 6px;
     padding: 20px 20px 22px;
     margin: 0 0 24px;
     overflow-x: auto;
+    box-shadow: 0 8px 24px rgba(26,24,19,.12);
+    color: #c0c5cf;
   }
   .netdiag-head{
     display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
-    margin-bottom: 14px;padding-bottom: 12px;border-bottom: 1px solid var(--rule);
+    margin-bottom: 14px;padding-bottom: 12px;border-bottom: 1px solid #23272e;
     font-family: "JetBrains Mono", ui-monospace, monospace;
   }
-  .netdiag-head .t{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);font-weight:700}
-  .netdiag-head .x{font-size:10.5px;color:var(--ink-3);letter-spacing:.04em}
+  .netdiag-head .t{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:#f6f7f9;font-weight:700}
+  .netdiag-head .x{font-size:10.5px;color:#7a828e;letter-spacing:.04em}
   .netdiag svg{display:block;min-width:1000px;width:100%;height:auto}
   .netdiag-mini-legend{
     display:flex;flex-wrap:wrap;gap:16px 22px;
     padding: 14px 4px 0;margin-top: 8px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size:10.5px;letter-spacing:.02em;color:var(--ink-2);
-    border-top: 1px solid var(--rule);
+    font-size:10.5px;letter-spacing:.02em;color:#c0c5cf;
+    border-top: 1px solid #23272e;
   }
   .netdiag-mini-legend .item{display:inline-flex;align-items:center;gap:8px}
   .netdiag-mini-legend .line{width:22px;height:2px;border-radius:1px}
-  .netdiag-mini-legend .line.public{background:var(--cyan)}
-  .netdiag-mini-legend .line.mgmt{background:var(--amber)}
-  .netdiag-mini-legend .line.data{background:var(--green)}
-  .netdiag-mini-legend .line.oob{background:var(--muted);background-image: repeating-linear-gradient(90deg, var(--muted) 0 4px, transparent 4px 8px);height:2px}
-  .netdiag-mini-legend .line.sso{background:#6c4a9e}
-  .netdiag-mini-legend .line.planned{background:transparent;border-top:2px dashed var(--amber)}
+  .netdiag-mini-legend .line.public{background:#049fd9}
+  .netdiag-mini-legend .line.mgmt{background:#d97706}
+  .netdiag-mini-legend .line.data{background:#76b900}
+  .netdiag-mini-legend .line.oob{background:#5c626d;background-image: repeating-linear-gradient(90deg, #5c626d 0 4px, transparent 4px 8px);height:2px}
+  .netdiag-mini-legend .line.sso{background:#a78bcc}
+  .netdiag-mini-legend .line.planned{background:transparent;border-top:2px dashed #d97706}
 
   /* Click-to-enlarge affordance on the SVG */
   .netdiag svg{cursor: zoom-in;transition: filter .18s ease}
-  .netdiag svg:hover{filter: brightness(1.06)}
+  .netdiag svg:hover{filter: brightness(1.08)}
   .netdiag-head .zoom-hint{
     display:inline-flex;align-items:center;gap:6px;
-    color:var(--cyan);font-weight:700;
-    padding: 3px 9px;background: var(--cyan-tint);border: 1px solid var(--cyan-lo);border-radius:20px;
+    color:#049fd9;font-weight:700;
+    padding: 3px 9px;background: rgba(4,159,217,.10);border: 1px solid rgba(4,159,217,.35);border-radius:20px;
     font-size:10px;letter-spacing:.14em;
   }
   .netdiag-head .zoom-hint::before{
@@ -87,9 +89,9 @@
     cursor: default;
     display: flex;
     flex-direction: column;
-    background: var(--paper);
-    border: 1px solid var(--rule-str);
-    border-radius: 12px;
+    background: #0e1013;
+    border: 1px solid #23272e;
+    border-radius: 6px;
     box-shadow: 0 16px 40px rgba(26, 24, 19, .28);
     overflow: hidden;
   }
@@ -119,25 +121,25 @@
     position: absolute;
     top: 12px;right: 12px;
     z-index: 2;
-    color: var(--ink);
-    background: var(--paper);
-    border: 1px solid var(--rule-str);border-radius: 6px;
+    color: #f6f7f9;
+    background: #161822;
+    border: 1px solid #2a2d3a;border-radius: 6px;
     padding: 6px 14px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
     font-size: 11px;letter-spacing:.14em;font-weight: 700;
     cursor: pointer;
     display: inline-flex;align-items: center;gap: 8px;
   }
-  .diagram-modal-close:hover{border-color: var(--cyan);color: var(--cyan-hi);background: var(--cyan-tint)}
+  .diagram-modal-close:hover{border-color: #049fd9;color: #049fd9;background: rgba(4,159,217,.12)}
   .diagram-modal-close::before{content: "×";font-size: 18px;line-height:1}
   .diagram-modal-hint{
     position: absolute;
     bottom: 12px;left: 20px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 10.5px;color: var(--ink-3);letter-spacing:.14em;
+    font-size: 10.5px;color: #7a828e;letter-spacing:.14em;
     pointer-events: none;
   }
-  .diagram-modal-hint b{color:var(--ink-2)}
+  .diagram-modal-hint b{color:#c0c5cf}
   @media (max-width: 720px){
     .diagram-modal{padding: 8px}
     .diagram-modal-svg-holder{padding: 4px}
@@ -391,19 +393,19 @@
             <defs>
               <!-- Arrow markers -->
               <marker id="arr-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#0e5a80"/>
+                <path d="M0,0 L10,5 L0,10 z" fill="#049fd9"/>
               </marker>
               <marker id="arr-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#8a4a08"/>
+                <path d="M0,0 L10,5 L0,10 z" fill="#d97706"/>
               </marker>
               <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#4a6f18"/>
+                <path d="M0,0 L10,5 L0,10 z" fill="#76b900"/>
               </marker>
               <marker id="arr-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#64604f"/>
+                <path d="M0,0 L10,5 L0,10 z" fill="#7a828e"/>
               </marker>
               <marker id="arr-violet" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M0,0 L10,5 L0,10 z" fill="#6c4a9e"/>
+                <path d="M0,0 L10,5 L0,10 z" fill="#a78bcc"/>
               </marker>
             </defs>
 
@@ -411,38 +413,38 @@
 
             <!-- USERS zone -->
             <g>
-              <rect x="20" y="20" width="700" height="100" rx="8" fill="#6c4a9e10" stroke="#6c4a9e70" stroke-width="1" stroke-dasharray="4,3"/>
-              <text x="35" y="14" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#6c4a9e" letter-spacing="2">USERS</text>
+              <rect x="20" y="20" width="700" height="100" rx="8" fill="#a78bcc10" stroke="#a78bcc70" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="35" y="14" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#a78bcc" letter-spacing="2">USERS</text>
             </g>
 
             <!-- OCI zone -->
             <g>
-              <rect x="20" y="150" width="330" height="220" rx="8" fill="#8a4a0810" stroke="#8a4a0870" stroke-width="1" stroke-dasharray="4,3"/>
-              <text x="35" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#8a4a08" letter-spacing="2">OCI TENANCY · $0/mo</text>
+              <rect x="20" y="150" width="330" height="220" rx="8" fill="#d9770610" stroke="#d9770670" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="35" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#d97706" letter-spacing="2">OCI TENANCY · $0/mo</text>
             </g>
 
             <!-- NVIDIA zone -->
             <g>
-              <rect x="370" y="150" width="250" height="220" rx="8" fill="#4a6f1810" stroke="#4a6f1870" stroke-width="1" stroke-dasharray="4,3"/>
-              <text x="385" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#4a6f18" letter-spacing="2">NVIDIA</text>
+              <rect x="370" y="150" width="250" height="220" rx="8" fill="#76b90010" stroke="#76b90070" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="385" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#76b900" letter-spacing="2">NVIDIA</text>
             </g>
 
             <!-- GITHUB zone -->
             <g>
-              <rect x="640" y="150" width="230" height="220" rx="8" fill="#64604f10" stroke="#726a5550" stroke-width="1" stroke-dasharray="4,3"/>
-              <text x="655" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#64604f" letter-spacing="2">GITHUB · Batman4NY</text>
+              <rect x="640" y="150" width="230" height="220" rx="8" fill="#7a828e10" stroke="#5c626d50" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="655" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#7a828e" letter-spacing="2">GITHUB · Batman4NY</text>
             </g>
 
             <!-- CISCO TENANT zone (spans right side, tall) -->
             <g>
-              <rect x="900" y="150" width="480" height="600" rx="8" fill="#0e5a8010" stroke="#0e5a8070" stroke-width="1" stroke-dasharray="4,3"/>
-              <text x="915" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#0e5a80" letter-spacing="2">CISCO TENANT · SSO federated</text>
+              <rect x="900" y="150" width="480" height="600" rx="8" fill="#049fd910" stroke="#049fd970" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="915" y="144" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#049fd9" letter-spacing="2">CISCO TENANT · SSO federated</text>
             </g>
 
             <!-- HOME RACK zone -->
             <g>
-              <rect x="20" y="410" width="850" height="360" rx="8" fill="#8a4a0810" stroke="#8a4a08c0" stroke-width="1" stroke-dasharray="4,3"/>
-              <text x="35" y="404" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#8a4a08" letter-spacing="2">HOME RACK · Upper Nyack, NY</text>
+              <rect x="20" y="410" width="850" height="360" rx="8" fill="#d9770610" stroke="#d97706c0" stroke-width="1" stroke-dasharray="4,3"/>
+              <text x="35" y="404" font-family="JetBrains Mono, monospace" font-size="10" font-weight="700" fill="#d97706" letter-spacing="2">HOME RACK · Upper Nyack, NY</text>
             </g>
 
 
@@ -450,228 +452,228 @@
 
             <!-- USERS row -->
             <g font-family="JetBrains Mono, monospace">
-              <rect x="40" y="45" width="200" height="60" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="140" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">Public visitor</text>
-              <text x="140" y="88" text-anchor="middle" font-size="9" fill="#64604f" letter-spacing="1">ANY BROWSER</text>
+              <rect x="40" y="45" width="200" height="60" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="140" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">Public visitor</text>
+              <text x="140" y="88" text-anchor="middle" font-size="9" fill="#7a828e" letter-spacing="1">ANY BROWSER</text>
 
-              <rect x="260" y="45" width="200" height="60" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="360" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">Peer / reader</text>
-              <text x="360" y="88" text-anchor="middle" font-size="9" fill="#64604f" letter-spacing="1">ANY BROWSER</text>
+              <rect x="260" y="45" width="200" height="60" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="360" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">Peer / reader</text>
+              <text x="360" y="88" text-anchor="middle" font-size="9" fill="#7a828e" letter-spacing="1">ANY BROWSER</text>
 
-              <rect x="480" y="45" width="200" height="60" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="580" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">Admin (Billy)</text>
-              <text x="580" y="88" text-anchor="middle" font-size="9" fill="#64604f" letter-spacing="1">WORKSTATION</text>
+              <rect x="480" y="45" width="200" height="60" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="580" y="70" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">Admin (Billy)</text>
+              <text x="580" y="88" text-anchor="middle" font-size="9" fill="#7a828e" letter-spacing="1">WORKSTATION</text>
             </g>
 
             <!-- OCI nodes -->
             <g font-family="JetBrains Mono, monospace">
-              <rect x="40" y="175" width="290" height="52" rx="6" fill="#efe9d4" stroke="#4a6f18" stroke-width="1.5"/>
-              <text x="52" y="196" font-size="11" font-weight="700" fill="#1a1813">cisco-web-1-arm</text>
-              <text x="52" y="212" font-size="9" fill="#34302a" letter-spacing=".5">Ampere ARM64 · 2 OCPU · 12 GB</text>
-              <rect x="285" y="180" width="35" height="14" rx="7" fill="#4a6f1822" stroke="#3a5312" stroke-width=".8"/>
-              <text x="302" y="190" text-anchor="middle" font-size="7.5" font-weight="700" fill="#4a6f18" letter-spacing="1">LIVE</text>
+              <rect x="40" y="175" width="290" height="52" rx="6" fill="#10121a" stroke="#76b900" stroke-width="1.5"/>
+              <text x="52" y="196" font-size="11" font-weight="700" fill="#f6f7f9">cisco-web-1-arm</text>
+              <text x="52" y="212" font-size="9" fill="#c0c5cf" letter-spacing=".5">Ampere ARM64 · 2 OCPU · 12 GB</text>
+              <rect x="285" y="180" width="35" height="14" rx="7" fill="#76b90022" stroke="#558600" stroke-width=".8"/>
+              <text x="302" y="190" text-anchor="middle" font-size="7.5" font-weight="700" fill="#76b900" letter-spacing="1">LIVE</text>
 
-              <rect x="40" y="240" width="290" height="42" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="52" y="258" font-size="10.5" font-weight="700" fill="#1a1813">Cloudflare DNS</text>
-              <text x="52" y="273" font-size="8.5" fill="#64604f">Zone: uppernyack.com · gray-cloud</text>
+              <rect x="40" y="240" width="290" height="42" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="52" y="258" font-size="10.5" font-weight="700" fill="#f6f7f9">Cloudflare DNS</text>
+              <text x="52" y="273" font-size="8.5" fill="#7a828e">Zone: uppernyack.com · gray-cloud</text>
 
-              <rect x="40" y="295" width="290" height="42" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="52" y="313" font-size="10.5" font-weight="700" fill="#1a1813">Let's Encrypt</text>
-              <text x="52" y="328" font-size="8.5" fill="#64604f">ACME · tls-alpn-01 · via Caddy</text>
+              <rect x="40" y="295" width="290" height="42" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="52" y="313" font-size="10.5" font-weight="700" fill="#f6f7f9">Let's Encrypt</text>
+              <text x="52" y="328" font-size="8.5" fill="#7a828e">ACME · tls-alpn-01 · via Caddy</text>
             </g>
 
             <!-- NVIDIA nodes -->
             <g font-family="JetBrains Mono, monospace">
-              <rect x="390" y="175" width="210" height="52" rx="6" fill="#efe9d4" stroke="#4a6f18" stroke-width="1.5"/>
-              <text x="402" y="196" font-size="11" font-weight="700" fill="#1a1813">build.nvidia.com</text>
-              <text x="402" y="211" font-size="9" fill="#34302a" letter-spacing=".5">NIM Free · up to 5K credits · 40 RPM</text>
-              <rect x="555" y="180" width="35" height="14" rx="7" fill="#4a6f1822" stroke="#3a5312" stroke-width=".8"/>
-              <text x="572" y="190" text-anchor="middle" font-size="7.5" font-weight="700" fill="#4a6f18" letter-spacing="1">LIVE</text>
+              <rect x="390" y="175" width="210" height="52" rx="6" fill="#10121a" stroke="#76b900" stroke-width="1.5"/>
+              <text x="402" y="196" font-size="11" font-weight="700" fill="#f6f7f9">build.nvidia.com</text>
+              <text x="402" y="211" font-size="9" fill="#c0c5cf" letter-spacing=".5">NIM Free · up to 5K credits · 40 RPM</text>
+              <rect x="555" y="180" width="35" height="14" rx="7" fill="#76b90022" stroke="#558600" stroke-width=".8"/>
+              <text x="572" y="190" text-anchor="middle" font-size="7.5" font-weight="700" fill="#76b900" letter-spacing="1">LIVE</text>
 
-              <rect x="390" y="240" width="210" height="42" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="402" y="258" font-size="10.5" font-weight="700" fill="#1a1813">Nemotron</text>
-              <text x="402" y="273" font-size="8.5" fill="#64604f">Endpoint via NIM</text>
+              <rect x="390" y="240" width="210" height="42" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="402" y="258" font-size="10.5" font-weight="700" fill="#f6f7f9">Nemotron</text>
+              <text x="402" y="273" font-size="8.5" fill="#7a828e">Endpoint via NIM</text>
             </g>
 
             <!-- GITHUB nodes -->
             <g font-family="JetBrains Mono, monospace">
-              <rect x="660" y="175" width="190" height="52" rx="6" fill="#efe9d4" stroke="#4a6f18" stroke-width="1.5"/>
-              <text x="672" y="196" font-size="11" font-weight="700" fill="#1a1813">Pages hosting</text>
-              <text x="672" y="211" font-size="9" fill="#34302a" letter-spacing=".5">batman4ny.github.io/*</text>
-              <rect x="805" y="180" width="35" height="14" rx="7" fill="#4a6f1822" stroke="#3a5312" stroke-width=".8"/>
-              <text x="822" y="190" text-anchor="middle" font-size="7.5" font-weight="700" fill="#4a6f18" letter-spacing="1">LIVE</text>
+              <rect x="660" y="175" width="190" height="52" rx="6" fill="#10121a" stroke="#76b900" stroke-width="1.5"/>
+              <text x="672" y="196" font-size="11" font-weight="700" fill="#f6f7f9">Pages hosting</text>
+              <text x="672" y="211" font-size="9" fill="#c0c5cf" letter-spacing=".5">batman4ny.github.io/*</text>
+              <rect x="805" y="180" width="35" height="14" rx="7" fill="#76b90022" stroke="#558600" stroke-width=".8"/>
+              <text x="822" y="190" text-anchor="middle" font-size="7.5" font-weight="700" fill="#76b900" letter-spacing="1">LIVE</text>
 
-              <rect x="660" y="240" width="190" height="42" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="672" y="258" font-size="10.5" font-weight="700" fill="#1a1813">Repos</text>
-              <text x="672" y="273" font-size="8.5" fill="#64604f">Apache-2.0 · 4 public</text>
+              <rect x="660" y="240" width="190" height="42" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="672" y="258" font-size="10.5" font-weight="700" fill="#f6f7f9">Repos</text>
+              <text x="672" y="273" font-size="8.5" fill="#7a828e">Apache-2.0 · 4 public</text>
             </g>
 
             <!-- CISCO TENANT nodes (stacked in the right column) -->
             <g font-family="JetBrains Mono, monospace">
-              <rect x="920" y="175" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#0e5a80" stroke-width="1"/>
-              <text x="932" y="199" font-size="11" font-weight="700" fill="#1a1813">AI Defense</text>
-              <text x="1200" y="199" font-size="9" fill="#64604f" text-anchor="end">3-point guard · LLM I/O API</text>
+              <rect x="920" y="175" width="440" height="40" rx="6" fill="#161822" stroke="#049fd9" stroke-width="1"/>
+              <text x="932" y="199" font-size="11" font-weight="700" fill="#f6f7f9">AI Defense</text>
+              <text x="1200" y="199" font-size="9" fill="#7a828e" text-anchor="end">3-point guard · LLM I/O API</text>
 
-              <rect x="920" y="225" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#8a4a08" stroke-width="1"/>
-              <text x="932" y="249" font-size="11" font-weight="700" fill="#1a1813">Security Cloud Control</text>
-              <text x="1200" y="249" font-size="9" fill="#64604f" text-anchor="end">Central FTD mgmt</text>
-              <rect x="1315" y="230" width="40" height="14" rx="7" fill="#8a4a0822" stroke="#8a4a08" stroke-width=".8"/>
-              <text x="1335" y="240" text-anchor="middle" font-size="7.5" font-weight="700" fill="#8a4a08" letter-spacing="1">WIP</text>
+              <rect x="920" y="225" width="440" height="40" rx="6" fill="#161822" stroke="#d97706" stroke-width="1"/>
+              <text x="932" y="249" font-size="11" font-weight="700" fill="#f6f7f9">Security Cloud Control</text>
+              <text x="1200" y="249" font-size="9" fill="#7a828e" text-anchor="end">Central FTD mgmt</text>
+              <rect x="1315" y="230" width="40" height="14" rx="7" fill="#d9770622" stroke="#d97706" stroke-width=".8"/>
+              <text x="1335" y="240" text-anchor="middle" font-size="7.5" font-weight="700" fill="#d97706" letter-spacing="1">WIP</text>
 
-              <rect x="920" y="275" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#0e5a80" stroke-width="1"/>
-              <text x="932" y="299" font-size="11" font-weight="700" fill="#1a1813">ThousandEyes</text>
-              <text x="1200" y="299" font-size="9" fill="#64604f" text-anchor="end">200+ cloud + local agents</text>
+              <rect x="920" y="275" width="440" height="40" rx="6" fill="#161822" stroke="#049fd9" stroke-width="1"/>
+              <text x="932" y="299" font-size="11" font-weight="700" fill="#f6f7f9">ThousandEyes</text>
+              <text x="1200" y="299" font-size="9" fill="#7a828e" text-anchor="end">200+ cloud + local agents</text>
 
-              <rect x="920" y="325" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#0e5a80" stroke-width="1"/>
-              <text x="932" y="349" font-size="11" font-weight="700" fill="#1a1813">Talos</text>
-              <text x="1200" y="349" font-size="9" fill="#64604f" text-anchor="end">Intel feeds · IPS + URL updates</text>
+              <rect x="920" y="325" width="440" height="40" rx="6" fill="#161822" stroke="#049fd9" stroke-width="1"/>
+              <text x="932" y="349" font-size="11" font-weight="700" fill="#f6f7f9">Talos</text>
+              <text x="1200" y="349" font-size="9" fill="#7a828e" text-anchor="end">Intel feeds · IPS + URL updates</text>
 
-              <rect x="920" y="375" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#0e5a80" stroke-width="1"/>
-              <text x="932" y="399" font-size="11" font-weight="700" fill="#1a1813">Umbrella</text>
-              <text x="1200" y="399" font-size="9" fill="#64604f" text-anchor="end">DNS + SIG · SASE</text>
-              <rect x="1315" y="380" width="45" height="14" rx="7" fill="#64604f22" stroke="#726a55" stroke-width=".8"/>
-              <text x="1337" y="390" text-anchor="middle" font-size="7.5" font-weight="700" fill="#64604f" letter-spacing="1">PLAN</text>
+              <rect x="920" y="375" width="440" height="40" rx="6" fill="#161822" stroke="#049fd9" stroke-width="1"/>
+              <text x="932" y="399" font-size="11" font-weight="700" fill="#f6f7f9">Umbrella</text>
+              <text x="1200" y="399" font-size="9" fill="#7a828e" text-anchor="end">DNS + SIG · SASE</text>
+              <rect x="1315" y="380" width="45" height="14" rx="7" fill="#5c626d40" stroke="#5c626d" stroke-width=".8"/>
+              <text x="1337" y="390" text-anchor="middle" font-size="7.5" font-weight="700" fill="#7a828e" letter-spacing="1">PLAN</text>
 
-              <rect x="920" y="425" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#6c4a9e" stroke-width="1"/>
-              <text x="932" y="449" font-size="11" font-weight="700" fill="#1a1813">Duo</text>
-              <text x="1200" y="449" font-size="9" fill="#64604f" text-anchor="end">MFA IdP · SAML federation</text>
-              <rect x="1315" y="430" width="45" height="14" rx="7" fill="#64604f22" stroke="#726a55" stroke-width=".8"/>
-              <text x="1337" y="440" text-anchor="middle" font-size="7.5" font-weight="700" fill="#64604f" letter-spacing="1">PLAN</text>
+              <rect x="920" y="425" width="440" height="40" rx="6" fill="#161822" stroke="#a78bcc" stroke-width="1"/>
+              <text x="932" y="449" font-size="11" font-weight="700" fill="#f6f7f9">Duo</text>
+              <text x="1200" y="449" font-size="9" fill="#7a828e" text-anchor="end">MFA IdP · SAML federation</text>
+              <rect x="1315" y="430" width="45" height="14" rx="7" fill="#5c626d40" stroke="#5c626d" stroke-width=".8"/>
+              <text x="1337" y="440" text-anchor="middle" font-size="7.5" font-weight="700" fill="#7a828e" letter-spacing="1">PLAN</text>
 
-              <rect x="920" y="475" width="440" height="40" rx="6" fill="#e5dfc9" stroke="#0e5a80" stroke-width="1"/>
-              <text x="932" y="499" font-size="11" font-weight="700" fill="#1a1813">Smart Software Manager</text>
-              <text x="1200" y="499" font-size="9" fill="#64604f" text-anchor="end">Licensing / entitlement</text>
+              <rect x="920" y="475" width="440" height="40" rx="6" fill="#161822" stroke="#049fd9" stroke-width="1"/>
+              <text x="932" y="499" font-size="11" font-weight="700" fill="#f6f7f9">Smart Software Manager</text>
+              <text x="1200" y="499" font-size="9" fill="#7a828e" text-anchor="end">Licensing / entitlement</text>
             </g>
 
             <!-- HOME RACK nodes -->
             <g font-family="JetBrains Mono, monospace">
               <!-- Home ISP -->
-              <rect x="40" y="435" width="180" height="50" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="130" y="458" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">Home ISP</text>
-              <text x="130" y="474" text-anchor="middle" font-size="9" fill="#64604f" letter-spacing=".5">WAN uplink</text>
+              <rect x="40" y="435" width="180" height="50" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="130" y="458" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">Home ISP</text>
+              <text x="130" y="474" text-anchor="middle" font-size="9" fill="#7a828e" letter-spacing=".5">WAN uplink</text>
 
               <!-- 1210CE Firewall (central) -->
-              <rect x="270" y="425" width="270" height="70" rx="6" fill="#efe9d4" stroke="#0e5a80" stroke-width="1.8"/>
-              <text x="405" y="450" text-anchor="middle" font-size="13" font-weight="700" fill="#1a1813">Cisco 1210CE</text>
-              <text x="405" y="466" text-anchor="middle" font-size="9.5" fill="#34302a" letter-spacing=".5">Secure Firewall · FTD 7.6</text>
-              <text x="405" y="482" text-anchor="middle" font-size="8.5" fill="#64604f">FDM today · SCC managed soon</text>
-              <rect x="490" y="430" width="40" height="14" rx="7" fill="#8a4a0822" stroke="#8a4a08" stroke-width=".8"/>
-              <text x="510" y="440" text-anchor="middle" font-size="7.5" font-weight="700" fill="#8a4a08" letter-spacing="1">WIP</text>
+              <rect x="270" y="425" width="270" height="70" rx="6" fill="#10121a" stroke="#049fd9" stroke-width="1.8"/>
+              <text x="405" y="450" text-anchor="middle" font-size="13" font-weight="700" fill="#f6f7f9">Cisco 1210CE</text>
+              <text x="405" y="466" text-anchor="middle" font-size="9.5" fill="#c0c5cf" letter-spacing=".5">Secure Firewall · FTD 7.6</text>
+              <text x="405" y="482" text-anchor="middle" font-size="8.5" fill="#7a828e">FDM today · SCC managed soon</text>
+              <rect x="490" y="430" width="40" height="14" rx="7" fill="#d9770622" stroke="#d97706" stroke-width=".8"/>
+              <text x="510" y="440" text-anchor="middle" font-size="7.5" font-weight="700" fill="#d97706" letter-spacing="1">WIP</text>
 
               <!-- ConsolePi -->
-              <rect x="580" y="435" width="180" height="50" rx="6" fill="#e5dfc9" stroke="#4a6f18" stroke-width="1.2"/>
-              <text x="670" y="458" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">ConsolePi</text>
-              <text x="670" y="473" text-anchor="middle" font-size="9" fill="#34302a" letter-spacing=".5">Pi 3B+ · ser2net</text>
-              <rect x="725" y="440" width="35" height="12" rx="6" fill="#4a6f1822" stroke="#3a5312" stroke-width=".8"/>
-              <text x="742" y="449" text-anchor="middle" font-size="7" font-weight="700" fill="#4a6f18" letter-spacing="1">LIVE</text>
+              <rect x="580" y="435" width="180" height="50" rx="6" fill="#161822" stroke="#76b900" stroke-width="1.2"/>
+              <text x="670" y="458" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">ConsolePi</text>
+              <text x="670" y="473" text-anchor="middle" font-size="9" fill="#c0c5cf" letter-spacing=".5">Pi 3B+ · ser2net</text>
+              <rect x="725" y="440" width="35" height="12" rx="6" fill="#76b90022" stroke="#558600" stroke-width=".8"/>
+              <text x="742" y="449" text-anchor="middle" font-size="7" font-weight="700" fill="#76b900" letter-spacing="1">LIVE</text>
 
               <!-- LAN switch -->
-              <rect x="270" y="540" width="270" height="45" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="405" y="561" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">LAN switch</text>
-              <text x="405" y="576" text-anchor="middle" font-size="9" fill="#64604f" letter-spacing=".5">Inside network fan-out</text>
+              <rect x="270" y="540" width="270" height="45" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="405" y="561" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">LAN switch</text>
+              <text x="405" y="576" text-anchor="middle" font-size="9" fill="#7a828e" letter-spacing=".5">Inside network fan-out</text>
 
               <!-- UCS C220 M8 -->
-              <rect x="40" y="640" width="240" height="50" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1"/>
-              <text x="160" y="662" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">UCS C220 M8</text>
-              <text x="160" y="678" text-anchor="middle" font-size="8.5" fill="#64604f">Compute · Intersight-managed</text>
-              <rect x="215" y="645" width="40" height="12" rx="6" fill="#64604f22" stroke="#726a55" stroke-width=".8"/>
-              <text x="235" y="654" text-anchor="middle" font-size="7" font-weight="700" fill="#64604f" letter-spacing="1">PLAN</text>
+              <rect x="40" y="640" width="240" height="50" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1"/>
+              <text x="160" y="662" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">UCS C220 M8</text>
+              <text x="160" y="678" text-anchor="middle" font-size="8.5" fill="#7a828e">Compute · Intersight-managed</text>
+              <rect x="215" y="645" width="40" height="12" rx="6" fill="#5c626d40" stroke="#5c626d" stroke-width=".8"/>
+              <text x="235" y="654" text-anchor="middle" font-size="7" font-weight="700" fill="#7a828e" letter-spacing="1">PLAN</text>
 
               <!-- TE local agent -->
-              <rect x="310" y="640" width="240" height="50" rx="6" fill="#e5dfc9" stroke="#4a6f18" stroke-width="1.2"/>
-              <text x="430" y="662" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">TE local agent</text>
-              <text x="430" y="678" text-anchor="middle" font-size="8.5" fill="#64604f">Endpoint on Pi · home LAN</text>
-              <rect x="500" y="645" width="35" height="12" rx="6" fill="#4a6f1822" stroke="#3a5312" stroke-width=".8"/>
-              <text x="517" y="654" text-anchor="middle" font-size="7" font-weight="700" fill="#4a6f18" letter-spacing="1">LIVE</text>
+              <rect x="310" y="640" width="240" height="50" rx="6" fill="#161822" stroke="#76b900" stroke-width="1.2"/>
+              <text x="430" y="662" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">TE local agent</text>
+              <text x="430" y="678" text-anchor="middle" font-size="8.5" fill="#7a828e">Endpoint on Pi · home LAN</text>
+              <rect x="500" y="645" width="35" height="12" rx="6" fill="#76b90022" stroke="#558600" stroke-width=".8"/>
+              <text x="517" y="654" text-anchor="middle" font-size="7" font-weight="700" fill="#76b900" letter-spacing="1">LIVE</text>
 
               <!-- Admin workstation echo (inside home rack border - for LAN-based admin) -->
-              <rect x="580" y="640" width="240" height="50" rx="6" fill="#e5dfc9" stroke="#a8a288" stroke-width="1" stroke-dasharray="3,3"/>
-              <text x="700" y="662" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1813">Admin workstation</text>
-              <text x="700" y="678" text-anchor="middle" font-size="8.5" fill="#64604f">(same 'Billy' from users)</text>
+              <rect x="580" y="640" width="240" height="50" rx="6" fill="#161822" stroke="#2a2d3a" stroke-width="1" stroke-dasharray="3,3"/>
+              <text x="700" y="662" text-anchor="middle" font-size="11" font-weight="700" fill="#f6f7f9">Admin workstation</text>
+              <text x="700" y="678" text-anchor="middle" font-size="8.5" fill="#7a828e">(same 'Billy' from users)</text>
             </g>
 
 
             <!-- ═════════════ CONNECTIONS ═════════════ -->
 
             <!-- Public visitor → cisco-web-1-arm (public HTTPS, cyan) -->
-            <path d="M 140,105 C 140,130 140,150 140,175" stroke="#0e5a80" stroke-width="2" fill="none" marker-end="url(#arr-cyan)"/>
-            <text x="150" y="150" font-family="JetBrains Mono, monospace" font-size="9" fill="#0e5a80" font-weight="700">HTTPS · aidefense-demo</text>
+            <path d="M 140,105 C 140,130 140,150 140,175" stroke="#049fd9" stroke-width="2" fill="none" marker-end="url(#arr-cyan)"/>
+            <text x="150" y="150" font-family="JetBrains Mono, monospace" font-size="9" fill="#049fd9" font-weight="700">HTTPS · aidefense-demo</text>
 
             <!-- Peer → GitHub Pages (public HTTPS, cyan) -->
-            <path d="M 360,105 C 360,140 550,140 720,175" stroke="#0e5a80" stroke-width="2" fill="none" marker-end="url(#arr-cyan)"/>
-            <text x="510" y="135" font-family="JetBrains Mono, monospace" font-size="9" fill="#0e5a80" font-weight="700">HTTPS · batman4ny.gh</text>
+            <path d="M 360,105 C 360,140 550,140 720,175" stroke="#049fd9" stroke-width="2" fill="none" marker-end="url(#arr-cyan)"/>
+            <text x="510" y="135" font-family="JetBrains Mono, monospace" font-size="9" fill="#049fd9" font-weight="700">HTTPS · batman4ny.gh</text>
 
             <!-- Admin → SCC (mgmt, amber) -->
-            <path d="M 580,105 C 580,180 780,180 920,240" stroke="#8a4a08" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
-            <text x="730" y="175" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a4a08" font-weight="700">SSO · SAML</text>
+            <path d="M 580,105 C 580,180 780,180 920,240" stroke="#d97706" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
+            <text x="730" y="175" font-family="JetBrains Mono, monospace" font-size="9" fill="#d97706" font-weight="700">SSO · SAML</text>
 
             <!-- cisco-web-1-arm → NVIDIA (data, green) -->
-            <path d="M 330,201 L 385,201" stroke="#4a6f18" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
-            <text x="336" y="195" font-family="JetBrains Mono, monospace" font-size="9" fill="#4a6f18" font-weight="700">NIM API</text>
+            <path d="M 330,201 L 385,201" stroke="#76b900" stroke-width="2" fill="none" marker-end="url(#arr-green)"/>
+            <text x="336" y="195" font-family="JetBrains Mono, monospace" font-size="9" fill="#76b900" font-weight="700">NIM API</text>
 
             <!-- cisco-web-1-arm → AI Defense (data, green) — long path around -->
-            <path d="M 330,215 C 620,215 900,180 918,195" stroke="#4a6f18" stroke-width="2" fill="none" marker-end="url(#arr-green)" stroke-dasharray="0"/>
-            <text x="610" y="205" font-family="JetBrains Mono, monospace" font-size="9" fill="#4a6f18" font-weight="700">3-point guard API</text>
+            <path d="M 330,215 C 620,215 900,180 918,195" stroke="#76b900" stroke-width="2" fill="none" marker-end="url(#arr-green)" stroke-dasharray="0"/>
+            <text x="610" y="205" font-family="JetBrains Mono, monospace" font-size="9" fill="#76b900" font-weight="700">3-point guard API</text>
 
             <!-- Cloudflare DNS ↔ cisco-web-1-arm (public, cyan) — internal within OCI zone -->
-            <path d="M 180,240 L 180,229" stroke="#0e5a80" stroke-width="1.5" fill="none"/>
-            <text x="188" y="238" font-family="JetBrains Mono, monospace" font-size="8" fill="#0e5a80" font-weight="700">A record</text>
+            <path d="M 180,240 L 180,229" stroke="#049fd9" stroke-width="1.5" fill="none"/>
+            <text x="188" y="238" font-family="JetBrains Mono, monospace" font-size="8" fill="#049fd9" font-weight="700">A record</text>
 
             <!-- Home ISP → 1210 (physical WAN, thick) -->
-            <path d="M 220,460 L 270,460" stroke="#1a1813" stroke-width="3" fill="none" marker-end="url(#arr-muted)"/>
+            <path d="M 220,460 L 270,460" stroke="#a8adb8" stroke-width="3" fill="none" marker-end="url(#arr-muted)"/>
 
             <!-- ConsolePi → 1210 (OOB, muted dashed) -->
-            <path d="M 580,458 L 540,458" stroke="#64604f" stroke-width="2" fill="none" stroke-dasharray="4,3" marker-end="url(#arr-muted)"/>
-            <text x="548" y="450" font-family="JetBrains Mono, monospace" font-size="8" fill="#64604f" font-weight="700">USB-C · CDC-ACM · :9000</text>
+            <path d="M 580,458 L 540,458" stroke="#7a828e" stroke-width="2" fill="none" stroke-dasharray="4,3" marker-end="url(#arr-muted)"/>
+            <text x="548" y="450" font-family="JetBrains Mono, monospace" font-size="8" fill="#7a828e" font-weight="700">USB-C · CDC-ACM · :9000</text>
 
             <!-- 1210 → LAN switch (physical Ethernet) -->
-            <path d="M 405,495 L 405,540" stroke="#1a1813" stroke-width="2.5" fill="none" marker-end="url(#arr-muted)"/>
-            <text x="412" y="520" font-family="JetBrains Mono, monospace" font-size="8" fill="#34302a" font-weight="700">trunk</text>
+            <path d="M 405,495 L 405,540" stroke="#a8adb8" stroke-width="2.5" fill="none" marker-end="url(#arr-muted)"/>
+            <text x="412" y="520" font-family="JetBrains Mono, monospace" font-size="8" fill="#c0c5cf" font-weight="700">trunk</text>
 
             <!-- LAN switch → UCS (physical) -->
-            <path d="M 350,585 L 220,640" stroke="#1a1813" stroke-width="2" fill="none" marker-end="url(#arr-muted)"/>
+            <path d="M 350,585 L 220,640" stroke="#a8adb8" stroke-width="2" fill="none" marker-end="url(#arr-muted)"/>
 
             <!-- LAN switch → TE agent (physical) -->
-            <path d="M 430,585 L 430,640" stroke="#1a1813" stroke-width="2" fill="none" marker-end="url(#arr-muted)"/>
+            <path d="M 430,585 L 430,640" stroke="#a8adb8" stroke-width="2" fill="none" marker-end="url(#arr-muted)"/>
 
             <!-- LAN switch → Admin workstation (physical, home LAN) -->
-            <path d="M 470,585 L 700,640" stroke="#1a1813" stroke-width="2" fill="none" marker-end="url(#arr-muted)"/>
+            <path d="M 470,585 L 700,640" stroke="#a8adb8" stroke-width="2" fill="none" marker-end="url(#arr-muted)"/>
 
             <!-- 1210 → SCC (mgmt, amber) — outbound to cloud -->
-            <path d="M 540,435 C 700,340 850,280 918,245" stroke="#8a4a08" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
-            <text x="740" y="335" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a4a08" font-weight="700">Mgmt · Token · mTLS</text>
+            <path d="M 540,435 C 700,340 850,280 918,245" stroke="#d97706" stroke-width="2" fill="none" marker-end="url(#arr-amber)"/>
+            <text x="740" y="335" font-family="JetBrains Mono, monospace" font-size="9" fill="#d97706" font-weight="700">Mgmt · Token · mTLS</text>
 
             <!-- 1210 → Talos (data, green) -->
-            <path d="M 540,455 C 720,400 850,360 918,345" stroke="#4a6f18" stroke-width="1.8" fill="none" marker-end="url(#arr-green)"/>
-            <text x="760" y="395" font-family="JetBrains Mono, monospace" font-size="9" fill="#4a6f18" font-weight="700">Talos feed pulls</text>
+            <path d="M 540,455 C 720,400 850,360 918,345" stroke="#76b900" stroke-width="1.8" fill="none" marker-end="url(#arr-green)"/>
+            <text x="760" y="395" font-family="JetBrains Mono, monospace" font-size="9" fill="#76b900" font-weight="700">Talos feed pulls</text>
 
             <!-- 1210 → SSM (mgmt, amber) -->
-            <path d="M 540,475 C 720,490 850,495 918,495" stroke="#8a4a08" stroke-width="1.5" fill="none" marker-end="url(#arr-amber)"/>
-            <text x="760" y="486" font-family="JetBrains Mono, monospace" font-size="8" fill="#8a4a08" font-weight="700">Licensing</text>
+            <path d="M 540,475 C 720,490 850,495 918,495" stroke="#d97706" stroke-width="1.5" fill="none" marker-end="url(#arr-amber)"/>
+            <text x="760" y="486" font-family="JetBrains Mono, monospace" font-size="8" fill="#d97706" font-weight="700">Licensing</text>
 
             <!-- 1210 → Umbrella (data, green, dashed for planned) -->
-            <path d="M 540,485 C 720,450 850,410 918,395" stroke="#8a4a08" stroke-width="1.5" fill="none" stroke-dasharray="5,4" marker-end="url(#arr-amber)"/>
-            <text x="760" y="435" font-family="JetBrains Mono, monospace" font-size="8" fill="#8a4a08" font-weight="700" opacity=".7">IPsec (planned)</text>
+            <path d="M 540,485 C 720,450 850,410 918,395" stroke="#d97706" stroke-width="1.5" fill="none" stroke-dasharray="5,4" marker-end="url(#arr-amber)"/>
+            <text x="760" y="435" font-family="JetBrains Mono, monospace" font-size="8" fill="#d97706" font-weight="700" opacity=".7">IPsec (planned)</text>
 
             <!-- TE local agent → ThousandEyes tenant (data, green) -->
-            <path d="M 550,665 C 720,530 850,380 918,295" stroke="#4a6f18" stroke-width="1.5" fill="none" marker-end="url(#arr-green)"/>
-            <text x="810" y="500" font-family="JetBrains Mono, monospace" font-size="8" fill="#4a6f18" font-weight="700">Agent registration</text>
+            <path d="M 550,665 C 720,530 850,380 918,295" stroke="#76b900" stroke-width="1.5" fill="none" marker-end="url(#arr-green)"/>
+            <text x="810" y="500" font-family="JetBrains Mono, monospace" font-size="8" fill="#76b900" font-weight="700">Agent registration</text>
 
             <!-- Cisco tenant SSO federation with Duo (violet, internal) -->
-            <path d="M 1140,265 C 1080,340 1080,400 1140,445" stroke="#6c4a9e" stroke-width="1.5" fill="none" marker-end="url(#arr-violet)"/>
-            <text x="1050" y="360" font-family="JetBrains Mono, monospace" font-size="8" fill="#6c4a9e" font-weight="700">SAML federation</text>
+            <path d="M 1140,265 C 1080,340 1080,400 1140,445" stroke="#a78bcc" stroke-width="1.5" fill="none" marker-end="url(#arr-violet)"/>
+            <text x="1050" y="360" font-family="JetBrains Mono, monospace" font-size="8" fill="#a78bcc" font-weight="700">SAML federation</text>
 
             <!-- Admin (in home rack) → 1210 FDM (mgmt, amber, short) -->
-            <path d="M 700,640 C 550,600 500,540 500,495" stroke="#8a4a08" stroke-width="1.5" fill="none" marker-end="url(#arr-amber)"/>
-            <text x="580" y="600" font-family="JetBrains Mono, monospace" font-size="8" fill="#8a4a08" font-weight="700">FDM local HTTPS</text>
+            <path d="M 700,640 C 550,600 500,540 500,495" stroke="#d97706" stroke-width="1.5" fill="none" marker-end="url(#arr-amber)"/>
+            <text x="580" y="600" font-family="JetBrains Mono, monospace" font-size="8" fill="#d97706" font-weight="700">FDM local HTTPS</text>
 
 
             <!-- ═════════════ FLOW ANNOTATIONS (subtle) ═════════════ -->
             <!-- The 'primary flow' arrow showing the main user-to-demo path -->
-            <text x="20" y="800" font-family="JetBrains Mono, monospace" font-size="9" fill="#64604f" letter-spacing="1">PRIMARY FLOWS: user → OCI → NVIDIA + AI Defense (demo). Admin → SCC (mgmt). ConsolePi ↔ 1210 (OOB).</text>
+            <text x="20" y="800" font-family="JetBrains Mono, monospace" font-size="9" fill="#7a828e" letter-spacing="1">PRIMARY FLOWS: user → OCI → NVIDIA + AI Defense (demo). Admin → SCC (mgmt). ConsolePi ↔ 1210 (OOB).</text>
 
             <!-- Attribution -->
-            <text x="1380" y="895" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8" fill="#726a55" letter-spacing=".5">batman4ny.github.io/topology · 2026·07·08</text>
+            <text x="1380" y="895" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8" fill="#5c626d" letter-spacing=".5">batman4ny.github.io/topology · 2026·07·08</text>
           </svg>
 
           <div class="netdiag-mini-legend">
