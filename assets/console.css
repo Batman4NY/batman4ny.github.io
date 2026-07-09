@@ -309,3 +309,65 @@ main{flex:1;min-width:0;display:flex;flex-direction:column}
   .content{padding:22px 22px 60px}
   .topbar{padding:12px 22px}
 }
+
+/* ─── MATTE + TYPE-BUMP (2026-07-09) ────────────────────────────────
+   Removes glossy card gradients/shadows/hover-lifts and
+   bumps prose type ~1px. Palette tokens untouched.
+   To revert: delete this block. */
+
+/* ── kill card background gradients (flatten to closest paper token) ── */
+.repo-head,
+.guide-head,
+.saf-banner,
+.agent-head{
+  background-image: none !important;
+  background-color: var(--paper-hi) !important;
+}
+.tier.next{
+  background-image: none !important;
+  background-color: var(--paper) !important;
+}
+/* SAIF status layers: retain semantic tint but drop the fade */
+.saif-layer.hit{
+  background-image: none !important;
+  background-color: var(--green-tint) !important;
+}
+.saif-layer.adj{
+  background-image: none !important;
+  background-color: var(--cyan-tint) !important;
+}
+
+/* ── kill non-status glossy shadows ─────────────────────────────── */
+/* Sidebar: keep the 1px inset edge; drop the diffuse right-side lift */
+.side{ box-shadow: inset -1px 0 0 #00000060 !important; }
+
+/* ── soften card border-radius (10px → 8px) ─────────────────────── */
+.hero-block,
+.about-card,
+.disc-body,
+.thesis,
+.repo,
+.guide,
+.repo-summary,
+.lib-summary,
+.tier,
+.c3-companion,
+.close,
+.saif,
+.agent-panel,
+.tbl,
+.notice{ border-radius: 8px !important; }
+/* saf-stack was 12px, bring in-line */
+.saf-stack{ border-radius: 8px !important; }
+
+/* ── prose type bump + breathing room ───────────────────────────── */
+.prose-block p{ font-size: 16px !important; line-height: 1.7 !important; }
+.hero-block .lede{ font-size: 17.5px !important; line-height: 1.65 !important; }
+.about-bio p{ font-size: 16px !important; line-height: 1.7 !important; }
+.disc-body p{ font-size: 16px !important; line-height: 1.7 !important; }
+.guide-head .desc,
+.repo-head .desc{ font-size: 15px !important; line-height: 1.6 !important; }
+.live-intro,
+.adj-intro,
+.ref-intro{ font-size: 15.5px !important; line-height: 1.7 !important; }
+/* — end MATTE + TYPE-BUMP — */
