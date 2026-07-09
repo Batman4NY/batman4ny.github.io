@@ -419,3 +419,110 @@ main{flex:1;min-width:0;display:flex;flex-direction:column}
 .about-contact .v     { font-size: 14.5px !important; }
 .colophon             { font-size: 12.5px !important; }
 /* — end MATTE + TYPE-BUMP — */
+
+/* ─── PILL CONTRAST FIX (2026-07-09) ─────────────────────────────────
+   Saturated bg + white/paper text for readability on the metallic-paper
+   light palette. Overrides low-contrast tinted pills from the earlier
+   dark-mode design (light-tint bg + accent-color text read as
+   light-on-light on this palette).
+
+   Pattern:
+     LIVE / Complete   -> --green    bg, #fff text
+     WIP / Adjacent    -> --amber    bg, #fff text
+     Planned / Plan    -> --ink-2    bg, --paper text
+     Draft             -> --ink-3    bg, --paper text
+     Public / Docs /
+       OSS / Priv      -> --ink-2    bg, --paper text
+     Sidebar count     -> --ink-2    bg, --paper text (cyan when active)
+
+   Palette tokens untouched. To revert: delete this block.
+   ────────────────────────────────────────────────────────────────── */
+
+/* ── status pills ─────────────────────────────────────────────────── */
+.pill.live,
+.badge.live,
+.node .name .badge.live,
+.saif-status.impl {
+  background: var(--green);
+  color: #fff;
+  border: 1px solid var(--green);
+  font-weight: 700;
+}
+.pill.live::before,
+.saif-status.impl::before {
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.35);
+}
+
+.pill.complete {
+  background: var(--green);
+  color: #fff;
+  border: 1px solid var(--green);
+  font-weight: 700;
+}
+
+.pill.wip,
+.badge.wip,
+.node .name .badge.wip,
+.saif-status.adj,
+.saif-wrap-status.wip {
+  background: var(--amber);
+  color: #fff;
+  border: 1px solid var(--amber);
+  font-weight: 700;
+}
+
+.pill.plan,
+.badge.plan,
+.node .name .badge.plan,
+.saif-status.planned,
+.saif-status.plan {
+  background: var(--ink-2);
+  color: var(--paper);
+  border: 1px solid var(--ink-2);
+  font-weight: 700;
+}
+
+.pill.draft {
+  background: var(--ink-3);
+  color: var(--paper);
+  border: 1px solid var(--ink-3);
+  font-weight: 700;
+}
+
+/* Partial: green family, slightly muted vs. LIVE */
+.saif-status.part,
+.saif-wrap-status.part {
+  background: var(--green-hi);
+  color: #fff;
+  border: 1px solid var(--green-hi);
+  opacity: 1;
+  font-weight: 700;
+}
+.saif-status.part::before {
+  color: #fff;
+}
+
+/* Neutral pills (Public / Docs / OSS / Priv) — dark neutral bg */
+.pill.pub,
+.pill.doc,
+.pill.priv,
+.pill.oss,
+.saif-wrap-status {
+  background: var(--ink-2);
+  color: var(--paper);
+  border: 1px solid var(--ink-2);
+  font-weight: 700;
+}
+
+/* Sidebar count pills */
+.navlink .cnt {
+  background: var(--ink-2);
+  color: var(--paper);
+  font-weight: 700;
+}
+.navlink.active .cnt {
+  background: var(--cyan);
+  color: #fff;
+}
+/* — end PILL CONTRAST FIX — */

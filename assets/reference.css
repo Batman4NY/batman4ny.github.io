@@ -155,10 +155,12 @@
   color:var(--faint);background:var(--paper-lo);border:1px solid var(--rule);
   transition:.16s ease;
 }
-.tier-chip.on.c{color:var(--cyan);border-color:var(--cyan-lo);background:var(--cyan-tint)}
-.tier-chip.on.le{color:var(--green);border-color:var(--green-lo);background:var(--green-tint)}
-.tier-chip.on.ee{color:var(--amber);border-color:var(--amber-line);background:var(--amber-tint)}
-.tier-chip.on.sp{color:var(--ink-2);border-color:var(--rule-str);background:var(--paper-hi)}
+/* Tier chips — saturated accent bg + white text on the "on" state
+   for readability on the metallic-paper light palette (2026-07-09). */
+.tier-chip.on.c { color:#fff; border-color:var(--cyan);   background:var(--cyan) }
+.tier-chip.on.le{ color:#fff; border-color:var(--green);  background:var(--green) }
+.tier-chip.on.ee{ color:#fff; border-color:var(--amber);  background:var(--amber) }
+.tier-chip.on.sp{ color:#fff; border-color:var(--violet); background:var(--violet) }
 @media(max-width:640px){.tier-chips{display:none}}
 
 /* ── deployment tiers ─────────────────────────────────────────────── */
